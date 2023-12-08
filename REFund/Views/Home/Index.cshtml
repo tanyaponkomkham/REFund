@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Login Page";
 }
 
 <div class="container text-center" style="background-color: #F1F1F1; ">
@@ -15,7 +15,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <div style="left: 73px; top: 45px; position: absolute; color: black; font-size: 11px; font-family: Inter; font-weight: 300; word-wrap: break-word">กรุณาระบุรหัสพนักงานเพื่อเข้าสู่ระบบ</div>
+                            <div style="left: 73px; top: 45px; position: absolute; color: black; font-size: 11px; font-family: Inter; font-weight: 300; word-wrap: break-word">Please enter your employee ID.</div>
 
                             <div class="Rectangle6" style="width: 45px; height: 37px; left: 75px; top: 64px; position: absolute; background: #F3F3F3"></div>
                             <div style="width: 202px; height: 37px; left: 110px; top: 64px; position: absolute; line-height: 1; text-align: left; ">
@@ -29,8 +29,8 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div style="left: 73px; top: 119px; position: absolute; color: black; font-size: 11px; font-family: Inter; font-weight: 300; word-wrap: break-word">กรุณาระบุรหัสผ่านที่กำหนดไว้</div>
-                            
+                            <div style="left: 73px; top: 119px; position: absolute; color: black; font-size: 11px; font-family: Inter; font-weight: 300; word-wrap: break-word">Please enter the password.</div>
+
                             <div class="Rectangle7" style="width: 35px; height: 37px; left: 75px; top: 139px; position: absolute; background: #F3F3F3 "></div>
                             <div style="width: 202px; height: 37px; left: 30px;  position: absolute; line-height: 1; text-align: left; ">
                                 <input class=" form-control" type="text" id="passwordInput" onfocus="togglePlaceholder2(true)" onblur="togglePlaceholder2(false)" style="width: 180px; height: 37px; left: 80px; top: 139px; position: absolute; background: #D9D9D9; border-radius: 0; ">
@@ -43,9 +43,9 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button type="submit" class="btn "style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #3383AF; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word ">เข้าสู่ระบบ</button>
+                            <button type="submit" class="btn " style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #3383AF; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word ">เข้าสู่ระบบ</button>
                             @*<div class="Rectangle8" style="width: 150px; height: 37px; left: 106px; top: 206px; position: absolute; background: #3383AF"></div>
-                            <div style="left: 140px; top: 212px; position: absolute; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">เข้าสู่ระบบ</div>*@
+                                <div style="left: 140px; top: 212px; position: absolute; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">เข้าสู่ระบบ</div>*@
                         </div>
 
 
@@ -53,8 +53,8 @@
 
                 </div>
                 <div class="Irefund" style="width: 231px; height: 61px; left: 58px; top: 110px; position: absolute; color: white; font-size: 40px; font-family: Inter; font-weight: 700; word-wrap: break-word"> iREFund</div>
-                  <img class="Image1" style="width: 49px; height: 25px; left: 65px; top: 220px; position: absolute" src="~/img/user (2).png" />
-                  <img class="Image2" style="width: 47px; height: 23px; left: 65px; top: 297px; position: absolute" src="~/img/lock.png" />
+                <img class="Image1" style="width: 49px; height: 25px; left: 65px; top: 220px; position: absolute" src="~/img/user (2).png" />
+                <img class="Image2" style="width: 47px; height: 23px; left: 65px; top: 297px; position: absolute" src="~/img/lock.png" />
 
             </div>
 
@@ -68,91 +68,95 @@
 <div>
 
 </div>
-<script>
-    function togglePlaceholder(hasFocus) {
-        var inputElement = document.getElementById("employeeInput");
-        var placeholderElement = document.getElementById("placeholderId");
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@section Scripts {
+    <script type="text/javascript">
+        function togglePlaceholder(hasFocus) {
+            var inputElement = document.getElementById("employeeInput");
+            var placeholderElement = document.getElementById("placeholderId");
 
-        if (hasFocus || inputElement.value !== "") {
-            placeholderElement.style.display = "none";
-        } else {
-            placeholderElement.style.display = "block";
+            if (hasFocus || inputElement.value !== "") {
+                placeholderElement.style.display = "none";
+            } else {
+                placeholderElement.style.display = "block";
+            }
         }
-    }
-    function togglePlaceholder2(hasFocus) {
-        var inputElement = document.getElementById("passwordInput");
-        var placeholderElement = document.getElementById("placeholderpassword");
+        function togglePlaceholder2(hasFocus) {
+            var inputElement = document.getElementById("passwordInput");
+            var placeholderElement = document.getElementById("placeholderpassword");
 
-        if (hasFocus || inputElement.value !== "") {
-            placeholderElement.style.display = "none";
-        } else {
-            placeholderElement.style.display = "block";
-        }
-    }
-
-    function checkInput() {
-        var inputElement = document.getElementById("employeeInput");
-        var placeholderElement = document.getElementById("placeholderId");
-        var inputpasswordElement = document.getElementById("passwordInput");
-        var passwordElement = document.getElementById("placeholderpassword");
-
-        if (inputElement.value === "") {
-            placeholderElement.style.display = "block";
-        } else {
-            placeholderElement.style.display = "none";
+            if (hasFocus || inputElement.value !== "") {
+                placeholderElement.style.display = "none";
+            } else {
+                placeholderElement.style.display = "block";
+            }
         }
 
-        if (inputpasswordElement.value === "") {
-            passwordElement.style.display = "block";
-        } else {
-            passwordElement.style.display = "none";
+        function checkInput() {
+            var inputElement = document.getElementById("employeeInput");
+            var placeholderElement = document.getElementById("placeholderId");
+            var inputpasswordElement = document.getElementById("passwordInput");
+            var passwordElement = document.getElementById("placeholderpassword");
+
+            if (inputElement.value === "") {
+                placeholderElement.style.display = "block";
+            } else {
+                placeholderElement.style.display = "none";
+            }
+
+            if (inputpasswordElement.value === "") {
+                passwordElement.style.display = "block";
+            } else {
+                passwordElement.style.display = "none";
+            }
         }
-    }
 
-    document.addEventListener("click", function (event) {
-        var inputElement = document.getElementById("employeeInput");
-        var placeholderElement = document.getElementById("placeholderId");
-        var inputpasswordElement = document.getElementById("passwordInput");
-        var passwordElement = document.getElementById("placeholderpassword");
+        document.addEventListener("click", function (event) {
+            var inputElement = document.getElementById("employeeInput");
+            var placeholderElement = document.getElementById("placeholderId");
+            var inputpasswordElement = document.getElementById("passwordInput");
+            var passwordElement = document.getElementById("placeholderpassword");
 
-        if (!inputElement.contains(event.target) && !placeholderElement.contains(event.target)) {
-            togglePlaceholder(false);
+            if (!inputElement.contains(event.target) && !placeholderElement.contains(event.target)) {
+                togglePlaceholder(false);
+            }
+            if (!inputpasswordElement.contains(event.target) && !passwordElement.contains(event.target)) {
+                togglePlaceholder2(false);
+            }
+        });
+
+        document.getElementById("placeholderId").addEventListener("click", function () {
+            var inputElement = document.getElementById("employeeInput");
+            inputElement.focus();
+            togglePlaceholder(true);
+        });
+        document.getElementById("placeholderpassword").addEventListener("click", function () {
+            var inputpasswordElement = document.getElementById("passwordInput");
+            inputpasswordElement.focus();
+            togglePlaceholder2(true);
+        });
+    </script>
+    <style>
+
+        .placeholderID {
+            width: 202px;
+            height: 37px;
+            left: 10px;
+            top: 0px;
+            position: absolute;
+            line-height: 1;
+            text-align: left;
+            cursor: pointer; /* เพิ่ม cursor: pointer เพื่อให้เห็นว่าเป็นตัวคลิกได้ */
         }
-        if (!inputpasswordElement.contains(event.target) && !passwordElement.contains(event.target)) {
-            togglePlaceholder2(false);
-        }
-    });
 
-    document.getElementById("placeholderId").addEventListener("click", function () {
-        var inputElement = document.getElementById("employeeInput");
-        inputElement.focus();
-        togglePlaceholder(true);
-    });
-    document.getElementById("placeholderpassword").addEventListener("click", function () {
-        var inputpasswordElement = document.getElementById("passwordInput");
-        inputpasswordElement.focus();
-        togglePlaceholder2(true);
-    });
-</script>
-<style>
+            .placeholderID span {
+                color: black;
+                font-size: 13px;
+                font-family: Rationale;
+                font-weight: 400;
+                word-wrap: break-word;
+                text-align: left;
+            }
+    </style>
 
-.placeholderID {
-    width: 202px;
-    height: 37px;
-    left: 10px;
-    top: 0px;
-    position: absolute;
-    line-height: 1;
-    text-align: left;
-    cursor: pointer; /* เพิ่ม cursor: pointer เพื่อให้เห็นว่าเป็นตัวคลิกได้ */
 }
-
-.placeholderID span {
-    color: black;
-    font-size: 13px;
-    font-family: Rationale;
-    font-weight: 400;
-    word-wrap: break-word;
-    text-align: left;
-}
-</style>

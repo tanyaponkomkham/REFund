@@ -22,7 +22,27 @@ namespace REFund.Controllers
 		{
 			return View();
 		}
-
+		public IActionResult Menu()
+		{
+			return View();
+		}
+		public IActionResult _RequestsContent()
+		{
+			return PartialView("_RequestsContent");
+		}
+		public IActionResult AllRequest()
+		{
+			return PartialView("AllRequest");
+		}
+		public IActionResult MyRequest()
+		{
+			return PartialView("MyRequest");
+		}
+		public IActionResult Requests()
+		{
+			return PartialView("Requests");
+		}
+		
 		public IActionResult Privacy()
 		{
 			return View();

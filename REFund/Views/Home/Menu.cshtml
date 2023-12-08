@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div class="row">
+    <div class="col-2 custom-border" style="height:1353px; background-color:white;">
+        <ul style="margin-left:-49px;">
+            <li class="" style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:6%;">Menu</p></li>
+            <li id="request1"><a href=""><img class="Image1" style="width: 27px; height: 25px;" src="~/img/add.png" />Request</a></li>
+            <li id="All_Request"><a href=""><img class="Image2" style="width: 27px; height: 25px;" src="~/img/select-all.png" />All Request</a></li>
+            <li id="My_Request"><a href=""><img class="Image3" style="width: 27px; height: 25px;" src="~/img/user (1).png" />My Request</a></li>
+        </ul>
+        <ul style="margin-left: -49px; margin-top:-17px;">
+            <li style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:5.5%;">Status</p></li>
+            <li id="request2"><a href=""><img class="Image4" style="width: 27px; height: 25px;" src="~/img/quote-request (1).png" />Request</a></li>
+            <li id="return"><a href=""><img class="Image5" style="width: 27px; height: 25px;" src="~/img/back-arrow.png" />Return</a></li>
+            <li id="disapprove"><a href=""><img class="Image6" style="width: 27px; height: 25px;" src="~/img/contract.png" />Disapprove</a></li>
+            <li id="HR_Review"><a href=""><img class="Image7" style="width: 27px; height: 25px;" src="~/img/document.png" />HR Review</a></li>
+            <li id="Manager_Review"><a href=""><img class="Image8" style="width: 27px; height: 25px;" src="~/img/document.png" />Manager Review</a></li>
+            <li id="HR_manager_Review"><a href=""><img class="Image9" style="width: 27px; height: 25px;" src="~/img/document.png" />HR Manager Review</a></li>
+            <li id="CFO_Review"><a href=""><img class="Image10" style="width: 27px; height: 25px;" src="~/img/document.png" />CFO Review</a></li>
+            <li id="completed"><a href=""><img class="Image11" style="width: 27px; height: 25px;" src="~/img/checked.png" />Completed</a></li>
+        </ul>
+        <ul style="margin-left: -49px; margin-top: -17px;">
+            <li style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:5.3%;">Setting</p></li>
+            <li id="document"><a href="#"><img class="Image12" style="width: 27px; height: 25px;" src="~/img/file (2).png" />Document</a></li>
+            <li id="category"><a href="#"><img class="Image13" style="width: 27px; height: 25px;" src="~/img/menu (1).png" />Category</a></li>
+        </ul>
+    </div>
+    <div class="col custom-border" style="height:1353px; background-color: white;">
+        <div id="bindRequest">
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Load _RequestsContent on page load
+            $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+            $(document).on('click', '#request1', function (event) {
+                event.preventDefault(); // Prevent the default behavior of the link
+
+                // Load AllRequest when #request2 is clicked
+                $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error occurred during the process. Please contact the administrator");
+                    }
+                });
+            });
+            // Handle click event on #request2 using 'on' method
+            $(document).on('click', '#All_Request', function (event) {
+                event.preventDefault(); // Prevent the default behavior of the link
+
+                // Load AllRequest when #request2 is clicked
+                $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error occurred during the process. Please contact the administrator");
+                    }
+                });
+            });
+
+            $(document).on('click', '#My_Request', function (event) {
+                event.preventDefault(); // Prevent the default behavior of the link
+
+                // Load AllRequest when #request2 is clicked
+                $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error occurred during the process. Please contact the administrator");
+                    }
+                });
+            });
+            $(document).on('click', '#request2', function (event) {
+                event.preventDefault(); // Prevent the default behavior of the link
+
+                // Load AllRequest when #request2 is clicked
+                $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error occurred during the process. Please contact the administrator");
+                    }
+                });
+            });
+        });
+       
+    </script>
+}
