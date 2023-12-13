@@ -42,7 +42,10 @@ namespace REFund.Controllers
 		{
 			return PartialView("Requests");
 		}
-		
+		public IActionResult Document()
+		{
+			return PartialView("Document");
+		}
 		public IActionResult Privacy()
 		{
 			return View();

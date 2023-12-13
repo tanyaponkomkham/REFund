@@ -294,7 +294,7 @@ img {
 
 /* Chat Box */
 .chat-box {
-    width: 350px;
+    width: 380px;
     margin: auto;
 }
 
@@ -326,7 +326,7 @@ img {
         }
 
     .chat-box .chat-room {
-        min-height: 300px;
+        min-height: 230px;
         background-color: #fff;
         padding: 15px;
         border: 1px solid var(--violet);
@@ -379,7 +379,7 @@ img {
     /* Typing Area */
     .chat-box .type-area {
         display: flex;
-        height: 65px;
+        height: 45px;
         background-color: #fff;
         border-radius: 0 0 20px 20px;
     }
@@ -481,3 +481,7 @@ img {
                 background-color: var(--violet);
                 color: #fff;
             }
+/*ปุ่มกากบาท*/
+.modal-close-btn {
+    color: #ffffff; /* สีของตัวอักษร */
+}
