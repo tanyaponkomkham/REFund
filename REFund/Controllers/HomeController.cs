@@ -46,6 +46,38 @@ namespace REFund.Controllers
 		{
 			return PartialView("Document");
 		}
+		public IActionResult Return()
+		{
+			return PartialView("Return");
+		}
+		public IActionResult Disapprove()
+		{
+			return PartialView("Disapprove");
+		}
+		public IActionResult HR_Review()
+		{
+			return PartialView("HR_Review");
+		}
+		public IActionResult Manager_Review()
+		{
+			return PartialView("Manager_Review");
+		}
+		public IActionResult CFO_Review()
+		{
+			return PartialView("CFO_Review");
+		}
+		public IActionResult HR_Manager_Review()
+		{
+			return PartialView("HR_Manager_Review");
+		}
+		public IActionResult Completed()
+		{
+			return PartialView("Completed");
+		}
+		public IActionResult Category()
+		{
+			return PartialView("Category");
+		}
 		public IActionResult Privacy()
 		{
 			return View();

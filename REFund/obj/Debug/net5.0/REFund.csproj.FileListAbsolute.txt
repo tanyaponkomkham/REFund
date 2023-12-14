@@ -361,3 +361,11 @@ C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\View
 C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Requests.cshtml.g.cs
 C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\REFund.csproj.AssemblyReference.cache
 C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Document.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Category.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\CFO_Review.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Completed.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Disapprove.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\HR_Manager_Review.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\HR_Review.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Manager_Review.cshtml.g.cs
+C:\Users\tanyapornk.std\Desktop\REFund\REFund\REFund\obj\Debug\net5.0\Razor\Views\Home\Return.cshtml.g.cs

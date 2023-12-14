@@ -211,7 +211,7 @@
                 <button type="button" class="btn btn-danger" style="color: white; width: 150px; margin-top: 100px;">Disapprove</button>
                 <button type="button" class="btn" style="background-color: #3CE84D; color: white; width: 150px; margin-left: 40px; margin-top: 100px; ">Approve</button>
             </div>
-            
+
         </div>
     </div>
     @*History timeline*@
@@ -226,7 +226,7 @@
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                        <div class="accordion-body" style="height: 446px; background-color: #EDEFF1;">
+                        <div class="accordion-body" style="height: 626px; background-color: #EDEFF1;">
                             @*History timeline Line*@
                             <div class="row " style="margin-top: -10px; height: 410px; ">
                                 <div class="col-1" style="margin-left: 15px; ">
@@ -234,19 +234,19 @@
                                         <div class="circleapprove" style="margin-top: 75px; margin-left: 3px;">
                                             <img src="~/img/employee.png" style="width: 16px; height: 16px; ">
                                         </div>
-                                        <div class="col-1 lineCut"></div>
-                                        <div class="circle" style="margin-left: 3px;">
-                                            <img src="~/img/user.png" style="width:14px; height:16px;">
+                                        <div class="col-1 line"></div>
+                                        <div class="circleapprove" style="margin-left: 3px;">
+                                            <img src="~/img/employee.png" style="width:16px; height:16px;">
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-1 lineCutHR"></div>
-                                        <div class="circle" style="margin-left: 3px;">
-                                            <img src="~/img/user.png" style="width: 14px; height: 16px; ">
+                                        <div class="col-1 lineCut2bar"></div>
+                                        <div class="circleapprove" style="margin-left: 3px;">
+                                            <img src="~/img/employee.png" style="width: 16px; height: 16px; ">
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-1 lineCutHR"></div>
+                                        <div class="col-1 lineCut2"></div>
                                         <div class="circle" style="margin-left: 3px;">
                                             <img src="~/img/user.png" style="width: 14px; height: 16px; ">
                                         </div>
@@ -289,13 +289,41 @@
                                             </div>
                                         </div>
                                         <div class="row" style=" margin-top: 10px;">
-                                            <div class="col" style="text-align: center; height: 30px;  padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
-                                                <h2 style="font-size: 16px; margin-top: 3px; font-weight: 500;  text-align: center; color: #3383AF; ">HR Review</h2>
+                                            <div class="col" style="text-align: center;  height: 140px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                <div class="row" style="text-align: right; margin-right: 3px;">
+                                                    <label style="font-size: 16px; font-weight: 400;"><span id="dateRequest">xx/xx/xxxx xx:xx</span></label>
+                                                </div>
+                                                <div class="row" style="text-align: left; width: 105px; margin-left: 4px;  margin-top: -7px;">
+                                                    <label style="background-color: #FFE2B7; color: #FBB64F; border-radius: 8px; padding: 4px 4px; display: inline-flex; align-items: center; font-size: 16px; font-weight: 800; ">
+                                                        HR Review
+                                                    </label>
+                                                </div>
+                                                <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">First Name</label>
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">Last Name</label>
+                                                </div>
+                                                <div class="row" style="text-align: left; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
+                                                    <label style="font-size: 14px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">Comment.........................................................................</label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row" style=" margin-top: 10px;">
-                                            <div class="col" style="text-align: center; height: 40px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
-                                                <h2 style="font-size: 16px; margin-top: 3px; margin-top: 5px; font-weight: 500; text-align: center; color: #3383AF; ">Manager Review</h2>
+                                            <div class="col" style="text-align: center;  height: 163px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                <div class="row" style="text-align: right; margin-right: 3px;">
+                                                    <label style="font-size: 16px; font-weight: 400;"><span id="dateRequest">xx/xx/xxxx xx:xx</span></label>
+                                                </div>
+                                                <div class="row" style="text-align: left; width: 85px; margin-left: 4px;  margin-top: -7px;">
+                                                    <label style="background-color: #FFFDCC; color: #F1EB59; border-radius: 8px; padding: 4px 4px; display: inline-flex; align-items: center; font-size: 16px; font-weight: 800; ">
+                                                        Manager Review
+                                                    </label>
+                                                </div>
+                                                <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">First Name</label>
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">Last Name</label>
+                                                </div>
+                                                <div class="row" style="text-align: left; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
+                                                    <label style="font-size: 14px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">Comment.........................................................................</label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row" style=" margin-top: 10px;">
@@ -320,7 +348,7 @@
                     </div>
                 </div>
             </div>
-          
+
 
             @*Chat box*@
             <div class="row" style="margin-left: 1px;">
@@ -361,63 +389,63 @@
     });
 
     /* Chat box */
-    
-        var header = document.querySelector(".header");
-        var chatRoom = document.querySelector(".chat-room");
-        var typeArea = document.querySelector(".type-area");
-        var btnAdd = document.querySelector(".button-add");
-        var others = document.querySelector(".others");
-        var emojiBox = document.querySelector(".emoji-button .emoji-box");
-        var emojiButton = document.querySelector(".others .emoji-button");
-        var emojis = document.querySelectorAll(".emoji-box span");
-        var inputText = document.querySelector("#inputText");
-        var btnSend = document.querySelector(".button-send");
-        var messageArea = document.querySelector(".message.message-right");
 
-        function sendMessage() {
-            var mess = inputText.value;
-            var bubble = document.createElement('div');
-            bubble.className += " bubble bubble-dark";
-            bubble.textContent = mess;
-            messageArea.appendChild(bubble);
-            inputText.value = "";
+    var header = document.querySelector(".header");
+    var chatRoom = document.querySelector(".chat-room");
+    var typeArea = document.querySelector(".type-area");
+    var btnAdd = document.querySelector(".button-add");
+    var others = document.querySelector(".others");
+    var emojiBox = document.querySelector(".emoji-button .emoji-box");
+    var emojiButton = document.querySelector(".others .emoji-button");
+    var emojis = document.querySelectorAll(".emoji-box span");
+    var inputText = document.querySelector("#inputText");
+    var btnSend = document.querySelector(".button-send");
+    var messageArea = document.querySelector(".message.message-right");
+
+    function sendMessage() {
+        var mess = inputText.value;
+        var bubble = document.createElement('div');
+        bubble.className += " bubble bubble-dark";
+        bubble.textContent = mess;
+        messageArea.appendChild(bubble);
+        inputText.value = "";
+    }
+
+
+
+
+    // Header onclick event
+    header.addEventListener("click", (e) => {
+        if (typeArea.classList.contains("d-none")) {
+            header.style.borderRadius = "20px 20px 0 0";
+        } else {
+            header.style.borderRadius = "20px";
         }
+        typeArea.classList.toggle("d-none");
+        chatRoom.classList.toggle("d-none");
+    });
 
+    // Button Add onclick event
+    btnAdd.addEventListener("click", (e) => {
+        others.classList.add("others-show");
+    });
 
+    // Emoji onclick event
+    emojiButton.addEventListener("click", (e) => {
+        emojiBox.classList.add("emoji-show");
+    });
 
+    btnSend.addEventListener("click", sendMessage);
 
-        // Header onclick event
-        header.addEventListener("click", (e) => {
-            if (typeArea.classList.contains("d-none")) {
-                header.style.borderRadius = "20px 20px 0 0";
-            } else {
-                header.style.borderRadius = "20px";
-            }
-            typeArea.classList.toggle("d-none");
-            chatRoom.classList.toggle("d-none");
+    for (var emoji of emojis) {
+        emoji.addEventListener("click", (e) => {
+            e.stopPropagation();
+            emojiBox.classList.remove("emoji-show");
+            others.classList.remove("others-show");
+            inputText.value += e.target.textContent;
         });
+    }
 
-        // Button Add onclick event
-        btnAdd.addEventListener("click", (e) => {
-            others.classList.add("others-show");
-        });
-
-        // Emoji onclick event
-        emojiButton.addEventListener("click", (e) => {
-            emojiBox.classList.add("emoji-show");
-        });
-
-        btnSend.addEventListener("click", sendMessage);
-
-        for (var emoji of emojis) {
-            emoji.addEventListener("click", (e) => {
-                e.stopPropagation();
-                emojiBox.classList.remove("emoji-show");
-                others.classList.remove("others-show");
-                inputText.value += e.target.textContent;
-            });
-        }
-    
 
     var previousRadio = null;
 

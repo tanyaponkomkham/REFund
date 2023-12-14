@@ -109,6 +109,7 @@ li {
     }
 li {
     list-style: none;
+
 }
 li a {
 display: block;
@@ -180,11 +181,29 @@ li a:hover img.Image13 {
     margin: 10px 0 0 15px;
     height: 120px; 
 }
+.linecolor {
+    display: inline-block;
+    border-left: 5px solid #33BE41;
+    margin: 10px 0 0 15px;
+    height: 120px;
+}
 .lineCut {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
     margin: 10px 0 0 15px;
     height: 65px; 
+}
+.lineCut2 {
+    display: inline-block;
+    border-left: 5px solid #DDDDDD;
+    margin: 10px 0 0 15px;
+    height: 80px;
+}
+.lineCut2bar {
+    display: inline-block;
+    border-left: 5px solid #DDDDDD;
+    margin: 10px 0 0 15px;
+    height: 135px;
 }
 .lineCutHR {
     display: inline-block;
