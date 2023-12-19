@@ -3,296 +3,644 @@
 }
 
 <div class="row">
-    <div class="col-2 custom-border" style="height:1353px; background-color:white;">
-        <ul style="margin-left:-49px;">
-            <li  style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:6%;">Menu</p></li>
-            <li id="request1"><a href=""><img class="Image1" style="width: 27px; height: 25px;" src="~/img/add.png" />Request</a></li>
-            <li id="All_Request"><a href=""><img class="Image2" style="width: 27px; height: 25px; margin-left:-3px;" src="~/img/select-all.png" />All Request</a></li>
-            <li id="My_Request"><a href=""><img class="Image3" style="width: 27px; height: 25px;" src="~/img/user (1).png" />My Request</a></li>
-        </ul>
-        <ul style="margin-left: -49px; margin-top:-17px;">
-            <li style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:5.5%;">Status</p></li>
-            <li id="request2">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image4" style="width: 27px; height: 25px; margin-right: 10px;" src="~/img/quote-request (1).png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">Request</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
+    <nav id="navtag" class="custom-border sidebar">
+        <img class='toggle' style="width: 30px; height: 30px; " src="~/img/right-arrow.png">
+        <div class="menu-bar">
+            <div class="menu">
+                <header id="menu" style="background-color: #3383AF; margin-left: 1px; margin-top: 7px; width: 250px;">
+                    <div class="image-text">
+                        <div class="text logo-text" style="background-color: #3383AF; text-align:center; align-items:center;">
+                            <span class="name" style="font-size: 30px; color: white; text-align: center; font-weight: 400;">Menu</span>
                         </div>
                     </div>
-                </a>
-            </li>
-            <li id="return">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image5" style="width: 27px; height: 25px; margin-right: 10px;" src="~/img/back-arrow.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">Return</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li id="disapprove">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image6" style="width: 27px; height: 25px; margin-right: 10px;" src="~/img/contract.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">Disapprove</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
+                </header>
+                <ul class="menu-links">
+                    <li id="request1" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image1 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/add.png" />
+                            <span class="text nav-text" style=" margin-left: 30px;">Request</span>
+                        </a>
+                    </li>
+                    <li id="My_Request" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image3 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/user (1).png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">My Request</span>
+                        </a>
+                    </li>
+                    <li id="All_Request" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">All Request</span>
+                        </a>
+                    </li>
+                </ul>
+                <header id="menu" style="background-color: #3383AF; margin-left: -8px; margin-top: -12px; width: 258px;">
+                    <div class="image-text">
+                        <div class="text logo-text" style="background-color: #3383AF; text-align:center; align-items:center;">
+                            <span class="name" style="font-size: 30px; color: white; text-align: center; font-weight: 400;">Status</span>
                         </div>
                     </div>
-                </a>
-            </li>
-            <li id="HR_Review">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image7" style="width: 27px; height: 26px; margin-right: 10px;" src="~/img/document.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">HR Review</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li id="Manager_Review">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image8" style="width: 27px; height: 26px; margin-right: 10px;" src="~/img/document.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">Manager Review</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li id="HR_manager_Review">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image9" style="width: 27px; height: 26px; margin-right: 10px;" src="~/img/document.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">HR Manager Review</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li id="CFO_Review">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image10" style="width: 27px; height: 26px; margin-right: 10px;" src="~/img/document.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">CFO Review</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
+                </header>
+                <ul class="menu-links">
+                    <li id="request2" class="nav-link" style="text-align: center; margin-top: 4px;">
+                        <a href="">
+                            <img class="Image4 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/quote-request (1).png" />
+                            <span class="text nav-text" style=" margin-left: 30px;">Request</span>
+                        </a>
+                    </li>
+                    <li id="HR_Review" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image7 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/document.png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">HR Review</span>
+                        </a>
+                    </li>
+                    <li id="Manager_Review" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image8 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/document.png" />
+                            <span class="text nav-text" style=" margin-left: 18px;">Manager Review</span>
+                        </a>
+                    </li>
+                    <li id="HR_manager_Review" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image9 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/document.png" />
+                            <span class="text nav-text" style=" margin-left: 13px;">HR Manager Review</span>
+                        </a>
+                    </li>
+                    <li id="CFO_Review" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image10 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/document.png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">CFO Review</span>
+                        </a>
+                    </li>
+                    <li id="completed" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image11 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/checked.png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">Completed</span>
+                        </a>
+                    </li>
+                    <li id="disapprove" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image6 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/contract.png" />
+                            <span class="text nav-text" style=" margin-left: 25px;">Disapprove</span>
+                        </a>
+                    </li>
+                </ul>
+                <header id="menu" style="background-color: #3383AF; margin-left: -8px; top: -16px; width: 258px; ">
+                    <div class="image-text">
+                        <div class="text logo-text" style="background-color: #3383AF; text-align:center; align-items:center;">
+                            <span class="name" style="font-size: 30px; color: white; text-align: center; font-weight: 400;">Setting</span>
                         </div>
                     </div>
-                </a>
-            </li>
-            <li id="completed">
-                <a href="">
-                    <div class="row">
-                        <div style="width:2%;margin-right:6px;">
-                            <img class="Image11" style="width: 26px; height: 26px; margin-right: 10px;" src="~/img/checked.png" />
-                        </div>
-                        <div style="width: 10%; ">
-                            <span style="vertical-align: middle; ">Completed</span>
-                        </div>
-                        <div style="width:1%;">
-                            <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; left: 12px; color: white; font-size: 10px;">1</label>
-                        </div>
-                    </div>
-                </a>
-            </li>
-        @*<li id="return"><a href=""><img class="Image5" style="width: 27px; height: 25px;" src="~/img/back-arrow.png" />Return</a></li>
-        <li id="disapprove"><a href=""><img class="Image6" style="width: 27px; height: 25px;" src="~/img/contract.png" />Disapprove</a></li>
-        <li id="HR_Review"><a href=""><img class="Image7" style="width: 27px; height: 26px;" src="~/img/document.png" />HR Review</a></li>
-        <li id="Manager_Review"><a href=""><img class="Image8" style="width: 27px; height: 26px;" src="~/img/document.png" />Manager Review</a></li>
-        <li id="HR_manager_Review"><a href=""><img class="Image9" style="width: 27px; height: 26px;" src="~/img/document.png" />HR Manager Review</a></li>
-        <li id="CFO_Review"><a href=""><img class="Image10" style="width: 27px; height: 26px;" src="~/img/document.png" />CFO Review</a></li>
-        <li id="completed"><a href=""><img class="Image11" style="width: 26px; height: 26px;" src="~/img/checked.png" />Completed</a></li>*@
-        </ul>
-        <ul style="margin-left: -49px; margin-top: -17px;">
-            <li style="background-color: #3383AF; height: 45px; color: white; font-size: 26px; font-weight: 600; "><p style="margin-left:5.3%;">Setting</p></li>
-            <li id="document"><a href=""><img class="Image12" style="width: 27px; height: 25px;" src="~/img/file (2).png" />Document</a></li>
-            <li id="category"><a href=""><img class="Image13" style="width: 27px; height: 25px;" src="~/img/menu (1).png" />Category</a></li>
-        </ul>
-    </div>
-    <div class="col custom-border" style="height:1353px; background-color: white;">
-        <div id="bindRequest">
+                </header>
+                <ul class="menu-links" style="top: -4px;">
+                    <li id="document" class="nav-link" style="text-align: center; ">
+                        <a href="">
+                            <img class="Image12 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/file (2).png" />
+                            <span class="text nav-text" style=" margin-left: 30px;">Document</span>
+                        </a>
+                    </li>
+                    <li id="category" class="nav-link" style="text-align:center;">
+                        <a href="">
+                            <img class="Image13 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/menu (1).png" />
+                            <span class="text nav-text" style=" margin-left: 30px;">Category</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="col custom-border" style="height: 1353px; background-color: white; transition: 0.5s;">
+        <div id="bindRequest" class="new-menu">
         </div>
     </div>
 </div>
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
-            // Load _RequestsContent on page load
+        const body = document.querySelector('body');
+        const sidebar = document.getElementById("navtag");
+        const toggle = body.querySelector(".toggle");
+        const searchBtn = body.querySelector(".search-box");
+        const modeSwitch = body.querySelector(".toggle-switch");
+        const modeText = body.querySelector(".mode-text");
+        const setting = document.getElementById("setting");
+        const menu = document.getElementById("menu");
+        const status = document.getElementById("status");
+
+        toggle.addEventListener("click", () => {
+            toggle.classList.toggle('rotate');
+            sidebar.classList.toggle("close");
+        });
+
+
+        /* Load _RequestsContent on page load*/
+        $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+            if (status == "error") {
+                alert("Error occurred during the process. Please contact the administrator");
+            }
+        });
+        $(document).on('click', '#request1', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
             $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
                 if (status == "error") {
                     alert("Error occurred during the process. Please contact the administrator");
                 }
             });
-            $(document).on('click', '#request1', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
+        });
+        // Handle click event on #request2 using 'on' method
+        $(document).on('click', '#All_Request', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
 
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            // Handle click event on #request2 using 'on' method
-            $(document).on('click', '#All_Request', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-
-            $(document).on('click', '#My_Request', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#request2', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#document', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#return', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Return`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#HR_Review', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#disapprove', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#Manager_Review', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#CFO_Review', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#HR_manager_Review', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#completed', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
-            });
-            $(document).on('click', '#category', function (event) {
-                event.preventDefault(); // Prevent the default behavior of the link
-
-                // Load AllRequest when #request2 is clicked
-                $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
-                    if (status == "error") {
-                        alert("Error occurred during the process. Please contact the administrator");
-                    }
-                });
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
             });
         });
-       
+
+        $(document).on('click', '#My_Request', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#request2', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#document', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+
+        $(document).on('click', '#HR_Review', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#disapprove', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#Manager_Review', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#CFO_Review', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#HR_manager_Review', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#completed', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
+        $(document).on('click', '#category', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Load AllRequest when #request2 is clicked
+            $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
+                if (status == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+        });
     </script>
 }
+<style>
+    /* Google Font Import - Poppins */
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    :root {
+        /* ===== Colors ===== */
+        --body-color: #e4e9f7;
+        --sidebar-color: #fff;
+        --toggle-color: #ddd;
+        --text-color: #707070;
+        /* ====== Transition ====== */
+        --tran-03: all 0.2s ease;
+        --tran-03: all 0.3s ease;
+        --tran-04: all 0.3s ease;
+        --tran-05: all 0.3s ease;
+    }
+
+    body {
+       /* min-height: 100vh;*/
+        /*background-color: var(--body-color);*/
+        transition: var(--tran-05);
+    }
+
+    ::selection {
+       /* background-color: var(--primary-color);*/
+        color: #fff;
+    }
+
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+        /*  position: fixed;*/
+        top: 60px;
+        left: 0;
+        /* height: 100%;*/
+        width: 260px;
+        padding: 0 0 0 4px;
+        background: rgba(255, 255, 255, 0);
+        transition: var(--tran-05);
+        z-index: 100;
+
+    }
+
+        .sidebar.close {
+            width: 88px;
+        }
+
+        /* ===== Reusable code - Here ===== */
+        .sidebar li {
+            height: 70px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin-top: -3px;
+        }
+
+        .sidebar header .image,
+        .sidebar .icon {
+            min-width: 60px;
+            justify-content: center;
+        }
+
+        .sidebar .icon {
+            min-width: 28px;
+            border-radius: 6px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .sidebar .text,
+        .sidebar .icon {
+            color: var(--text-color);
+            transition: var(--tran-03);
+        }
+
+        .sidebar .text {
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 1;
+        }
+
+        .sidebar.close .text {
+            opacity: 0;
+        }
+        /* =========================== */
+
+        .sidebar header {
+            position: relative;
+        }
+
+            .sidebar header .image-text {
+                display: flex;
+                justify-content: center;
+            }
+
+            .sidebar header .logo-text {
+                display: flex;
+                justify-content: center;
+            }
+
+    header .image-text .name {
+        margin-top: 2px;
+        font-size: 22px;
+        font-weight: 600;
+        justify-content: center;
+    }
+
+    header .image-text .profession {
+        font-size: 16px;
+        margin-top: -2px;
+        display: block;
+    }
+
+    .sidebar header .image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .sidebar header .image img {
+            width: 40px;
+        }
+
+    .sidebar header .toggle {
+        position: absolute;
+        top: 50%;
+        right: -35px;
+        /*transform: translateY(-50%) rotate(180deg);*/
+        height: 30px;
+        width: 30px;
+        color: var(--sidebar-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        transition: var(--tran-05);
+    }
+
+    .sidebar .menu {
+        margin-top: 3px;
+    }
+
+    .sidebar li a {
+        left:-48px;
+        list-style: none;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 250px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: var(--tran-03);
+    }
+
+        .sidebar li a:hover {
+            background-color: #3383AF;
+        }
+
+            .sidebar li a:hover .icon,
+            .sidebar li a:hover .text {
+                color: var(--sidebar-color);
+            }
+
+            .sidebar li a:hover img.Image1 {
+                content: url('../img/add (1).png');
+            }
+
+            .sidebar li a:hover img.Image2 {
+                content: url('../img/select-all (1).png');
+            }
+
+            .sidebar li a:hover img.Image3 {
+                content: url('../img/user (3).png');
+            }
+
+            .sidebar li a:hover img.Image4 {
+                content: url('../img/quote-request (2).png');
+            }
+
+            .sidebar li a:hover img.Image5 {
+                content: url('../img/back-arrow (1).png');
+            }
+
+            .sidebar li a:hover img.Image6 {
+                content: url('../img/contract (1).png');
+            }
+
+            .sidebar li a:hover img.Image7 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar li a:hover img.Image8 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar li a:hover img.Image9 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar li a:hover img.Image10 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar li a:hover img.Image11 {
+                content: url('../img/check.png');
+            }
+
+            .sidebar li a:hover img.Image12 {
+                content: url('../img/file (3).png');
+            }
+
+            .sidebar li a:hover img.Image13 {
+                content: url('../img/menu (2).png');
+            }
+
+   
+
+    .sidebar .menu-bar {
+        height: calc(100% - 55px);
+        display: flex;
+        flex-direction: column;/*
+        justify-content: space-between;*/
+        overflow-y: scroll;
+    }
+
+    .menu-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+
+/*    .switch::before {
+        content: "";
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        background-color: var(--sidebar-color);
+        transition: var(--tran-04);
+    }*/
+
+    .home {
+        position: absolute;
+        top: 0;
+        top: 0;
+        left: 250px;
+        height: 100vh;
+        width: calc(100% - 250px);
+        background-color: var(--body-color);
+        transition: var(--tran-05);
+    }
+
+        .home .text {
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--text-color);
+            padding: 12px 60px;
+        }
+
+    .sidebar.close ~ .home {
+        left: 78px;
+        height: 100vh;
+        width: calc(100% - 78px);
+    }
+    /* Ensure the toggle button is always visible */
+    .toggle {
+        position: absolute;
+        top: 80px;
+        left: 270px;
+        transition: transform var(--tran-05);
+        height: 30px;
+        width: 30px;
+        color: var(--sidebar-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        transition: var(--tran-05);
+    }
+
+    /* Hide setting, menu, and status when the sidebar is closed */
+    .sidebar.close #setting,
+    .sidebar.close #menu,
+    .sidebar.close #status {
+        display: none;
+    }
+    /* Add this CSS to handle the rotation of the toggle button */
+    .toggle.rotate {
+        transform: translateY(-10%) rotate(180deg);
+    }
+    .sidebar.close li a {
+        left: -48px;
+        list-style: none;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 80px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: var(--tran-03);
+    }
+        .sidebar.close li a:hover {
+            background-color: #3383AF;
+        }
+
+            .sidebar.close li a:hover .icon,
+            .sidebar.close li a:hover .text {
+                color: var(--sidebar-color);
+            }
+
+            .sidebar.close li a:hover img.Image1 {
+                content: url('../img/add (1).png');
+            }
+
+            .sidebar.close li a:hover img.Image2 {
+                content: url('../img/select-all (1).png');
+            }
+
+            .sidebar.close li a:hover img.Image3 {
+                content: url('../img/user (3).png');
+            }
+
+            .sidebar.close li a:hover img.Image4 {
+                content: url('../img/quote-request (2).png');
+            }
+
+            .sidebar.close li a:hover img.Image5 {
+                content: url('../img/back-arrow (1).png');
+            }
+
+            .sidebar.close li a:hover img.Image6 {
+                content: url('../img/contract (1).png');
+            }
+
+            .sidebar.close li a:hover img.Image7 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar.close li a:hover img.Image8 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar.close li a:hover img.Image9 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar.close li a:hover img.Image10 {
+                content: url('../img/document (2).png');
+            }
+
+            .sidebar.close li a:hover img.Image11 {
+                content: url('../img/check.png');
+            }
+
+            .sidebar.close li a:hover img.Image12 {
+                content: url('../img/file (3).png');
+            }
+
+            .sidebar.close li a:hover img.Image13 {
+                content: url('../img/menu (2).png');
+            }
+</style>
+

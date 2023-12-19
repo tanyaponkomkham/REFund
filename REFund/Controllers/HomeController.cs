@@ -30,6 +30,7 @@ namespace REFund.Controllers
 		{
 			return PartialView("_RequestsContent");
 		}
+		
 		public IActionResult AllRequest()
 		{
 			return PartialView("AllRequest");

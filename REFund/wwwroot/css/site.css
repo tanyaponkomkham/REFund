@@ -7,7 +7,7 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
+ Provide sufficient contrast against white background 
 a {
   color: #0366d6;
 }
@@ -51,15 +51,15 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+/* Sticky footer styles*/
+/*-------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
+   
   margin-bottom: 60px;
 }
 .footer {
@@ -67,7 +67,7 @@ body {
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 60px;  
 }
 
 .custom-border {
@@ -83,7 +83,7 @@ ul {
     margin: 0;
     padding: 0;
     background-color: white;
-    width: 100vw; /* Full viewport width */
+    width: 100vw;  /*Full viewport width*/ 
     box-sizing: border-box;
 }
 
@@ -123,58 +123,18 @@ li a:hover {
     color: white;
 }
 li a img {
-    margin-right: 10px; /* Adjust the spacing between the image and text */
+    margin-right: 10px;  
 }
 li a:hover::before {
-    content: ""; /* Create an empty content */
+    content: "";  
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 2px; /* Adjust the thickness of the underline */
+    height: 2px;  
     background-color: #3383AF;
 }
-li a:hover img.Image1 {
-    content: url('../img/add (1).png'); 
-}
-li a:hover img.Image2 {
-    content: url('../img/select-all (1).png'); 
-}
-li a:hover img.Image3 {
-    content: url('../img/user (3).png'); 
-}
 
-li a:hover img.Image4 {
-    content: url('../img/quote-request (2).png'); 
-}
-li a:hover img.Image5 {
-    content: url('../img/back-arrow (1).png'); 
-}
-li a:hover img.Image6 {
-    content: url('../img/contract (1).png'); 
-}
-li a:hover img.Image7 {
-    content: url('../img/document (2).png'); 
-}
-
-li a:hover img.Image8 {
-    content: url('../img/document (2).png'); 
-}
-li a:hover img.Image9 {
-    content: url('../img/document (2).png'); 
-}
-li a:hover img.Image10 {
-    content: url('../img/document (2).png'); 
-}
-li a:hover img.Image11 {
-    content: url('../img/check.png'); 
-}
-li a:hover img.Image12 {
-    content: url('../img/file (3).png'); 
-}
-li a:hover img.Image13 {
-    content: url('../img/menu (2).png'); 
-}
 .line {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
@@ -311,7 +271,7 @@ img {
     overflow: hidden;
 }
 
-/* Chat Box */
+ Chat Box 
 .chat-box {
     width: 380px;
     margin: auto;
@@ -351,7 +311,7 @@ img {
         border: 1px solid var(--violet);
     }
 
-        /* Messages */
+         Messages 
         .chat-box .chat-room .avatar-small {
             width: 25px;
             height: 25px;
@@ -395,7 +355,7 @@ img {
             background-color: var(--violet);
         }
 
-    /* Typing Area */
+     Typing Area 
     .chat-box .type-area {
         display: flex;
         height: 45px;
@@ -415,7 +375,7 @@ img {
                 outline: none;
                 border: none;
                 background-color: #D9D9D9;
-              /*  border: 1px solid var(--violet);*/
+                border: 1px solid var(--violet);
                 padding-left: 20px;
                 height: 100%;
                 width: 280px;
@@ -502,5 +462,8 @@ img {
             }
 /*ปุ่มกากบาท*/
 .modal-close-btn {
-    color: #ffffff; /* สีของตัวอักษร */
+    color: #ffffff;  
 }
+
+
+
