@@ -1,12 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-
 <div class="row">
     <nav id="navtag" class="custom-border sidebar">
         <img class='toggle' style="width: 30px; height: 30px; " src="~/img/right-arrow.png">
         <div class="menu-bar">
             <div class="menu">
+                <div id="menu" style="background-color: white; margin-left: -1px; margin-top: -3px; width: 260px; height:50px;">
+                    <div class="image-text">
+                        <img style="width: 150px; height: 45px; margin-left:35px;" src="~/img/iREfund4.png" />
+                    </div>
+                </div>
                 <header id="menu" style="background-color: #3383AF; margin-left: -1px; margin-top: -3px; width: 260px;">
                     <div class="image-text">
                         <div class="text logo-text" style="background-color: #3383AF; ">
@@ -23,7 +27,7 @@
                                 <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 63px; color: white; font-size: 10px;">1</label>
                             </div>
                         </a>
-                        
+
                     </li>
                     <li id="My_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
                         <a href="">
@@ -163,7 +167,6 @@
             toggle.classList.toggle('rotate');
             sidebar.classList.toggle("close");
         });
-
 
         /* Load _RequestsContent on page load*/
         $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
@@ -319,19 +322,15 @@
         --tran-04: all 0.3s ease;
         --tran-05: all 0.3s ease;
     }
-
     body {
        /* min-height: 100vh;*/
         /*background-color: var(--body-color);*/
         transition: var(--tran-05);
     }
-
     ::selection {
        /* background-color: var(--primary-color);*/
         color: #fff;
     }
-
-
     /* ===== Sidebar ===== */
     .sidebar {
         /*  position: fixed;*/
@@ -341,14 +340,16 @@
         width: 210px;
         padding: 0 0 0 0px;
         background: var(--sidebar-color);
+
         transition: var(--tran-05);
         z-index: 100;
     }
 
         .sidebar.close {
             width: 70px;
+            opacity: 1;
         }
-
+          
         /* ===== Reusable code - Here ===== */
         .sidebar li {
             height: 50px;
@@ -523,22 +524,19 @@
                 content: url('../img/menu (2).png');
             }
 
-   
-
     .sidebar .menu-bar {
         height: calc(100% - 55px);
         display: flex;
         flex-direction: column;/*
         justify-content: space-between;*/
         overflow-y: scroll;
+
     }
 
     .menu-bar::-webkit-scrollbar {
         display: none;
+
     }
-
-
-
 
     .home {
         position: absolute;
@@ -562,6 +560,7 @@
         left: 78px;
         height: 100vh;
         width: calc(100% - 78px);
+
     }
     /* Ensure the toggle button is always visible */
     .toggle {
@@ -578,8 +577,11 @@
         font-size: 22px;
         /*  cursor: pointer;*/
         transition: var(--tran-05);
-    }
 
+    }
+    .navtag {
+        opacity: 1;
+    }
     /* Hide setting, menu, and status when the sidebar is d */
     .sidebar.close #setting,
     .sidebar.close #menu,
@@ -592,20 +594,11 @@
         left: 80px;
         transform: translateY(-10%) rotate(180deg);
         color: var(--toggle-rotate-color);
-    }
-    .sidebar.close li a {
-        left: -48px;
-        list-style: none;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        width: 100px;
-        text-decoration: none;
-        transition: var(--tran-03);
+        opacity: 1;
     }
         .sidebar.close li a:hover {
             background-color: #3383AF;
+            opacity: 1;
         }
 
             .sidebar.close li a:hover .icon,

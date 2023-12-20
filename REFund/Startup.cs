@@ -50,7 +50,7 @@ namespace REFund
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Home}/{action=Menu}/{id?}");
+					pattern: "{controller=Home}/{action=Index}/{id?}");
 			});
 		}
 	}
