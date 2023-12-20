@@ -271,7 +271,7 @@ img {
     overflow: hidden;
 }
 
- Chat Box 
+ /*Chat Box */
 .chat-box {
     width: 380px;
     margin: auto;
@@ -355,7 +355,7 @@ img {
             background-color: var(--violet);
         }
 
-     Typing Area 
+     /*Typing Area */
     .chat-box .type-area {
         display: flex;
         height: 45px;
@@ -375,10 +375,10 @@ img {
                 outline: none;
                 border: none;
                 background-color: #D9D9D9;
-                border: 1px solid var(--violet);
+                /* border: 1px solid var(--violet);*/
                 padding-left: 20px;
                 height: 100%;
-                width: 280px;
+                width:310px;
                 font-size: 14px;
             }
 
