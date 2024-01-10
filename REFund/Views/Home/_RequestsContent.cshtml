@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Privacy Policy";
 }
 <div class="row ">
     <div class="row ">
@@ -169,8 +170,8 @@
             <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;4) บิดา, มารดา (Father, Mother)</label>
         </div>
         <div style="left: 5px; width: 300px;">
-            <!-- Dummy option to simulate unchecking -->
-            <input class="form-check-input" type="radio" name="whom" id="whom_none" value="" style="display:none">
+ @*Dummy option to simulate unchecking*@ 
+<input class="form-check-input" type="radio" name="whom" id="whom_none" value="" style="display:none">
         </div>
     </div>
     <div class="row">
@@ -218,30 +219,40 @@
         </div>
     </div>
 </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            let today = new Date().toISOString().slice(0, 10);
-            let [year, month, day] = today.split('-');
-            let formattedDate = `${day}/${month}/${year}`;
-            let AmountinLetter = "(....................................................................................................................................)";
-            $("#englishDate").text(formattedDate);
-            $("#thaiDate").text(formattedDate);
-            $("#AmountTH").text(AmountinLetter);
-            $("#AmountEN").text(AmountinLetter);
-           
-        });
-        var previousRadio = null;
+<script type="text/javascript">
+    $(document).ready(function () {
+        let today = new Date().toISOString().slice(0, 10);
+        let [year, month, day] = today.split('-');
+        let formattedDate = `${day}/${month}/${year}`;
+        let AmountinLetter = "(....................................................................................................................................)";
+        $("#englishDate").text(formattedDate);
+        $("#thaiDate").text(formattedDate);
+        $("#AmountTH").text(AmountinLetter);
+        $("#AmountEN").text(AmountinLetter);
 
-        function handleRadioClick(radio) {
-            if (radio === previousRadio) {
-                // If the clicked radio is the same as the previous one, uncheck it
-                radio.checked = false;
-                previousRadio = null;
-            } else {
-                // Update the previousRadio variable and handle the click as usual
-                previousRadio = radio;
-            }
+    });
+    /* sidebar */
+    const body = document.querySelector('body');
+    const sidebar = document.getElementById("navtag");
+    const toggle = body.querySelector(".toggle");
+
+    toggle.addEventListener("click", () => {
+        console.log("Toggle button clicked!");
+        toggle.classList.toggle('rotate');
+        sidebar.classList.toggle("close");
+    });
+    var previousRadio = null;
+
+    function handleRadioClick(radio) {
+        if (radio === previousRadio) {
+            // If the clicked radio is the same as the previous one, uncheck it
+            radio.checked = false;
+            previousRadio = null;
+        } else {
+            // Update the previousRadio variable and handle the click as usual
+            previousRadio = radio;
         }
-        
-    </script>
+    }
+
+</script>
 

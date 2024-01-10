@@ -23,62 +23,67 @@ namespace REFund.Controllers
 
 			return View();
 		}
+		public IActionResult Index1()
+		{
+
+			return View();
+		}
 		public IActionResult Menu()
 		{
 			return View();
 		}
 		public IActionResult _RequestsContent()
 		{
-			return PartialView("_RequestsContent");
+			return View();
 		}
 		
 		public IActionResult AllRequest()
 		{
-			return PartialView("AllRequest");
+			return View();
 		}
 		public IActionResult MyRequest()
 		{
-			return PartialView("MyRequest");
+			return View();
 		}
 		public IActionResult Requests()
 		{
-			return PartialView("Requests");
+			return View();
 		}
 		public IActionResult Document()
 		{
-			return PartialView("Document");
+			return View();
 		}
 		public IActionResult Return()
 		{
-			return PartialView("Return");
+			return View();
 		}
 		public IActionResult Disapprove()
 		{
-			return PartialView("Disapprove");
+			return View();
 		}
 		public IActionResult HR_Review()
 		{
-			return PartialView("HR_Review");
+			return View();
 		}
 		public IActionResult Manager_Review()
 		{
-			return PartialView("Manager_Review");
+			return View();
 		}
 		public IActionResult CFO_Review()
 		{
-			return PartialView("CFO_Review");
+			return View();
 		}
 		public IActionResult HR_Manager_Review()
 		{
-			return PartialView("HR_Manager_Review");
+			return View();
 		}
 		public IActionResult Completed()
 		{
-			return PartialView("Completed");
+			return View();
 		}
 		public IActionResult Category()
 		{
-			return PartialView("Category");
+			return View();
 		}
 		public IActionResult Privacy()
 		{

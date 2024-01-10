@@ -92,7 +92,7 @@ namespace REFund
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Home}/{action=AllRequest}");
+					pattern: "{controller=Requests}/{action=Create}");
 			});
 		}
 	}

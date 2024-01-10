@@ -26,5 +26,16 @@
             </tr>
         </table>
     </div>
-
 </div>
+<script type="text/javascript">
+    /* sidebar */
+    const body = document.querySelector('body');
+    const sidebar = document.getElementById("navtag");
+    const toggle = body.querySelector(".toggle");
+
+    toggle.addEventListener("click", () => {
+        console.log("Toggle button clicked!");
+        toggle.classList.toggle('rotate');
+        sidebar.classList.toggle("close");
+    });
+</script>

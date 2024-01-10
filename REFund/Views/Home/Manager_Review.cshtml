@@ -387,13 +387,21 @@
         $("#AmountTH").text(AmountinLetter);
         $("#AmountEN").text(AmountinLetter);
     });
+    /* sidebar */
+    const body = document.querySelector('body');
+    const sidebar = document.getElementById("navtag");
+    const toggle = body.querySelector(".toggle");
+
+    toggle.addEventListener("click", () => {
+        console.log("Toggle button clicked!");
+        toggle.classList.toggle('rotate');
+        sidebar.classList.toggle("close");
+    });
 
     /* Chat box */
-
     var header = document.querySelector(".header");
     var chatRoom = document.querySelector(".chat-room");
     var typeArea = document.querySelector(".type-area");
-    var btnAdd = document.querySelector(".button-add");
     var others = document.querySelector(".others");
     var emojiBox = document.querySelector(".emoji-button .emoji-box");
     var emojiButton = document.querySelector(".others .emoji-button");
@@ -413,8 +421,9 @@
 
 
 
-
+    var btnAdd;
     // Header onclick event
+
     header.addEventListener("click", (e) => {
         if (typeArea.classList.contains("d-none")) {
             header.style.borderRadius = "20px 20px 0 0";
@@ -425,15 +434,15 @@
         chatRoom.classList.toggle("d-none");
     });
 
-    // Button Add onclick event
-    btnAdd.addEventListener("click", (e) => {
-        others.classList.add("others-show");
-    });
+    // Button Add onclick event  เปิดเพื่อให้หายขึ้นสองบรรทัด
+    //btnAdd.addEventListener("click", (e) => {
+    //    others.classList.add("others-show");
+    //});
 
     // Emoji onclick event
-    emojiButton.addEventListener("click", (e) => {
-        emojiBox.classList.add("emoji-show");
-    });
+    //emojiButton.addEventListener("click", (e) => {
+    //    emojiBox.classList.add("emoji-show");
+    //});
 
     btnSend.addEventListener("click", sendMessage);
 
