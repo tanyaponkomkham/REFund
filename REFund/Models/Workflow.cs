@@ -16,6 +16,7 @@ namespace REFund.Models
 		[Key]
 		public int ID { get; set; }
 		public int Step { get; set; }
+		public string ActionDomain { get; set; }
 		public string ActionEmail { get; set; }
 		public int Approve { get; set; }
 		public int Disapprove { get; set; }

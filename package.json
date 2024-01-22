@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bahttext": "^2.3.0",
+    "number-to-words": "^1.2.4"
+  }
+}

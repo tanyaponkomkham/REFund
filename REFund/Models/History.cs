@@ -11,7 +11,7 @@ namespace REFund.Models
 		
 		[Key]
 		public int ID { get; set; }
-		public int EmployeeId { get; set; }
+		public string EmployeeId { get; set; }
 		public string Detail { get; set; }
 		public int Amount { get; set; }
 		public string CreateBy { get; set; }
@@ -19,8 +19,11 @@ namespace REFund.Models
 		public string UpdateBy { get; set; }
 		public DateTime UpdateAt { get; set; }
 		public DateTime ConfirmDate { get; set; }
-
+		public Guid RequestID { get; set; }
+		public int WorkflowID { get; set; }
+		public int CategoryID { get; set; }
 		public virtual Workflow Workflow { get; set; }
 		public virtual Category Category { get; set; }
+		public virtual Request Request { get; set; }
 	}
 }

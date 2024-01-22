@@ -10,11 +10,12 @@ namespace REFund.Models
 	{
 		[Key]
 		public int ID { get; set; }
-		public string Created { get; set; }
-		public string Content { get; set; }
+		public DateTime Created { get; set; } = DateTime.Now;
+		public byte[] Content { get; set; }
 		public string ContentName { get; set; }
 		public string ContentMimeType { get; set; }
 
+		public Guid RequestId { get; set; }
 		public virtual Request Request { get; set; }
 	}
 }

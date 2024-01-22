@@ -10,14 +10,14 @@ namespace REFund.Models
 	{
 		public Whom()
 		{
-			Documents = new HashSet<Document>();
-
+			DocumentDetails = new HashSet<DocumentDetail>();
 		}
 		[Key]
 		public int ID { get; set; }
 		public string WhomName { get; set; }
 		public string Status { get; set; }
 
-		public virtual ICollection<Document> Documents { get; set; }
+		
+		public virtual ICollection<DocumentDetail> DocumentDetails { get; set; }
 	}
 }

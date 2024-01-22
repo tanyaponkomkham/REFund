@@ -1,0 +1,609 @@
+﻿@model REFund.Models.Request
+@using System.DirectoryServices.AccountManagement;
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var context = new PrincipalContext(ContextType.Domain);
+    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+
+    var requester = ViewBag.Requester as EmpInfo;
+}
+
+
+<form method="post" id="reportForm">
+    <div class="row ">
+        <div class="row ">
+            <div class="col-1"></div>
+            <div class="col " style="left:5px;">
+                <p style="margin-top: 40px; font-size: 20px; font-family: Inter; font-weight: 500; line-height: 0.5; text-align:center;">แจ้งขอเบิกค่ารักษาพยาบาล</p>
+                <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
+            </div>
+            <div class="col-2 " style="left:5px;">
+                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">เลขที่ xxxxx/xxxx</p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">No. xxxxx/xxxx</p>
+            </div>
+        </div>
+        <div class="row " style="left:5px;">
+            <div class="col-1"></div>
+            <div class="col " style="left:5px;">
+                <p style="margin-top: 30px; font-size: 14px; font-weight: 500; line-height: 0.5; text-align: center;">วันที่ <span id="thaiDate" style="font-size: 16px; font-weight: 500;"></span></p>
+                <p style="font-size: 14px; font-weight: 500; line-height: 0.5; text-align: center;">Date <span id="englishDate" style="font-size: 16px; font-weight: 500;"></span></p>
+            </div>
+            <div class="col-2 " style="left:5px;">
+                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">อายุการทำงาน <span id="experienceTH" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">Experience <span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-1"></div>
+            <div style="left:20px; width:150px;">
+                <p style="margin-top: 40px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">รหัสพนักงาน :</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Employee ID</p>
+            </div>
+            <div class="col-1 " style="left:5px;">
+                <input type="text" id="txtEmpID" name="txtEmpID" class=" form-control" style="margin-top: 40px; margin-left:-40px;  background: #D9D9D9; border-radius: 0; width:170px; " value="@requester.empID" required />
+            </div>
+            <div style="left: 5px; width: 150px;">
+                <p style="margin-top: 40px; margin-left: 70px; font-size: 14px; font-weight: 400; line-height: 0.5;">ชื่อ :</p>
+                <p style="font-size: 14px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Name</p>
+            </div>
+            <div class="col-2 " style="left:30px;">
+                <input type="text" id="txtEmpname" name="txtEmpname" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@requester.thai_fullname" />
+                <input type="text" id="txtENname" name="txtENname" hidden class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@requester.eng_fullname" />
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-1"></div>
+            <div style="left:20px; width:150px;">
+                <p style="margin-top: 40px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">วันที่เริ่มงาน :</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Start Date</p>
+            </div>
+            <div class="col-1 " style="left:5px;">
+                <input type="text" name="startDate" readonly class=" form-control" style="margin-top: 40px; margin-left:-40px; background: #D9D9D9; border-radius: 0; width:150px; " value="@requester.start_work"/>
+            </div>
+            <div style="left: 5px; width: 160px;">
+                <p style="margin-top: 40px; margin-left: 70px; font-size: 14px; font-weight: 400; line-height: 0.5;">ตำแหน่ง :</p>
+                <p style="font-size: 14px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Position</p>
+            </div>
+            <div class="col-2 " style="left:45px;">
+                <input type="text" name="position" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.Position_Name"/>
+            </div>
+            <div style="left: 5px; width: 150px;">
+                <p style="margin-top: 40px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">แผนก :</p>
+                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Department</p>
+            </div>
+            <div class="col-2 " style="left:30px;">
+                <input type="text" name="department" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 250px; " value="@requester.Dept_Name"/>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-1"></div>
+            <div style="left:20px; width:250px;">
+                <p style="margin-top: 40px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline;">เลือกเรื่องที่ต้องการขอเบิกเงิน</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline; ">Please select the title</p>
+            </div>
+            <div class="col-5">
+                <select class="form-select" id="txtTitle" name="txtTitle" style="margin-top: 35px; margin-left: 13px; width: 400px; height:50px;" required asp-items="@ViewBag.Category">
+                    <option selected="selected" disabled value="0">กรุณาเลือก</option>
+                    @*<option value="Medical and Dental Claim">ขอเบิกค่ารักษาพยาบาล   Medical and Dental Claim</option>
+                    <option value="The Death Of Family’s  Member">พิธีฌาปนกิจศพ   The Death Of Family’s  Member</option>
+                    <option value="Marriage">พิธีสมรส  Marriage</option>
+                    <option value="Ordination">พิธีอุปสมบท Ordination</option>
+                    <option value="Childbirth">คลอดบุตร  Childbirth</option>
+                    <option value="Public Danger">สาธารณะภัย  Public Danger</option>
+                    <option value="Public Purpose">สาธารณะประโยชน์  Public Purpose</option>
+                    <option value="CSR Activity">กิจกรรมเพื่อสังคม  CSR Activity</option>*@
+                </select>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-1"></div>
+        </div>
+        <div class="row ">
+            <div class="col-1"></div>
+            <div style="left: 20px; width: 440px; margin-top: 10px; margin-left: 17px; ">
+                <table class="table table-bordered" id="tablePrice" name="tablePrice">
+                    <tr>
+                        <th style="font-size: 14px; font-weight: 400;">
+                            สิทธิ์ที่ได้ (บาท)<br>
+                            Quota (BATH)
+                        </th>
+                        <th style="font-size: 14px; font-weight: 400;">
+                            ใช้ไป (บาท)<br>
+                            Used (BATH)
+                        </th>
+                        <th style="font-size: 14px; font-weight: 400;">
+                            ยอดคงเหลือ (บาท)<br>
+                            Remain (BATH)
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 14px; font-weight: 400;">
+                            <input  id="txtQuota" name="txtQuota" type="text" class=" form-control" />
+                        </td>
+                        <td style="font-size: 14px; font-weight: 400;">
+                            <input  id="txtUsedPrice" name="txtUsedPrice" type="text" class=" form-control" />
+                        </td>
+                        <td style="font-size: 14px; font-weight: 400;">
+                            <input  id="txtRemainPrice" name="txtLeftPrice" type="text" class=" form-control" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 160px;">
+                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เป็นจำนวนเงิน :</p>
+                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Amount</p>
+            </div>
+            <div style="left: 45px; width: 120px;">
+                <input type="text" id="txtAmount" name="txtAmount" class=" form-control" style="margin-top: 30px; margin-left: -20px; background: #FFF7B2; border-radius: 0; width: 100px; " required />
+                <div id="txtAmountError" style="margin-top: 10px; margin-left: -130px; width: 280px; color: red; font-size: 15px; "></div>
+            </div>
+            <div style="left: 1px; width: 50px;">
+                <p style="margin-top: 30px; margin-left: -27px; font-size: 14px; font-weight: 400; line-height: 0.5;">บาท</p>
+                <p style="font-size: 14px; margin-left: -27px; font-weight: 400; line-height: 0.5; ">Bath</p>
+            </div>
+            <div style=" width: 355px; margin-left: 40px; ">
+                <p style="margin-top: 15px; margin-left: 1px; font-size: 14px; font-weight: 400; line-height: 0.5; ">เป็นจำนวนเงินตัวอักษร&nbsp;&nbsp;</p><span  style="font-size: 14px; font-weight: 400; " id="AmountTH"></span>
+                <p style="margin-top: 15px; font-size: 14px; margin-left: 1px; font-weight: 400; line-height: 0.5; ">Amount in letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><span style="font-size: 14px; font-weight: 400; " id="AmountEN"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 140px;">
+                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">รายละเอียด :</p>
+                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5;  ">Detail</p>
+            </div>
+            <div class="col-4" style="left: 30px; ">
+                <textarea class="form-control" id="txtDetail" name="txtDetail" rows="3" style="margin-top: 30px; margin-left: -30px; background: #FFF7B2; " required></textarea>
+            </div>
+        </div>
+        <!--<div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 300px;">
+                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เบิกให้ผู้ใด&nbsp; (To whom)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 200px; margin-left: 50px;">
+                <input class="form-check-input" type="radio" name="whom_yourself" id="whom_yourself" value="yourself" onclick="handleRadioClick(this)">
+                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;1) ตนเอง (yourself)</label>
+            </div>
+            <div style="left: 5px; width: 200px;">
+                <input class="form-check-input" type="radio" name="whom_offspring" id="whom_offspring" value="offspring" onclick="handleRadioClick(this)">
+                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;2) บุตร (offspring)</label>
+            </div>
+            <div style="left: 5px; width: 200px;">
+                <input class="form-check-input" type="radio" name="whom_Spouse" id="whom_Spouse" value="Spouse" onclick="handleRadioClick(this)">
+                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;3) คู่สมรส(Spouse)</label>
+            </div>
+            <div style="left: 5px; width: 250px;">
+                <input class="form-check-input" type="radio" name="whom_Parent" id="whom_Parent" value="Parent" onclick="handleRadioClick(this)">
+                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;4) บิดา, มารดา (Father, Mother)</label>
+            </div>
+            <div style="left: 5px; width: 300px;">-->
+                @*Dummy option to simulate unchecking*@
+                <!--<input class="form-check-input" type="radio" name="whom" id="whom_none" value="" style="display:none">
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 300px;">
+                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">โดยมีเอกสารแนบ ดังนี้</p>
+                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">By attached below document</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 500px;">
+                <table class="table table-bordered" style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">
+                    <tbody id="actionTaskBody">
+                    </tbody>
+                    @*<tr>
+                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                        <td><label class="form-check-label" for="defaultCheck1">1)ใบเสร็จ (Receipt)</label></td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                        <td><label class="form-check-label" for="defaultCheck1">2)ใบรับรองแพทย์  (Medical certificate) </label></td>
+                    <tr>
+                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                        <td><label class="form-check-label" for="defaultCheck1">3)ใบรับรองการเป็นบุตร  (child certificate)</label></td>
+                    </tr>*@
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div style="left: 5px; width: 190px;">
+                <p style="margin-top: 10px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">แนบไฟล์ </p>
+                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Example file input</p>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-1"></div>
+            <div class="col-4" style="left: 30px; ">
+                <input type="file" class="form-control-file" id="File1" style="margin-top: 5px; ">
+            </div>*@
+            <div class="form-group col-4" style="left: 115px; margin-top: 5px;">
+                <label>Attachments  <small style="color:gray;">Allow file maximum size: 20 MB.</small></label>
+                <br />
+                <input type="file" name="Attachments" id="Attachments" multiple required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9"></div>
+            <div class="col">
+                <button type="button" id="btnSubmit" class="btn btn-primary float-right">
+                    <i class="fa fa-thin fa-paper-plane"></i> Submit
+                    <span class="spinner-border spinner-border-sm d-none" id="SubmitFormSpinn" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
+                @*<button type="submit" id="btnSubmit" class="btn mb-2" style="background-color: #3383AF; margin-top: 30px; margin-left: 50px; color: white; width: 150px; height: 50px; font-size: 16px; font-weight: 600; ">Submit</button>*@
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let today = new Date().toISOString().slice(0, 10);
+            $("#tablePrice").hide();
+            let [year, month, day] = today.split('-');
+            let formattedDate = `${day}/${month}/${year}`;
+            let AmountinLetter = "(....................................................................................................................................)";
+            $("#englishDate").text(formattedDate);
+            $("#thaiDate").text(formattedDate);
+            $("#AmountTH").text(AmountinLetter);
+            $("#AmountEN").text(AmountinLetter);
+            /* console.log(todaytime);*/
+
+            
+            // ดึงปีออกมาจาก StartWork และ today
+            let today2 = new Date();
+
+            // แปลง StartWork เป็น Date object
+            let startWorkDate = new Date("@requester.start_work");
+
+
+            // ดึงปีออกมาจาก StartWork และ today
+            let startYear = startWorkDate.getFullYear();
+            let todayYear = today2.getFullYear();
+
+            // ทำการลบปีของ StartWork จากปีของ today
+            let yearDifference = todayYear - startYear;
+
+            console.log(yearDifference);
+            document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
+            document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
+            //$("experienceTH").text(yearDifference );
+            //$("experienceEN").text(yearDifference );
+
+        });
+        /* sidebar */
+        const body = document.querySelector('body');
+        const sidebar = document.getElementById("navtag");
+        const toggle = body.querySelector(".toggle");
+
+        toggle.addEventListener("click", () => {
+            console.log("Toggle button clicked!");
+            toggle.classList.toggle('rotate');
+            sidebar.classList.toggle("close");
+        });
+        var previousRadio = null;
+        function numberToThaiWords(number) {
+            const words = [
+                '', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'
+            ];
+
+            const positions = [
+                '', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'
+            ];
+
+            let result = '';
+
+            const convertGroup = (num) => {
+                let groupResult = '';
+                for (let i = 0; i < num.length; i++) {
+                    const digit = +num[i];
+                    if (digit !== 0) {
+                        groupResult += words[digit] + positions[num.length - i - 1];
+                    }
+                }
+                return groupResult;
+            };
+
+            const numStr = String(number);
+            const numParts = numStr.split('.');
+            const integerPart = numParts[0];
+            const decimalPart = numParts[1] || '';
+
+            result += convertGroup(integerPart);
+
+            if (decimalPart.length > 0) {
+                result += 'จุด';
+                result += decimalPart.split('').map(digit => words[+digit]).join('');
+            }
+
+            return result || 'ศูนย์';
+        }
+        function handleRadioClick(radio) {
+            if (radio === previousRadio) {
+                // If the clicked radio is the same as the previous one, uncheck it
+                radio.checked = false;
+                previousRadio = null;
+            } else {
+                // Update the previousRadio variable and handle the click as usual
+                previousRadio = radio;
+            }
+        }
+        $(document).on('click', "#btnSubmit", function (e) {
+           e.stopImmediatePropagation();
+            if ($("#reportForm").valid() && confirm("Send to approve or back to edit?")) {
+                $("#btnSubmit").prop("disabled", true);
+
+                var categoryName = $('#txtTitle').val();
+                console.log('--------------');
+                /*console.log(categoryName);*/
+                //var categoryId = 0;
+                //if (categoryName == "Medical and Dental Claim") {
+                //    categoryId = 1;
+                //} else if (categoryName == "The Death Of Family’s  Member") {
+                //    categoryId = 2;
+                //} else if (categoryName == "Marriage") {
+                //    categoryId = 3;
+                //} else if (categoryName == "Ordination") {
+                //    categoryId = 4;
+                //} else if (categoryName == "Childbirth") {
+                //    categoryId = 5;
+                //} else if (categoryName == "Public Danger") {
+                //    categoryId = 6;
+                //} else if (categoryName == "Public Purpose") {
+                //    categoryId = 7;
+                //} else if (categoryName == "CSR Activity") {
+                //    categoryId = 8;
+                //}
+
+                var workflowId = 1;
+
+                /*console.log(categoryId);*/
+                //console.log($("#txtAmount").val());
+                //console.log($("#txtDetail").val());
+                var data = new FormData();
+                data.append("EmployeeId", $("#txtEmpID").val());
+                data.append("Amount", $("#txtAmount").val());
+                data.append("Detail", $("#txtDetail").val());
+                var createdAt = new Date();
+                data.append("CreateAt", createdAt.toISOString());
+                data.append("UpdateAt", createdAt.toISOString());
+                data.append("ConfirmDate", createdAt.toISOString());
+                data.append("CreateBy", $("#txtENname").val());
+                data.append("UpdateBy", $("#txtENname").val());
+                data.append("CategoryID", categoryName);
+                data.append("WorkflowID", workflowId);
+
+
+
+
+                let today = new Date().toISOString().slice(0, 10);
+                data.append(`Historys[0].EmployeeId`, '@requester.empID');
+                data.append(`Historys[0].Detail`, $("#txtDetail").val());
+                data.append(`Historys[0].Amount`, $("#txtAmount").val());
+                data.append(`Historys[0].CreateBy`, $("#txtENname").val());
+                data.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                data.append(`Historys[0].UpdateBy`, $("#txtENname").val());
+                data.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                data.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                data.append(`Historys[0].WorkflowID`, workflowId);
+                data.append(`Historys[0].CategoryID`, categoryName);
+                @*data.append(`Historys[0].RequestID`, '@requester.RequestId');*@
+
+
+
+                var checkedValues = [];
+                var checkedNameValues = [];
+                var checkboxes = document.querySelectorAll('.myCheckbox');
+                var checkboxeName = document.querySelectorAll('.myCheckboxName');
+                var count = 1;
+                var index = 0;
+
+                checkboxes.forEach(function (checkbox) {
+
+                    if (checkbox.checked) {
+                        // เพิ่มค่า checkbox ที่ถูกติ๊กลงในอาร์เรย์
+                        console.log(checkbox);
+                        checkedValues = checkbox.value ;
+                        checkedNameValues = $(`#getID_${count}`).data('documentname');
+                        data.append(`RequestDocumentDetails[${index}].DocumentID`, checkedValues);
+                        data.append(`RequestDocumentDetails[${index}].DocumentName`, checkedNameValues);
+                        index = index + 1;
+                    }
+                    count = count + 1;
+                });
+
+                var input = document.getElementById("Attachments");
+                if (typeof input != "undefined" && input != null) {
+                    var files = input.files;
+                    for (var i = 0; i != files.length; i++) {
+                        data.append("attachments", files[i]);
+                    }
+                }
+
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("Create", "Request")',
+                    data: data,
+                    success: function (data) {
+                        console.log("Success");
+                            @*setTimeout(function() {
+                                window.location.href = `@Url.Action("Edit", "Request")?id=${data}`;
+                            }, 1000);*@
+                    },
+                    error: function (err) {
+                        $("#SubmitFormSpinn").addClass("d-none");
+                        $("button[name=btnSubmit]").prop("disabled", false);
+                        console.log(err)
+                    }
+                });
+            }
+        });
+
+        $('#reportForm').validate({
+            ignore: ":hidden, [contenteditable='true']:not(.ignore)",
+            //rules: {
+            //    Employee: { required: true }
+            //},
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
+        $(document).on('change', "#txtTitle", function (e) {
+            /*console.log($("#txtTitle").val());*/
+            var data = new FormData();
+            data.append("categoryID", $("#txtTitle").val());
+            data.append("empId", $("#txtEmpID").val());
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("GetQuotaTitle", "Request")',
+                data: data,
+                    success: function (data) {
+                        $("#txtQuota").val(data.quotaPrice);
+                        $("#txtUsedPrice").val(data.usedPrice);
+                        $("#txtRemainPrice").val(data.remainPrice);
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+            });
+            $("#tablePrice").show();
+
+            var data2 = new FormData();
+            data2.append("categoryID", $("#txtTitle").val());
+
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("GetDocumentDetail", "Request")',
+                data: data2,
+                    success: function (data) {
+                        // Clear existing content in the table body
+                        $("#actionTaskBody").empty();
+                        console.log(data);
+                        // Loop through the array
+                        var lastId = 0;
+
+
+                        for (const item of data) {
+                            console.log(item.documentID);
+                            console.log(item.documentName);
+                            var elementId = lastId + 1;
+                            var str = `
+                                <tr>
+                                    <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " ></td>
+                                    <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
+                                </tr>
+                            `;
+                            $("#actionTaskBody").append(str);
+
+                            lastId = lastId + 1;
+                        }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+
+            });
+
+
+
+
+
+
+        });
+        $(document).on('input', "#txtAmount", function (e) {
+            var amountPrice = $('#txtAmount').val();
+            var RemainPrice = $('#txtRemainPrice').val();
+
+            $("#txtAmountError").text("");
+
+            if (/[^0-9]/.test(amountPrice)) {
+                $("#txtAmountError").text("Please enter only numeric values.");
+                hasError = true;
+            } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
+                $("#txtAmountError").text("Please Enter again The Amount is Over Priced.");
+                hasError = true;
+            } else if (amountPrice != "") {
+                // แปลงเลขเป็นข้อความภาษาไทย
+                var thaiWords = numberToThaiWords(amountPrice);
+                /*console.log("Thai Number:", thaiWords);*/
+                document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords +"บาท .....)";
+                // แปลงเลขเป็นข้อความภาษาอังกฤษ
+                var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+                document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+               /* console.log("English Number:", englishWords);*/
+                hasError = true;
+            } else {
+                hasError = false;
+            }
+        });
+
+        $("#Attachments").on("change", function (e) {
+
+            var count = 0;
+            var files = e.currentTarget.files; // puts all files into an array
+            var filesize;
+            // call them as such; files[0].size will get you the file size of the 0th file
+            for (var x in files) {
+
+                // filesize = ((files[x].size / 1024) / 1024).toFixed(4); // MB
+
+                //console.log(files[x].name);
+                //console.log(files[x].size);
+
+                if (files[x].name != "item" && typeof files[x].name != "undefined") {
+
+                    if (count == 0) {
+
+                        filesize = parseFloat(files[x].size);
+                    }
+                    else {
+
+                        filesize = parseFloat(filesize) + files[x].size;
+                    }
+                }
+                count++;
+            }
+            console.log((filesize / 1024 / 1024).toFixed(4));
+            var fSize = (filesize / 1024 / 1024).toFixed(4);
+            if (fSize > 20) {
+                alert("Allow file maximum size: 20 MB.");
+                $("#Attachments").val("");
+                return false;
+            } else {
+
+            }
+        });
+
+
+    </script>
+}

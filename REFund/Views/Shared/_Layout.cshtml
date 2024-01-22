@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/number-to-words"></script>
 </head>
 <body>
     <nav class="container-fluid" style="background: white; height: 60px; border: 0.50px #3383AF solid ">
@@ -44,13 +45,20 @@
                     </header>
                     <ul class="menu-links" style="margin-top: -7px;">
                         <li id="request1" class="nav-link" style="text-align:center;">
-                            <a href="">
+                            <a asp-action="Create" asp-controller="Request" class="nav-link">
                                 <img class="Image1 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/add.png" />
                                 <span class="text nav-text" style=" margin-left: -1px; font-size: 14px;">Request</span>
                                 <div style="width:1%;">
                                     <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 63px; color: white; font-size: 10px;">1</label>
                                 </div>
                             </a>
+                            @*<a href="">
+                                <img class="Image1 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/add.png" />
+                                <span class="text nav-text" style=" margin-left: -1px; font-size: 14px;">Request</span>
+                                <div style="width:1%;">
+                                    <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 63px; color: white; font-size: 10px;">1</label>
+                                </div>
+                            </a>*@
                         </li>
                         <li id="My_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
                             <a href="">
@@ -62,13 +70,21 @@
                             </a>
                         </li>
                         <li id="All_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
-                            <a href="">
+                            <a asp-action="Index" asp-controller="Request" class="nav-link">
                                 <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
+                                @*<i class="nav-icon fas fa-project-diagram"></i>*@
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">All Request</span>
                                 <div style="width:1%;">
                                     <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 42px; color: white; font-size: 10px;">1</label>
                                 </div>
                             </a>
+                            @*<a href="">
+                                <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
+                                <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">All Request</span>
+                                <div style="width:1%;">
+                                    <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 42px; color: white; font-size: 10px;">1</label>
+                                </div>
+                            </a>*@
                         </li>
                     </ul>
                     <header id="menu" style="background-color: #3383AF; margin-left: -1px; top: -20px; width: 260px; ">
@@ -167,14 +183,17 @@
                 </div>
             </div>
         </nav>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        @*<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>*@
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+        <link href="~/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
+        <script src="~/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         @await RenderSectionAsync("Scripts", required: false)
         <div class="col custom-border" style="height: 1353px; background-color: white; transition: 0.5s;">
             <main role="main" id="bindRequest" class="pb-3">
@@ -203,129 +222,129 @@
                         //        alert("Error occurred during the process. Please contact the administrator");
                         //    }
                         //});
-                        $(document).on('click', '#request1', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        ////$(document).on('click', '#request1', function (event) {
+                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        // Handle click event on #request2 using 'on' method
-                        $(document).on('click', '#All_Request', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        ////    // Load AllRequest when #request2 is clicked
+                        ////    $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+                        ////        if (status == "error") {
+                        ////            alert("Error occurred during the process. Please contact the administrator");
+                        ////        }
+                        ////    });
+                        ////});
+                        ////// Handle click event on #request2 using 'on' method
+                        ////$(document).on('click', '#All_Request', function (event) {
+                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
+                        ////    // Load AllRequest when #request2 is clicked
+                        ////    $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
+                        ////        if (status == "error") {
+                        ////            alert("Error occurred during the process. Please contact the administrator");
+                        ////        }
+                        ////    });
+                        ////});
 
-                        $(document).on('click', '#My_Request', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        ////$(document).on('click', '#My_Request', function (event) {
+                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#request2', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        ////    // Load AllRequest when #request2 is clicked
+                        ////    $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
+                        ////        if (status == "error") {
+                        ////            alert("Error occurred during the process. Please contact the administrator");
+                        ////        }
+                        ////    });
+                        ////});
+                        ////$(document).on('click', '#request2', function (event) {
+                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#document', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        ////    // Load AllRequest when #request2 is clicked
+                        ////    $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
+                        ////        if (status == "error") {
+                        ////            alert("Error occurred during the process. Please contact the administrator");
+                        ////        }
+                        ////    });
+                        ////});
+                        ////$(document).on('click', '#document', function (event) {
+                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
+                        ////    // Load AllRequest when #request2 is clicked
+                        ////    $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
+                        ////        if (status == "error") {
+                        ////            alert("Error occurred during the process. Please contact the administrator");
+                        ////        }
+                        ////    });
+                        ////});
 
-                        $(document).on('click', '#HR_Review', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //$(document).on('click', '#HR_Review', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#disapprove', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#disapprove', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#Manager_Review', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#Manager_Review', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#CFO_Review', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#CFO_Review', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#HR_manager_Review', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#HR_manager_Review', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#completed', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#completed', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
-                        $(document).on('click', '#category', function (event) {
-                            event.preventDefault(); // Prevent the default behavior of the link
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
+                        //$(document).on('click', '#category', function (event) {
+                        //    event.preventDefault(); // Prevent the default behavior of the link
 
-                            // Load AllRequest when #request2 is clicked
-                            $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
-                                if (status == "error") {
-                                    alert("Error occurred during the process. Please contact the administrator");
-                                }
-                            });
-                        });
+                        //    // Load AllRequest when #request2 is clicked
+                        //    $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
+                        //        if (status == "error") {
+                        //            alert("Error occurred during the process. Please contact the administrator");
+                        //        }
+                        //    });
+                        //});
                     </script>
                 }
                 @RenderBody()
@@ -340,12 +359,12 @@
             </div>
         </footer>
     </div>
-    
+
     <!--<div class="container-fluid" style=" height: 1024px; border: 0.50px #3383AF">-->
-        @*<main role="main" class="pb-3">
+    @*<main role="main" class="pb-3">
             @RenderBody()
         </main>*@
-        
+
     <!--</div>-->
 
 </body>
