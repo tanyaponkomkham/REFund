@@ -6,7 +6,7 @@
 }
 <div class="row">
     @*<input id="requestID" name="requestID" type="hidden" asp-for="Id" />*@
-    <input id="empID" name="empID" type="hidden" " />
+    <input id="empID" name="empID" type="hidden" "  />
     <label style="font-size: 24px; margin-top: 50px; margin-left: 10px; font-weight: 700; line-height: 0.5; color: #3383AF; ">My Request</label>
     <div class="col" style=" margin-top: 10px;">
         <table class="table table-bordered" id="tblMyRequest" style="font-size: 12px; margin-top: 40px; font-weight: 400; line-height: 0.5; border-color: #3383AF;">
@@ -22,26 +22,26 @@
             <tbody>
                 @{foreach (var item in Model)
                     {
-                                <tr>
-                                     <td>
-                                     <a href="/Request/Edit?id=@item.Id" target="_blank">@item.Id</a> 
-                                     </td>
-                                    <td style="vertical-align: middle; ">@item.Category.CategoryName</td>
-                                    <td style="text-align: center; vertical-align: middle; ">@item.EmployeeId</td>
-                                    <td style="text-align: center; vertical-align: middle; ">@item.CreateAt</td>
-                                    <td style="text-align: center; vertical-align: middle; ">
-                                        <label style="background-color: @item.Workflow.Status.BackgroundColor; color:@item.Workflow.Status.FontColor; border-radius: 8px; padding: 6px 6px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 700; ">
-                                            <label style="background-color: @item.Workflow.Status.FontColor; border-radius: 8px; padding: 4px 4px; margin-top: 6px; "></label>&nbsp;&nbsp;@item.Workflow.Status.StatusName
-                                        </label>
-                                    </td>
-                                </tr>
-                        }
+                        <tr>
+                            <td>
+                                <a href="/Request/Edit?id=@item.Id" target="_blank">@item.Id</a>
+                            </td>
+                            <td style="vertical-align: middle; ">@item.Category.CategoryName</td>
+                            <td style="text-align: center; vertical-align: middle; ">@item.EmployeeId</td>
+                            <td style="text-align: center; vertical-align: middle; ">@item.CreateAt</td>
+                            <td style="text-align: center; vertical-align: middle; ">
+                                <label style="background-color: @item.Workflow.Status.BackgroundColor; color:@item.Workflow.Status.FontColor; border-radius: 8px; padding: 6px 6px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 700; ">
+                                    <label style="background-color: @item.Workflow.Status.FontColor; border-radius: 8px; padding: 4px 4px; margin-top: 6px; "></label>&nbsp;&nbsp;@item.Workflow.Status.StatusName
+                                </label>
+                            </td>
+                        </tr>
                     }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
         $(document).ready(function () {
             $('#tblMyRequest').dataTable({
                 "pageLength": 10,
@@ -51,7 +51,7 @@
 
 
         });
-   
+
     /* sidebar */
     const body = document.querySelector('body');
     const sidebar = document.getElementById("navtag");
@@ -64,4 +64,4 @@
     });
 
 
-    </script>
+</script>

@@ -17,9 +17,11 @@ namespace REFund.Data
 		public  DbSet<Status> Status { get; set; }
 		public  DbSet<Whom> Whom { get; set; }
 		public  DbSet<Category> Category { get; set; }
+		public  DbSet<CategoryDetail> CategoryDetail { get; set; }
 		public  DbSet<SubCategory> SubCategory { get; set; }
 		public  DbSet<Document> Document { get; set; }
 		public  DbSet<DocumentDetail> DocumentDetail { get; set; }
+		public  DbSet<RequestDocumentDetail> RequestDocumentDetail { get; set; }
 		public  DbSet<Attachment> Attachment { get; set; }
 		public  DbSet<Communication> Communication { get; set; }
 		public  DbSet<Workflow> Workflow { get; set; }

@@ -86,14 +86,6 @@
             <div class="col"></div>
             <div class="col-11">
                 <select class="form-select" id="Title" style="margin-top: 5px; margin-left: 13px; width: 400px; ">
-                    <option>ขอเบิกค่ารักษาพยาบาล   Medical and Dental Claim</option>
-                    <option>พิธีฌาปนกิจศพ   The Death Of Family’s  Member</option>
-                    <option>พิธีสมรส  Marriage</option>
-                    <option>พิธีอุปสมบท Ordination</option>
-                    <option>คลอดบุตร  Childbirth</option>
-                    <option>สาธารณะภัย  Public Danger</option>
-                    <option>สาธารณะประโยชน์  Public Purpose</option>
-                    <option>กิจกรรมเพื่อสังคม  CSR Activity</option>
                 </select>
             </div>
         </div>
@@ -357,6 +349,24 @@
         $("#thaiDate").text(formattedDate);
         $("#AmountTH").text(AmountinLetter);
         $("#AmountEN").text(AmountinLetter);
+
+
+        $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("GetQuotaTitle", "Request")',
+                data: data,
+                    success: function (data) {
+                        $("#txtQuota").val(data.quotaPrice);
+                        $("#txtUsedPrice").val(data.usedPrice);
+                        $("#txtRemainPrice").val(data.remainPrice);
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+            });
     });
 
     /* sidebar */
@@ -371,7 +381,7 @@
     });
 
     /* Chat box */
-    
+
         var header = document.querySelector(".header");
         var chatRoom = document.querySelector(".chat-room");
         var typeArea = document.querySelector(".type-area");
@@ -427,7 +437,7 @@
                 inputText.value += e.target.textContent;
             });
         }
-    
+
 
     var previousRadio = null;
 

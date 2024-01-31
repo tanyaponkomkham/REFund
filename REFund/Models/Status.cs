@@ -16,7 +16,8 @@ namespace REFund.Models
 		[Key]
 		public IDStatus ID { get; set; }
 		public string StatusName { get; set; }
-		public string Color { get; set; }
+		public string BackgroundColor { get; set; }
+		public string FontColor { get; set; }
 
 		public virtual ICollection<Workflow> Workflows { get; set; }
 

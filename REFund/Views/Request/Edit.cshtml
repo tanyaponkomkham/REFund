@@ -1,70 +1,991 @@
-﻿@model REFund.Models.Request
-
+﻿@model REFund.Models.Views.RequestsView
+@using System.DirectoryServices.AccountManagement;
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var context = new PrincipalContext(ContextType.Domain);
+    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+
+    var requester = ViewBag.Requester as EmpInfo;
+
+
 }
 
-<h1>Edit</h1>
 
-<h4>Request</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <input asp-for="EmployeeId" class="form-control" />
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+
+
+<div class="row ">
+
+    <div class="col-9 custom-border" style="height:1353px; margin-left:-12px;">
+        @*Head Body*@
+        <input type="text" id="txtRequestID" name="txtRequestID" hidden readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@Model.Id" />
+        <form method="post" id="reportForm">
+            <div class="row ">
+                <div class="col-1"></div>
+                <div class="col-8" style="left:5px;">
+                    <p style="margin-top: 40px; font-size: 20px; font-family: Inter; font-weight: 500; line-height: 0.5; text-align:center;">แจ้งขอเบิกค่ารักษาพยาบาล</p>
+                    <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
+                </div>
+                <div class="col-3 " style="left:5px;">
+                    <p style="margin-top: 50px; font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ xxxxx/xxxx<span id="thaiNum" style="font-size: 12px;  font-weight: 500;"></span></p>
+                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No. xxxxx/xxxx<span id="EngNum" style="font-size: 12px;  font-weight: 500;"></span></p>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Detail" class="control-label"></label>
-                <input asp-for="Detail" class="form-control" />
-                <span asp-validation-for="Detail" class="text-danger"></span>
+            <div class="row " style="left:5px;">
+                <div class="col-1"></div>
+                <div class="col-8 " style="left:5px;">
+                    <p style="margin-top: 30px; font-size: 12px; font-weight: 500; line-height: 0.5; text-align: center;">วันที่ <span id="thaiDate" style="font-size: 12px;  font-weight: 500;"></span></p>
+                    <p style="font-size: 12px; font-weight: 500; line-height: 0.5; text-align: center;">Date <span id="englishDate" style="font-size: 12px; font-weight: 500;"></span></p>
+                </div>
+                <div class="col-3" style="left: 5px;">
+                    <p style="margin-top: 30px; font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">อายุการทำงาน <span id="experienceTH" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">Experience <span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+            @*body*@
+            <div class="row ">
+                <div class="col-1"></div>
+                <div style="left:20px; width:150px;">
+                    <p style="margin-top: 25px; margin-left: 20px; font-size: 12px; font-weight: 400; line-height: 0.5;">รหัสพนักงาน :</p>
+                    <p style="font-size: 12px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Employee ID</p>
+                </div>
+                <div class="col-1 " style="left:5px;">
+                    <input type="text" id="txtEmpID" name="txtEmpID" readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@requester.empID" />
+
+                </div>
+                <div style="left: 5px; width: 150px;">
+                    <p style="margin-top: 25px; margin-left: 70px; font-size: 12px; font-weight: 400; line-height: 0.5;">ชื่อ :</p>
+                    <p style="font-size: 12px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Name</p>
+                </div>
+                <div class="col-2 " style="left:30px;">
+                    <input type="text" name="name" readonly class=" form-control" style="margin-top: 25px; margin-left: -75px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@requester.eng_fullname" />
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CreateBy" class="control-label"></label>
-                <input asp-for="CreateBy" class="form-control" />
-                <span asp-validation-for="CreateBy" class="text-danger"></span>
+            <div class="row ">
+                <div class="col-1"></div>
+                <div style="left:20px; width:150px;">
+                    <p style="margin-top: 15px; margin-left: 20px; font-size: 12px; font-weight: 400; line-height: 0.5;">วันที่เริ่มงาน :</p>
+                    <p style="font-size: 12px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Start Date</p>
+                </div>
+                <div class="col-1 " style="left:18px;">
+                    <input type="text" name="startDate" readonly class=" form-control" style="margin-top: 15px; margin-left: -80px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.start_work" />
+
+                </div>
+                <div style="left: 5px; width: 160px;">
+                    <p style="margin-top: 15px; margin-left: 70px; font-size: 12px; font-weight: 400; line-height: 0.5;">ตำแหน่ง :</p>
+                    <p style="font-size: 12px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Position</p>
+                </div>
+                <div class="col-2 " style="left:30px;">
+                    <input type="text" name="position" readonly class=" form-control" style="margin-top: 15px; margin-left: -70px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.Position_Name" />
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CreateAt" class="control-label"></label>
-                <input asp-for="CreateAt" class="form-control" />
-                <span asp-validation-for="CreateAt" class="text-danger"></span>
+            <div class="row ">
+                <div class="col-1"></div>
+                <div style="margin-left: -10px; width: 150px;">
+                    <p style="margin-top: 15px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">แผนก :</p>
+                    <p style="font-size: 12px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Department</p>
+                </div>
+                <div class="col-2 " style="left:20px;">
+                    <input type="text" name="department" readonly class=" form-control" style="margin-top: 15px; margin-left: -65px; background: #D9D9D9; border-radius: 0; width: 240px; " value="@requester.Dept_Name" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="UpdateBy" class="control-label"></label>
-                <input asp-for="UpdateBy" class="form-control" />
-                <span asp-validation-for="UpdateBy" class="text-danger"></span>
+            <div class="row ">
+                <div class="col-1"></div>
+                <div style="left:20px; width:250px;">
+                    <p style="margin-top: 40px; margin-left: 20px; font-size: 13px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline;">เลือกเรื่องที่ต้องการขอเบิกเงิน</p>
+                    <p style="font-size: 13px; margin-left: 20px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline; ">Please select the title</p>
+                </div>
+                <div class="col-5 CategoryTitle">
+                    <select class="form-select @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtTitle" name="txtTitle" style="margin-top: 35px; margin-left: 13px; width: 400px; height:50px;" required asp-items="@ViewBag.Category">
+                        <option selected="selected" disabled value="0">กรุณาเลือก</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="UpdateAt" class="control-label"></label>
-                <input asp-for="UpdateAt" class="form-control" />
-                <span asp-validation-for="UpdateAt" class="text-danger"></span>
+            <div class="row " id="ToWhom" name="ToWhom">
+                <div class="col-1"></div>
+                <div style="left:20px; width:250px;">
+                    <p style="margin-top: 40px; margin-left: 20px; font-size: 13px; font-weight: 400; line-height: 0.5; ">เบิกให้ผู้ใด :</p>
+                    <p style="font-size: 13px; margin-left: 20px; font-weight: 400; line-height: 0.5;  ">To whom</p>
+                </div>
+                <div class="col-5">
+                    <select class="form-select @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtWhom" name="txtWhom" style="margin-top: 35px; margin-left: 13px; width: 200px; height:50px;" required asp-items="@ViewBag.Whom">
+                        <option selected="selected" disabled value="0">กรุณาเลือก</option>
+
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ConfirmDate" class="control-label"></label>
-                <input asp-for="ConfirmDate" class="form-control" />
-                <span asp-validation-for="ConfirmDate" class="text-danger"></span>
+            <div class="row ">
+                <div class="col-1"></div>
+                <div style="left: 20px; width: 440px; margin-top: 10px; margin-left: 17px; ">
+                    <table class="table table-bordered" id="tablePrice" name="tablePrice">
+                        <tr>
+                            <th style="font-size: 13px; font-weight: 400;">
+                                สิทธิ์ที่ได้ (บาท)<br>
+                                Quota (BATH)
+                            </th>
+                            <th style="font-size: 13px; font-weight: 400;">
+                                ใช้ไป (บาท)<br>
+                                Used (BATH)
+                            </th>
+                            <th style="font-size: 13px; font-weight: 400;">
+                                ยอดคงเหลือ (บาท)<br>
+                                Remain (BATH)
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 12px; font-weight: 400;">
+                                <input id="txtQuota" name="txtQuota" type="text" readonly value="@Model.Quota" class=" form-control" />
+                            </td>
+                            <td style="font-size: 12px; font-weight: 400;">
+                                <input id="txtUsedPrice" name="txtUsedPrice" type="text" readonly value="@Model.Used" class=" form-control" />
+                            </td>
+                            <td style="font-size: 12px; font-weight: 400;">
+                                <input id="txtRemainPrice" name="txtRemainPrice" type="text" readonly value="@Model.Remain" class=" form-control" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="margin-left: -9px; width: 140px;">
+                    <p style="margin-top: 15px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">เป็นจำนวนเงิน :</p>
+                    <p style="font-size: 12px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Amount</p>
+                </div>
+                <div style="left: 30px; width: 120px;">
+                    <input type="text" id="txtAmount" name="txtAmount" class=" form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" style="margin-top: 15px; margin-left: -15px; background: #FFF7B2; border-radius: 0; width: 100px; " value="@Model.Amount" />
+                    <div id="txtAmountError" style="margin-top: 10px; margin-left: -135px; width: 280px; color: red; font-size: 13px; "></div>
+                </div>
+                <div style="left: 1px; width: 35px;">
+                    <p style="margin-top: 15px; margin-left: -27px; font-size: 12px; font-weight: 400; line-height: 0.5;">บาท</p>
+                    <p style="font-size: 12px; margin-left: -27px; font-weight: 400; line-height: 0.5; ">Bath</p>
+                </div>
+                <div style=" width: 355px; margin-left: 40px; ">
+                    <p style="margin-top: 15px; margin-left: 1px; font-size: 14px; font-weight: 400; line-height: 0.5; ">เป็นจำนวนเงินตัวอักษร&nbsp;&nbsp;</p><span style="font-size: 14px; font-weight: 400; " id="AmountTH"></span>
+                    <p style="margin-top: 15px; font-size: 14px; margin-left: 1px; font-weight: 400; line-height: 0.5; ">Amount in letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><span style="font-size: 14px; font-weight: 400; " id="AmountEN"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="left: 1px; width: 150px;">
+                    <p style="margin-top: 15px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">รายละเอียด :</p>
+                    <p style="font-size: 12px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Detail</p>
+                </div>
+                <div class="col-4" style="left: 30px; ">
+                    <textarea class="form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtDetail" name="txtDetail" rows="3" background: #FFF7B2; style="margin-top: 15px; margin-left: -50px;">@Model.Detail</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="left: 1px; width: 300px;">
+                    <p style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">โดยมีเอกสารแนบ ดังนี้</p>
+                    <p style="font-size: 12px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">By attached below document</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="left: 1px; width: 700px;">
+                    <table class="table" style="font-size: 12px; margin-left: 30px; margin-top: 15px; font-weight: 400; line-height: 0.5; ">
+                        <tbody id="actionTaskBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="left: 1px; width: 700px;">
+                    <table class="table" style="font-size: 12px; margin-left: 30px; margin-top: 15px; font-weight: 400; line-height: 0.5; ">
+                        <tbody id="actionTaskfile">
+                        </tbody>
+                        @*<tr>
+                        <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">1)ชื่อไฟล์ </label></td>
+
+                        <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">2)ชื่อไฟล์ </label></td>
+
+                        <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">3)ชื่อไฟล์ </label></td>
+                    </tr>*@
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div style="left: 1px; width: 120px;">
+                    <p style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">comment :</p>
+                </div>
+                <div style="left: 1px; width: 300px;">
+                    <textarea class="form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtComment" name="txtComment" rows="2" style="margin-top: 15px; background: #FFF7B2; margin-left: -5px;"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-12 " style=" text-align: right;">
+                    <button type="button" id="btnDisapprove" name="btnDisapprove" class="btn btn-danger" style="color: white; width: 90px; margin-top: 100px; font-size: 12px;">Disapprove</button>
+                    <button type="button" id="btnApprove" name="btnApprove" class="btn " style="background-color: #3CE84D; color: white; width: 80px; margin-left: 40px; margin-top: 100px; font-size: 12px;">Approve</button>
+                </div>
             </div>
         </form>
     </div>
+
+    @*History timeline*@
+    <div class="col-3 custom-border" style="height: 1353px; ">
+        <h3 style="font-size: 20px; margin-top: 10px; font-weight: 700; color: #3383AF; ">History line</h3>
+        <div class="row" style="margin-top: -30px; height:560px;">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" style="background-color: #3383AF; color: white; font-size: 18px; font-weight: 600;" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            History line
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body" style="height: 446px; background-color: #EDEFF1;">
+                            @*History timeline Line*@
+                            <div class="row " style="margin-top: -10px; height: 410px; ">
+                                <div class="col-1" style="margin-left: 15px; ">
+                                    <div class="row ">
+                                        <div class="circleapprove" style="margin-top: 75px; margin-left: 3px;">
+                                            <img src="~/img/employee.png" style="width: 16px; height: 16px; ">
+                                        </div>
+                                        <div class="col-1 lineCut"></div>
+                                        <div class="circle" style="margin-left: 3px;">
+                                            <img src="~/img/user.png" style="width:14px; height:16px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1 lineCutHR"></div>
+                                        <div class="circle" style="margin-left: 3px;">
+                                            <img src="~/img/user.png" style="width: 14px; height: 16px; ">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1 lineCutHR"></div>
+                                        <div class="circle" style="margin-left: 3px;">
+                                            <img src="~/img/user.png" style="width: 14px; height: 16px; ">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1 lineCutHR"></div>
+                                        <div class="circle" style="margin-left: 3px;">
+                                            <img src="~/img/user.png" style="width: 14px; height: 16px; ">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1 lineCutafter"></div>
+                                        <div class="circle" style="margin-left: 3px;">
+                                            <img src="~/img/user.png" style="width: 14px; height: 16px; ">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                    </div>
+                                </div>
+                                @*History timeline Box*@
+                                <div class="col-9" style=" margin-left: 10px;">
+                                    <div class="row">
+                                        <div class="row" style=" margin-top: 20px;">
+                                            <div class="col" style="text-align: center;  height: 140px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                <div class="row" style="text-align: right; margin-right: 3px;">
+                                                    <label style="font-size: 16px; font-weight: 400;"><span id="dateRequest">xx/xx/xxxx xx:xx</span></label>
+                                                </div>
+                                                <div class="row" style="text-align: left; width: 80px; margin-left: 4px;  margin-top: -7px;">
+                                                    <label style="background-color: #EEFAFF; color: #A3DEFF; border-radius: 8px; padding: 4px 4px; display: inline-flex; align-items: center; font-size: 16px; font-weight: 800; ">
+                                                        Request
+                                                    </label>
+                                                </div>
+                                                <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">First Name</label>
+                                                    <label style="font-size: 14px; font-weight: 700; color: #3383AF; line-height: 0.5; ">Last Name</label>
+                                                </div>
+                                                <div class="row" style="text-align: left; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
+                                                    <label style="font-size: 14px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">Comment.........................................................................</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style=" margin-top: 10px;">
+                                            <div class="col" style="text-align: center; height: 30px;  padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
+                                                <h2 style="font-size: 16px; margin-top: 3px; font-weight: 500;  text-align: center; color: #3383AF; ">HR Review</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style=" margin-top: 10px;">
+                                            <div class="col" style="text-align: center; height: 40px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
+                                                <h2 style="font-size: 16px; margin-top: 3px; margin-top: 5px; font-weight: 500; text-align: center; color: #3383AF; ">Manager Review</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style=" margin-top: 10px;">
+                                            <div class="col" style="text-align: center; height: 40px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center; ">
+                                                <h2 style="font-size: 16px; margin-top: 4px; font-weight: 500; text-align: center; color: #3383AF; ">HR Manager Review</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style=" margin-top: 10px;">
+                                            <div class="col" style="text-align: center; height: 30px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
+                                                <h2 style="font-size: 16px; margin-top: 3px; font-weight: 500; text-align: center; color: #3383AF; ">CFO Review</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style=" margin-top: 10px;">
+                                            <div class="col" style="text-align: center; height: 30px; padding: 5px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; display: flex; flex-direction: column; justify-content: center;">
+                                                <h2 style="font-size: 16px; margin-top: 3px; font-weight: 500; text-align: center; color: #3383AF; ">Completed</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @*Chat box*@
+            <div class="row" style="margin-left: 1px;">
+                <div class="chat-box" style="margin-top: 20px;">
+                    <div class="header">
+                        <span class="name">Chat</span>
+                    </div>
+                    <div class="chat-room">
+                        <div class="message message-left">
+                        </div>
+                        <div class="message message-right">
+                        </div>
+                    </div>
+                    <div class="type-area">
+                        <div class="input-wrapper">
+                            <input type="text" id="inputText" placeholder="Type messages here..." />
+                        </div>
+                        <button class="button-send" onclick="sendMessage()">Send</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script type="text/javascript">
+    $(document).ready(function () {
+        let today = new Date().toISOString().slice(0, 10);
+        let [year, month, day] = today.split('-');
+        let formattedDate = `${day}/${month}/${year}`;
+        let AmountinLetter = "(........................................................................................)";
+        //$("#tablePrice").hide();
+        //$("#ToWhom").hide();
+        //$("#txtDocument").hide();
+
+
+        $("#englishDate").text(formattedDate);
+        $("#thaiDate").text(formattedDate);
+        $("#AmountTH").text(AmountinLetter);
+        $("#AmountEN").text(AmountinLetter);
+
+
+        var amountPrice = $('#txtAmount').val();
+        var RemainPrice = $('#txtRemainPrice').val();
+
+        $("#txtAmountError").text("");
+
+        if (/[^0-9]/.test(amountPrice)) {
+            $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
+            hasError = true;
+        } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
+            $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
+            hasError = true;
+            $("#txtAmount").val("");
+        } else if (amountPrice != "") {
+            // แปลงเลขเป็นข้อความภาษาไทย
+            var thaiWords = numberToThaiWords(amountPrice);
+            /*console.log("Thai Number:", thaiWords);*/
+            document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+            // แปลงเลขเป็นข้อความภาษาอังกฤษ
+            var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+            document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+            /* console.log("English Number:", englishWords);*/
+            hasError = true;
+        } else {
+            hasError = false;
+        }
+
+
+        if ($('#txtTitle').length) {
+            console.log("#txtTitle exists");
+
+            $(document).on('change', "#txtTitle", function (e) {
+                console.log("this txtTitle Change");
+                // โค้ดที่เหลือ
+            });
+        } else {
+            console.log("#txtTitle not found");
+        }
+            // ดึงปีออกมาจาก StartWork และ today
+            let today2 = new Date();
+
+            // แปลง StartWork เป็น Date object
+            let startWorkDate = new Date("@requester.start_work");
+
+            // คำนวณจำนวนวันที่ผ่านมา
+            let timeDifference = today2 - startWorkDate;
+            let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            // คำนวณจำนวนปี
+            let yearsDifference = Math.floor(daysDifference / 365);
+
+            // แสดงผลลัพธ์
+            if (yearsDifference >= 1) {
+                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
+
+                document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
+                document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
+            } else {
+                /* console.log("น้อยกว่า 1 ปี");*/
+                yearDifference = 0;
+               /* console.log(yearDifference);*/
+                document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
+                document.getElementById("experienceEN").innerHTML = "less than 1 year";
+            }
+
+        var amountPrice = $('#txtAmount').val();
+        /*var RemainPrice = $('#txtRemainPrice').val();*/
+        var thaiWords = numberToThaiWords(amountPrice);
+        /*console.log("Thai Number:", thaiWords);*/
+        document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+        // แปลงเลขเป็นข้อความภาษาอังกฤษ
+        var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+        document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+
+
+        var dataGetDocument = new FormData();
+        dataGetDocument.append("categoryID", $("#txtTitle").val());
+        dataGetDocument.append("whomID", $("#txtWhom").val());
+        dataGetDocument.append("requestID", $("#txtRequestID").val());
+        var data2 = new FormData();
+        data2.append("categoryID", $("#txtTitle").val());
+        data2.append("whomID", $("#txtWhom").val());
+        $.ajax({
+            contentType: false,
+            processData: false,
+            type: "POST",
+            url: '@Url.Action("GetDocumentDetailForEdit", "Request")',
+            data: dataGetDocument,
+            success: function (selectedDocuments) {
+                // Clear existing content in the table body
+                $("#actionTaskBody").empty();
+               /* console.log(selectedDocuments);*/
+
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("GetDocumentDetail", "Request")',
+                    data: data2,
+                    success: function (allDocuments) {
+                       /* console.log(allDocuments);*/
+                        // Loop through all documents
+                        var lastId = 0;
+                        for (const item of allDocuments) {
+                            var elementId = lastId + 1;
+
+                            // Check if the document is selected
+                            var isChecked = selectedDocuments.some(selectedDoc => selectedDoc.documentID === item.documentID);
+
+                            var str = `
+                                <tr>
+                                    <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -6px; margin-top: -7px; width: 20px; height: 20px;" ${isChecked ? 'checked' : ''}></td>
+                                    <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
+                                </tr>
+                            `;
+                            $("#actionTaskBody").append(str);
+
+                            lastId++;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    });
+    $(document).ready(function () {
+        console.log(@Model.WorkflowID);
+                switch ('@Model.WorkflowID') {
+                    case '@((int)IDStatus.Request)':
+                        //Status = 1
+                        if ('@Model.HRDomainReview' == '@User.Identity.Name.Split('\\').Last()') {
+                                $('#btnApprove').removeClass('d-none');
+                                $('#btnDisapprove').removeClass('d-none');
+
+                            } else {
+                                $('#btnApprove').addClass('d-none');
+                                $('#btnDisapprove').addClass('d-none');
+
+                            }
+
+                        break;
+                    case '@((int)IDStatus.HRReview)':
+                        //Status = 2
+                         if ('@Model.ManagerDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                                $('#btnApprove').removeClass('d-none');
+                                $('#btnDisapprove').removeClass('d-none');
+                                /*$('#Attachments').removeAttr('disabled');*/
+                                //$('.request-hidden').addClass('d-none');
+                             console.log("BBB");
+                            } else {
+                                $('#btnApprove').addClass('d-none');
+                             $('#btnDisapprove').addClass('d-none');
+                             console.log("AAA");
+                               /* $('.request-hidden').addClass('d-none');*/
+                            }
+
+                        break;
+                    case '@((int)IDStatus.ManagerReview)':
+                         if ('@Model.HRManagerDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                                $('#btnApprove').removeClass('d-none');
+                                $('#btnDisapprove').removeClass('d-none');
+                                /*$('#Attachments').removeAttr('disabled');*/
+                                //$('.request-hidden').addClass('d-none');
+                            } else {
+                                $('#btnApprove').addClass('d-none');
+                                $('#btnDisapprove').addClass('d-none');
+                               /* $('.request-hidden').addClass('d-none');*/
+                            }
+
+                        break;
+                    case '@((int)IDStatus.HRManagerReview)':
+                         if ('@Model.CFODomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                                $('#btnApprove').removeClass('d-none');
+                                $('#btnDisapprove').removeClass('d-none');
+                                /*$('#Attachments').removeAttr('disabled');*/
+                                //$('.request-hidden').addClass('d-none');
+                            } else {
+                                $('#btnApprove').addClass('d-none');
+                                $('#btnDisapprove').addClass('d-none');
+                               /* $('.request-hidden').addClass('d-none');*/
+                            }
+
+                        break;
+                     case '@((int)IDStatus.CFOReview)':
+                         if ('@Model.AccountDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                                $('#btnApprove').removeClass('d-none');
+                                $('#btnDisapprove').removeClass('d-none');
+                                /*$('#Attachments').removeAttr('disabled');*/
+                                //$('.request-hidden').addClass('d-none');
+                            } else {
+                                $('#btnApprove').addClass('d-none');
+                                $('#btnDisapprove').addClass('d-none');
+                               /* $('.request-hidden').addClass('d-none');*/
+                            }
+
+                        break;
+                    case '@((int)IDStatus.Completed)':
+                        $('#btnApprove').addClass('d-none');
+                        $('#btnDisapprove').addClass('d-none');
+                        break;
+                     case '@((int)IDStatus.Disapprove)':
+                        $('#btnApprove').addClass('d-none');
+                        $('#btnDisapprove').addClass('d-none');
+                        break;
+                }
+
+        });
+
+    /* sidebar */
+    const body = document.querySelector('body');
+    const sidebar = document.getElementById("navtag");
+    const toggle = body.querySelector(".toggle");
+
+    toggle.addEventListener("click", () => {
+        console.log("Toggle button clicked!");
+        toggle.classList.toggle('rotate');
+        sidebar.classList.toggle("close");
+    });
+
+    /* Chat box */
+
+    var header = document.querySelector(".header");
+    var chatRoom = document.querySelector(".chat-room");
+    var typeArea = document.querySelector(".type-area");
+    var btnAdd = document.querySelector(".button-add");
+    var others = document.querySelector(".others");
+    var emojiBox = document.querySelector(".emoji-button .emoji-box");
+    var emojiButton = document.querySelector(".others .emoji-button");
+    var emojis = document.querySelectorAll(".emoji-box span");
+    var inputText = document.querySelector("#inputText");
+    var btnSend = document.querySelector(".button-send");
+    var messageArea = document.querySelector(".message.message-right");
+
+    function sendMessage() {
+        var mess = inputText.value;
+        var bubble = document.createElement('div');
+        bubble.className += " bubble bubble-dark";
+        bubble.textContent = mess;
+        messageArea.appendChild(bubble);
+        inputText.value = "";
+    }
+
+    function numberToThaiWords(number) {
+        const words = [
+            '', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'
+        ];
+
+        const positions = [
+            '', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'
+        ];
+
+        let result = '';
+
+        const convertGroup = (num) => {
+            let groupResult = '';
+            for (let i = 0; i < num.length; i++) {
+                const digit = +num[i];
+                if (digit !== 0) {
+                    groupResult += words[digit] + positions[num.length - i - 1];
+                }
+            }
+            return groupResult;
+        };
+
+        const numStr = String(number);
+        const numParts = numStr.split('.');
+        const integerPart = numParts[0];
+        const decimalPart = numParts[1] || '';
+
+        result += convertGroup(integerPart);
+
+        if (decimalPart.length > 0) {
+            result += 'จุด';
+            result += decimalPart.split('').map(digit => words[+digit]).join('');
+        }
+
+        return result || 'ศูนย์';
+    }
+
+    // Header onclick event
+    header.addEventListener("click", (e) => {
+        if (typeArea.classList.contains("d-none")) {
+            header.style.borderRadius = "20px 20px 0 0";
+        } else {
+            header.style.borderRadius = "20px";
+        }
+        typeArea.classList.toggle("d-none");
+        chatRoom.classList.toggle("d-none");
+    });
+
+    /* Button Add onclick event*/
+    //btnAdd.addEventListener("click", (e) => {
+    //    others.classList.add("others-show");
+    //});
+
+    // Emoji onclick event
+    //emojiButton.addEventListener("click", (e) => {
+    //    emojiBox.classList.add("emoji-show");
+    //});
+
+    btnSend.addEventListener("click", sendMessage);
+
+    for (var emoji of emojis) {
+        emoji.addEventListener("click", (e) => {
+            e.stopPropagation();
+            emojiBox.classList.remove("emoji-show");
+            others.classList.remove("others-show");
+            inputText.value += e.target.textContent;
+        });
+    }
+
+
+    var previousRadio = null;
+
+    function handleRadioClick(radio) {
+        if (radio === previousRadio) {
+            radio.checked = false;
+            previousRadio = null;
+        } else {
+            previousRadio = radio;
+        }
+    }
+
+    var vTimeline = document.getElementById("horizontal-timeline");
+    var hTimeline = document.getElementById("vertical-timeline");
+
+    $(document).on('change', ".CategoryTitle", function (e) {
+        console.log("this txtTitle Change2");
+      /*  $("#txtWhom").trigger('change');*/
+        let today2 = new Date();
+
+        // แปลง StartWork เป็น Date object
+        let startWorkDate = new Date("@requester.start_work");
+
+        // คำนวณจำนวนวันที่ผ่านมา
+        let timeDifference = today2 - startWorkDate;
+        let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+        // คำนวณจำนวนปี
+        let yearsDifference = Math.floor(daysDifference / 365);
+
+        // แสดงผลลัพธ์
+        if (yearsDifference >= 1) {
+            /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
+        } else {
+            /* console.log("น้อยกว่า 1 ปี");*/
+            yearDifference = 0;;
+        }
+
+
+        /*console.log("yoooooooo");*/
+        var dataWhom = new FormData();
+        dataWhom.append("categoryID", $("#txtTitle").val());
+
+        $.ajax({
+            contentType: false,
+            processData: false,
+            type: "POST",
+            url: '@Url.Action("WhomDropDownList", "Request")',
+            data: dataWhom,
+                success: function (data) {
+                    // Clear existing content in the table body
+                    $("#txtWhom").empty();
+                    console.log(data);
+                    // Loop through the array
+                    var lastId = 0;
+                    var str2 = `
+                                <option selected="selected" disabled value="0">กรุณาเลือก</option>
+                        `;
+                    $("#txtWhom").append(str2);
+                    for (const item of data) {
+                        console.log(item.whomID);
+                        console.log(item.whomName);
+                        var elementId = lastId + 1;
+                        var str = `
+                            <option value="${item.whomID}">${item.whomName}</option>
+                        `;
+                        $("#txtWhom").append(str);
+                        lastId = lastId + 1;
+                    }
+                    //var str3 = `
+                    //         <option selected="selected" disabled value="0">อื่นๆ..</option>
+                    //    `;
+                    //$("#txtWhom").append(str3);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    });
+
+    $(document).on('change', "#ToWhom", function (e) {
+        console.log("ppppppp");
+        var data = new FormData();
+        data.append("categoryID", $("#txtTitle").val());
+        data.append("empId", $("#txtEmpID").val());
+        data.append("whomID", $("#txtWhom").val());
+        $.ajax({
+            contentType: false,
+            processData: false,
+            type: "POST",
+            url: '@Url.Action("GetQuotaTitle", "Request")',
+            data: data,
+                success: function (data) {
+                    $("#txtQuota").val(data.quotaPrice);
+                    $("#txtUsedPrice").val(data.usedPrice);
+                    $("#txtRemainPrice").val(data.remainPrice);
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+        });
+
+        $("#tablePrice").show();
+
+        var amountPrice = $('#txtAmount').val();
+        var RemainPrice = $('#txtRemainPrice').val();
+
+        $("#txtAmountError").text("");
+
+        if (/[^0-9]/.test(amountPrice)) {
+            $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
+            hasError = true;
+        } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
+            $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
+            hasError = true;
+            $("#txtAmount").val("");
+        } else if (amountPrice != "") {
+            // แปลงเลขเป็นข้อความภาษาไทย
+            var thaiWords = numberToThaiWords(amountPrice);
+            /*console.log("Thai Number:", thaiWords);*/
+            document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+            // แปลงเลขเป็นข้อความภาษาอังกฤษ
+            var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+            document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+            /* console.log("English Number:", englishWords);*/
+            hasError = true;
+        } else {
+            hasError = false;
+        }
+        @*var data2 = new FormData();
+        data2.append("categoryID", $("#txtTitle").val());
+        data2.append("whomID", $("#txtWhom").val());
+
+        $.ajax({
+            contentType: false,
+            processData: false,
+            type: "POST",
+            url: '@Url.Action("GetDocumentDetail", "Request")',
+            data: data2,
+                success: function (data) {
+                    // Clear existing content in the table body
+                    $("#actionTaskBody").empty();
+                    console.log(data);
+                    // Loop through the array
+                    var lastId = 0;
+
+
+                    for (const item of data) {
+                        console.log(item.documentID);
+                        console.log(item.documentName);
+                        var elementId = lastId + 1;
+                        var str = `
+                            <tr>
+                                <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -6px; margin-top: -7px; width: 20px; height: 20px; " ></td>
+                                <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
+                            </tr>
+                        `;
+                        $("#actionTaskBody").append(str);
+
+                        lastId = lastId + 1;
+                    }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });*@
+
+    });
+
+    $(document).on('input', "#txtAmount", function (e) {
+        var amountPrice = $('#txtAmount').val();
+        var RemainPrice = $('#txtRemainPrice').val();
+
+        $("#txtAmountError").text("");
+
+        if (/[^0-9]/.test(amountPrice)) {
+            $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
+            hasError = true;
+        } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
+            $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
+            hasError = true;
+            $("#txtAmount").val("");
+        } else if (amountPrice != "") {
+            // แปลงเลขเป็นข้อความภาษาไทย
+            var thaiWords = numberToThaiWords(amountPrice);
+            /*console.log("Thai Number:", thaiWords);*/
+            document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+            // แปลงเลขเป็นข้อความภาษาอังกฤษ
+            var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+            document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+            /* console.log("English Number:", englishWords);*/
+            hasError = true;
+        } else {
+            hasError = false;
+        }
+    });
+
+    $(document).on('click', "#btnApprove", function (e) {
+           e.stopImmediatePropagation();
+            if ($("#reportForm").valid() && confirm("Send to approve or back to edit?")) {
+                $("#btnApprove").prop("disabled", true);
+
+                var categoryName = $('#txtTitle').val();
+                console.log('--------------');
+
+
+                var workflowId = 2;
+
+                var quota = $('#txtQuota').val();
+                var usedPrice = $('#txtUsedPrice').val();
+                var remainPrice = $('#txtRemainPrice').val();
+                var Whom = $('#txtWhom').val();
+               /* console.log(Whom);*/
+                var dataEdit = new FormData();
+
+                dataEdit.append("Amount", $("#txtAmount").val());
+                dataEdit.append("Detail", $("#txtDetail").val());
+                dataEdit.append("Quota", quota);
+                dataEdit.append("Used", usedPrice);
+                dataEdit.append("Remain", remainPrice);
+                var createdAt = new Date();
+                dataEdit.append("UpdateAt", createdAt.toISOString());
+                dataEdit.append("UpdateBy", '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append("CategoryID", categoryName);
+                dataEdit.append("WorkflowID", workflowId);
+                dataEdit.append("WhomID", Whom);
+
+
+                let today = new Date().toISOString().slice(0, 10);
+                dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
+                dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
+                dataEdit.append(`Historys[0].Quota`, quota);
+                dataEdit.append(`Historys[0].Used`, usedPrice);
+                dataEdit.append(`Historys[0].Remain`, remainPrice);
+                dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
+                dataEdit.append(`Historys[0].Comment`, $("#txtComment").val());
+                dataEdit.append(`Historys[0].CreateBy`, '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                dataEdit.append(`Historys[0].UpdateBy`, '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                dataEdit.append(`Historys[0].WorkflowID`, workflowId);
+                dataEdit.append(`Historys[0].CategoryID`, categoryName);
+                dataEdit.append(`Historys[0].WhomID`, Whom);
+
+
+                var checkedValues = [];
+                var checkedNameValues = [];
+                var checkboxes = document.querySelectorAll('.myCheckbox');
+                var checkboxeName = document.querySelectorAll('.myCheckboxName');
+                var count = 1;
+                var index = 0;
+
+                checkboxes.forEach(function (checkbox) {
+
+                    if (checkbox.checked) {
+                        // เพิ่มค่า checkbox ที่ถูกติ๊กลงในอาร์เรย์
+                       /* console.log(checkbox);*/
+                        checkedValues = checkbox.value ;
+                        checkedNameValues = $(`#getID_${count}`).data('documentname');
+                        dataEdit.append(`RequestDocumentDetails[${index}].DocumentID`, checkedValues);
+                        dataEdit.append(`RequestDocumentDetails[${index}].DocumentName`, checkedNameValues);
+                        index = index + 1;
+                    }
+                    count = count + 1;
+                });
+
+
+
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("Edit", "Request", new { id = @Model.Id })',
+                    data: dataEdit,
+                    success: function (data) {
+                        setTimeout(function() {
+                            window.location.href = '@Url.Action("Index", "Request")';
+                        }, 1000);
+                    },
+                    error: function (err) {
+                        $("#SubmitFormSpinn").addClass("d-none");
+                        $("button[name=btnApprove]").prop("disabled", false);
+                        console.log(err);
+                    }
+                });
+
+
+            }
+        });
+</script>

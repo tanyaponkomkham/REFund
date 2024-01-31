@@ -20,9 +20,9 @@
                 <p style="margin-top: 40px; font-size: 20px; font-family: Inter; font-weight: 500; line-height: 0.5; text-align:center;">แจ้งขอเบิกค่ารักษาพยาบาล</p>
                 <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
             </div>
-            <div class="col-2 " style="left:5px;">
-                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">เลขที่ xxxxx/xxxx</p>
-                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">No. xxxxx/xxxx</p>
+            <div class="col-3" style="left:5px;">
+                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ xxxxx/xxxx</p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No. xxxxx/xxxx</p>
             </div>
         </div>
         <div class="row " style="left:5px;">
@@ -31,9 +31,9 @@
                 <p style="margin-top: 30px; font-size: 14px; font-weight: 500; line-height: 0.5; text-align: center;">วันที่ <span id="thaiDate" style="font-size: 16px; font-weight: 500;"></span></p>
                 <p style="font-size: 14px; font-weight: 500; line-height: 0.5; text-align: center;">Date <span id="englishDate" style="font-size: 16px; font-weight: 500;"></span></p>
             </div>
-            <div class="col-2 " style="left:5px;">
-                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">อายุการทำงาน <span id="experienceTH" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
-                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: center;">Experience <span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+            <div class="col-3" style="left: 5px;">
+                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">อายุการทำงาน <span id="experienceTH" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">Experience <span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
             </div>
         </div>
         <div class="row ">
@@ -61,21 +61,21 @@
                 <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Start Date</p>
             </div>
             <div class="col-1 " style="left:5px;">
-                <input type="text" name="startDate" readonly class=" form-control" style="margin-top: 40px; margin-left:-40px; background: #D9D9D9; border-radius: 0; width:150px; " value="@requester.start_work"/>
+                <input type="text" name="startDate" readonly class=" form-control" style="margin-top: 40px; margin-left:-40px; background: #D9D9D9; border-radius: 0; width:150px; " value="@requester.start_work" />
             </div>
             <div style="left: 5px; width: 160px;">
                 <p style="margin-top: 40px; margin-left: 70px; font-size: 14px; font-weight: 400; line-height: 0.5;">ตำแหน่ง :</p>
                 <p style="font-size: 14px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Position</p>
             </div>
             <div class="col-2 " style="left:45px;">
-                <input type="text" name="position" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.Position_Name"/>
+                <input type="text" name="position" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.Position_Name" />
             </div>
             <div style="left: 5px; width: 150px;">
                 <p style="margin-top: 40px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">แผนก :</p>
                 <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Department</p>
             </div>
             <div class="col-2 " style="left:30px;">
-                <input type="text" name="department" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 250px; " value="@requester.Dept_Name"/>
+                <input type="text" name="department" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 250px; " value="@requester.Dept_Name" />
             </div>
         </div>
         <div class="row ">
@@ -87,17 +87,45 @@
             <div class="col-5">
                 <select class="form-select" id="txtTitle" name="txtTitle" style="margin-top: 35px; margin-left: 13px; width: 400px; height:50px;" required asp-items="@ViewBag.Category">
                     <option selected="selected" disabled value="0">กรุณาเลือก</option>
-                    @*<option value="Medical and Dental Claim">ขอเบิกค่ารักษาพยาบาล   Medical and Dental Claim</option>
-                    <option value="The Death Of Family’s  Member">พิธีฌาปนกิจศพ   The Death Of Family’s  Member</option>
-                    <option value="Marriage">พิธีสมรส  Marriage</option>
-                    <option value="Ordination">พิธีอุปสมบท Ordination</option>
-                    <option value="Childbirth">คลอดบุตร  Childbirth</option>
-                    <option value="Public Danger">สาธารณะภัย  Public Danger</option>
-                    <option value="Public Purpose">สาธารณะประโยชน์  Public Purpose</option>
-                    <option value="CSR Activity">กิจกรรมเพื่อสังคม  CSR Activity</option>*@
                 </select>
             </div>
         </div>
+        <div class="row " id="ToWhom" name="ToWhom">
+            <div class="col-1"></div>
+            <div style="left:20px; width:250px;">
+                <p style="margin-top: 40px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5; ">เบิกให้ผู้ใด :</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5;  ">To whom</p>
+            </div>
+            <div class="col-5">
+                <select class="form-select" id="txtWhom" name="txtWhom" style="margin-top: 35px; margin-left: 13px; width: 200px; height:50px;" required>
+                    <option selected="selected" disabled value="0">กรุณาเลือก</option>
+
+                </select>
+            </div>
+        </div>
+        <!--<div class="row">
+        <div class="col-1"></div>
+        <div style="left: 5px; width: 200px; margin-left: 50px;">
+            <input class="form-check-input" type="radio" name="whom_yourself" id="whom_yourself" value="yourself" onclick="handleRadioClick(this)">
+            <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;1) ตนเอง (yourself)</label>
+        </div>
+        <div style="left: 5px; width: 200px;">
+            <input class="form-check-input" type="radio" name="whom_offspring" id="whom_offspring" value="offspring" onclick="handleRadioClick(this)">
+            <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;2) บุตร (offspring)</label>
+        </div>
+        <div style="left: 5px; width: 200px;">
+            <input class="form-check-input" type="radio" name="whom_Spouse" id="whom_Spouse" value="Spouse" onclick="handleRadioClick(this)">
+            <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;3) คู่สมรส(Spouse)</label>
+        </div>
+        <div style="left: 5px; width: 250px;">
+            <input class="form-check-input" type="radio" name="whom_Parent" id="whom_Parent" value="Parent" onclick="handleRadioClick(this)">
+            <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;4) บิดา, มารดา (Father, Mother)</label>
+        </div>
+        <div style="left: 5px; width: 300px;">-->
+        @*Dummy option to simulate unchecking*@
+        <!--<input class="form-check-input" type="radio" name="whom" id="whom_none" value="" style="display:none">
+            </div>
+        </div>-->
         <div class="row ">
             <div class="col-1"></div>
         </div>
@@ -121,13 +149,13 @@
                     </tr>
                     <tr>
                         <td style="font-size: 14px; font-weight: 400;">
-                            <input  id="txtQuota" name="txtQuota" type="text" class=" form-control" />
+                            <input id="txtQuota" name="txtQuota" readonly type="text" class=" form-control" />
                         </td>
                         <td style="font-size: 14px; font-weight: 400;">
-                            <input  id="txtUsedPrice" name="txtUsedPrice" type="text" class=" form-control" />
+                            <input id="txtUsedPrice" name="txtUsedPrice" readonly type="text" class=" form-control" />
                         </td>
                         <td style="font-size: 14px; font-weight: 400;">
-                            <input  id="txtRemainPrice" name="txtLeftPrice" type="text" class=" form-control" />
+                            <input id="txtRemainPrice" name="txtRemainPrice" readonly type="text" class=" form-control" />
                         </td>
                     </tr>
                 </table>
@@ -136,66 +164,44 @@
         <div class="row">
             <div class="col-1"></div>
             <div style="left: 5px; width: 160px;">
-                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เป็นจำนวนเงิน :</p>
-                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Amount</p>
+                <p style="margin-top: 30px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">เป็นจำนวนเงิน :</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Amount</p>
             </div>
-            <div style="left: 45px; width: 120px;">
-                <input type="text" id="txtAmount" name="txtAmount" class=" form-control" style="margin-top: 30px; margin-left: -20px; background: #FFF7B2; border-radius: 0; width: 100px; " required />
-                <div id="txtAmountError" style="margin-top: 10px; margin-left: -130px; width: 280px; color: red; font-size: 15px; "></div>
+            <div style="left: 40px; width: 120px;">
+                <input type="text" id="txtAmount" name="txtAmount" class=" form-control" style="margin-top: 30px; margin-left: -26px; background: #FFF7B2; border-radius: 0; width: 100px; " required />
+                <div id="txtAmountError" style="margin-top: 10px; margin-left: -135px; width: 280px; color: red; font-size: 15px; "></div>
             </div>
             <div style="left: 1px; width: 50px;">
                 <p style="margin-top: 30px; margin-left: -27px; font-size: 14px; font-weight: 400; line-height: 0.5;">บาท</p>
                 <p style="font-size: 14px; margin-left: -27px; font-weight: 400; line-height: 0.5; ">Bath</p>
             </div>
             <div style=" width: 355px; margin-left: 40px; ">
-                <p style="margin-top: 15px; margin-left: 1px; font-size: 14px; font-weight: 400; line-height: 0.5; ">เป็นจำนวนเงินตัวอักษร&nbsp;&nbsp;</p><span  style="font-size: 14px; font-weight: 400; " id="AmountTH"></span>
+                <p style="margin-top: 15px; margin-left: 1px; font-size: 14px; font-weight: 400; line-height: 0.5; ">เป็นจำนวนเงินตัวอักษร&nbsp;&nbsp;</p><span style="font-size: 14px; font-weight: 400; " id="AmountTH"></span>
                 <p style="margin-top: 15px; font-size: 14px; margin-left: 1px; font-weight: 400; line-height: 0.5; ">Amount in letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><span style="font-size: 14px; font-weight: 400; " id="AmountEN"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-1"></div>
             <div style="left: 5px; width: 140px;">
-                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">รายละเอียด :</p>
-                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5;  ">Detail</p>
+                <p style="margin-top: 30px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">รายละเอียด :</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5;  ">Detail</p>
             </div>
             <div class="col-4" style="left: 30px; ">
                 <textarea class="form-control" id="txtDetail" name="txtDetail" rows="3" style="margin-top: 30px; margin-left: -30px; background: #FFF7B2; " required></textarea>
             </div>
         </div>
-        <!--<div class="row">
-            <div class="col-1"></div>
-            <div style="left: 5px; width: 300px;">
-                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เบิกให้ผู้ใด&nbsp; (To whom)</p>
-            </div>
-        </div>
+        @*<div class="row">
+                <div class="col-1"></div>
+                <div style="left: 5px; width: 300px;">
+                    <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เบิกให้ผู้ใด&nbsp; (To whom)</p>
+                </div>
+            </div>*@
+
         <div class="row">
             <div class="col-1"></div>
-            <div style="left: 5px; width: 200px; margin-left: 50px;">
-                <input class="form-check-input" type="radio" name="whom_yourself" id="whom_yourself" value="yourself" onclick="handleRadioClick(this)">
-                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;1) ตนเอง (yourself)</label>
-            </div>
-            <div style="left: 5px; width: 200px;">
-                <input class="form-check-input" type="radio" name="whom_offspring" id="whom_offspring" value="offspring" onclick="handleRadioClick(this)">
-                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;2) บุตร (offspring)</label>
-            </div>
-            <div style="left: 5px; width: 200px;">
-                <input class="form-check-input" type="radio" name="whom_Spouse" id="whom_Spouse" value="Spouse" onclick="handleRadioClick(this)">
-                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;3) คู่สมรส(Spouse)</label>
-            </div>
-            <div style="left: 5px; width: 250px;">
-                <input class="form-check-input" type="radio" name="whom_Parent" id="whom_Parent" value="Parent" onclick="handleRadioClick(this)">
-                <label class="form-check-label" style="font-size: 14px; font-weight: 400;">&nbsp;4) บิดา, มารดา (Father, Mother)</label>
-            </div>
-            <div style="left: 5px; width: 300px;">-->
-                @*Dummy option to simulate unchecking*@
-                <!--<input class="form-check-input" type="radio" name="whom" id="whom_none" value="" style="display:none">
-            </div>
-        </div>-->
-        <div class="row">
-            <div class="col-1"></div>
-            <div style="left: 5px; width: 300px;">
-                <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">โดยมีเอกสารแนบ ดังนี้</p>
-                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">By attached below document</p>
+            <div style="left: 5px; width: 300px;" id="txtDocument" name="txtDocument">
+                <p style="margin-top: 30px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">โดยมีเอกสารแนบ ดังนี้</p>
+                <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">By attached below document</p>
             </div>
         </div>
         <div class="row">
@@ -205,36 +211,33 @@
                     <tbody id="actionTaskBody">
                     </tbody>
                     @*<tr>
-                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
-                        <td><label class="form-check-label" for="defaultCheck1">1)ใบเสร็จ (Receipt)</label></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
-                        <td><label class="form-check-label" for="defaultCheck1">2)ใบรับรองแพทย์  (Medical certificate) </label></td>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
-                        <td><label class="form-check-label" for="defaultCheck1">3)ใบรับรองการเป็นบุตร  (child certificate)</label></td>
-                    </tr>*@
+                            <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                            <td><label class="form-check-label" for="defaultCheck1">1)ใบเสร็จ (Receipt)</label></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                            <td><label class="form-check-label" for="defaultCheck1">2)ใบรับรองแพทย์  (Medical certificate) </label></td>
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox" value="" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " id="defaultCheck1"></td>
+                            <td><label class="form-check-label" for="defaultCheck1">3)ใบรับรองการเป็นบุตร  (child certificate)</label></td>
+                        </tr>*@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:20px;">
             <div class="col-1"></div>
-            <div style="left: 5px; width: 190px;">
-                <p style="margin-top: 10px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">แนบไฟล์ </p>
-                <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Example file input</p>
+            <div style="left: 5px; width: 190px; ">
+                <p style="margin-top: 16px; margin-left: 20px; font-size: 14px; font-weight: 400; line-height: 0.5;">แนบไฟล์เอกสาร :</p>
+                <p style="font-size: 14px; margin-top:27px; margin-left: 20px; font-weight: 400; line-height: 0.5;">Example file input</p>
             </div>
-        </div>
-        <div class="row">
-            @*<div class="col-1"></div>
-            <div class="col-4" style="left: 30px; ">
-                <input type="file" class="form-control-file" id="File1" style="margin-top: 5px; ">
-            </div>*@
-            <div class="form-group col-4" style="left: 115px; margin-top: 5px;">
+            <div class="form-group col-4" style="left: 25px; margin-top: 5px;">
                 <label>Attachments  <small style="color:gray;">Allow file maximum size: 20 MB.</small></label>
                 <br />
                 <input type="file" name="Attachments" id="Attachments" multiple required />
             </div>
+        </div>
+        <div class="row">
+
         </div>
         <div class="row">
             <div class="col-9"></div>
@@ -253,7 +256,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             let today = new Date().toISOString().slice(0, 10);
+            //ซ่อน ตาราง/dropdown
             $("#tablePrice").hide();
+            $("#ToWhom").hide();
+            $("#txtDocument").hide();
             let [year, month, day] = today.split('-');
             let formattedDate = `${day}/${month}/${year}`;
             let AmountinLetter = "(....................................................................................................................................)";
@@ -263,24 +269,38 @@
             $("#AmountEN").text(AmountinLetter);
             /* console.log(todaytime);*/
 
-            
+
+
             // ดึงปีออกมาจาก StartWork และ today
             let today2 = new Date();
 
             // แปลง StartWork เป็น Date object
             let startWorkDate = new Date("@requester.start_work");
 
+            // คำนวณจำนวนวันที่ผ่านมา
+            let timeDifference = today2 - startWorkDate;
+            let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-            // ดึงปีออกมาจาก StartWork และ today
-            let startYear = startWorkDate.getFullYear();
-            let todayYear = today2.getFullYear();
+            // คำนวณจำนวนปี
+            let yearsDifference = Math.floor(daysDifference / 365);
 
-            // ทำการลบปีของ StartWork จากปีของ today
-            let yearDifference = todayYear - startYear;
+            // แสดงผลลัพธ์
+            if (yearsDifference >= 1) {
+                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
 
-            console.log(yearDifference);
-            document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
-            document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
+                document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
+                document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
+            } else {
+                /* console.log("น้อยกว่า 1 ปี");*/
+                yearDifference = 0;
+                console.log(yearDifference);
+                document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
+                document.getElementById("experienceEN").innerHTML = "less than 1 year";
+            }
+
+            //console.log(yearDifference);
+            //document.getElementById("experienceTH").innerHTML ="1 ปี";
+            //document.getElementById("experienceEN").innerHTML ="1 year";
             //$("experienceTH").text(yearDifference );
             //$("experienceEN").text(yearDifference );
 
@@ -349,35 +369,22 @@
 
                 var categoryName = $('#txtTitle').val();
                 console.log('--------------');
-                /*console.log(categoryName);*/
-                //var categoryId = 0;
-                //if (categoryName == "Medical and Dental Claim") {
-                //    categoryId = 1;
-                //} else if (categoryName == "The Death Of Family’s  Member") {
-                //    categoryId = 2;
-                //} else if (categoryName == "Marriage") {
-                //    categoryId = 3;
-                //} else if (categoryName == "Ordination") {
-                //    categoryId = 4;
-                //} else if (categoryName == "Childbirth") {
-                //    categoryId = 5;
-                //} else if (categoryName == "Public Danger") {
-                //    categoryId = 6;
-                //} else if (categoryName == "Public Purpose") {
-                //    categoryId = 7;
-                //} else if (categoryName == "CSR Activity") {
-                //    categoryId = 8;
-                //}
+
 
                 var workflowId = 1;
 
-                /*console.log(categoryId);*/
-                //console.log($("#txtAmount").val());
-                //console.log($("#txtDetail").val());
+                var quota = $('#txtQuota').val();
+                var usedPrice = $('#txtUsedPrice').val();
+                var remainPrice = $('#txtRemainPrice').val();
+                var Whom = $('#txtWhom').val();
+               /* console.log(Whom);*/
                 var data = new FormData();
                 data.append("EmployeeId", $("#txtEmpID").val());
                 data.append("Amount", $("#txtAmount").val());
                 data.append("Detail", $("#txtDetail").val());
+                data.append("Quota", quota);
+                data.append("Used", usedPrice);
+                data.append("Remain", remainPrice);
                 var createdAt = new Date();
                 data.append("CreateAt", createdAt.toISOString());
                 data.append("UpdateAt", createdAt.toISOString());
@@ -386,13 +393,15 @@
                 data.append("UpdateBy", $("#txtENname").val());
                 data.append("CategoryID", categoryName);
                 data.append("WorkflowID", workflowId);
-
-
+                data.append("WhomID", Whom);
 
 
                 let today = new Date().toISOString().slice(0, 10);
                 data.append(`Historys[0].EmployeeId`, '@requester.empID');
                 data.append(`Historys[0].Detail`, $("#txtDetail").val());
+                data.append(`Historys[0].Quota`, quota);
+                data.append(`Historys[0].Used`, usedPrice);
+                data.append(`Historys[0].Remain`, remainPrice);
                 data.append(`Historys[0].Amount`, $("#txtAmount").val());
                 data.append(`Historys[0].CreateBy`, $("#txtENname").val());
                 data.append(`Historys[0].CreateAt`, createdAt.toISOString());
@@ -401,8 +410,7 @@
                 data.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
                 data.append(`Historys[0].WorkflowID`, workflowId);
                 data.append(`Historys[0].CategoryID`, categoryName);
-                @*data.append(`Historys[0].RequestID`, '@requester.RequestId');*@
-
+                data.append(`Historys[0].WhomID`, Whom);
 
 
                 var checkedValues = [];
@@ -441,10 +449,11 @@
                     url: '@Url.Action("Create", "Request")',
                     data: data,
                     success: function (data) {
-                        console.log("Success");
-                            @*setTimeout(function() {
-                                window.location.href = `@Url.Action("Edit", "Request")?id=${data}`;
-                            }, 1000);*@
+                        console.log("---------------");
+                        console.log(data);
+                            setTimeout(function() {
+                                window.location.href = `@Url.Action("Index", "Request")`;
+                            }, 1000);
                     },
                     error: function (err) {
                         $("#SubmitFormSpinn").addClass("d-none");
@@ -452,6 +461,7 @@
                         console.log(err)
                     }
                 });
+
             }
         });
 
@@ -474,10 +484,76 @@
         });
 
         $(document).on('change', "#txtTitle", function (e) {
+            let today2 = new Date();
+
+            // แปลง StartWork เป็น Date object
+            let startWorkDate = new Date("@requester.start_work");
+
+            // คำนวณจำนวนวันที่ผ่านมา
+            let timeDifference = today2 - startWorkDate;
+            let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            // คำนวณจำนวนปี
+            let yearsDifference = Math.floor(daysDifference / 365);
+
+            // แสดงผลลัพธ์
+            if (yearsDifference >= 1) {
+                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
+            } else {
+                /* console.log("น้อยกว่า 1 ปี");*/
+                yearDifference = 0;;
+            }
+
+
+            /*console.log("yoooooooo");*/
+            var dataWhom = new FormData();
+            dataWhom.append("categoryID", $("#txtTitle").val());
+
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("WhomDropDownList", "Request")',
+                data: dataWhom,
+                    success: function (data) {
+                        // Clear existing content in the table body
+                        $("#txtWhom").empty();
+                        console.log(data);
+                        // Loop through the array
+                        var lastId = 0;
+                        var str2 = `
+                                 <option selected="selected" disabled value="0">กรุณาเลือก</option>
+                            `;
+                        $("#txtWhom").append(str2);
+                        for (const item of data) {
+                            console.log(item.whomID);
+                            console.log(item.whomName);
+                            var elementId = lastId + 1;
+                            var str = `
+                                <option value="${item.whomID}">${item.whomName}</option>
+                            `;
+                            $("#txtWhom").append(str);
+                            lastId = lastId + 1;
+                        }
+                        //var str3 = `
+                        //         <option selected="selected" disabled value="0">อื่นๆ..</option>
+                        //    `;
+                        //$("#txtWhom").append(str3);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            $("#ToWhom").show();
+        });
+
+
+        $(document).on('change', "#ToWhom", function (e) {
             /*console.log($("#txtTitle").val());*/
             var data = new FormData();
             data.append("categoryID", $("#txtTitle").val());
             data.append("empId", $("#txtEmpID").val());
+            data.append("whomID", $("#txtWhom").val());
             $.ajax({
                 contentType: false,
                 processData: false,
@@ -494,10 +570,13 @@
                         console.log(err)
                     }
             });
+
             $("#tablePrice").show();
+
 
             var data2 = new FormData();
             data2.append("categoryID", $("#txtTitle").val());
+            data2.append("whomID", $("#txtWhom").val());
 
             $.ajax({
                 contentType: false,
@@ -519,7 +598,7 @@
                             var elementId = lastId + 1;
                             var str = `
                                 <tr>
-                                    <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -2px; margin-top: -7px; width: 20px; height: 20px; " ></td>
+                                    <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -6px; margin-top: -7px; width: 20px; height: 20px; " ></td>
                                     <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
                                 </tr>
                             `;
@@ -531,15 +610,12 @@
                 error: function (err) {
                     console.log(err);
                 }
-
             });
-
-
-
-
-
-
+            $("#txtDocument").show();
         });
+
+
+
         $(document).on('input', "#txtAmount", function (e) {
             var amountPrice = $('#txtAmount').val();
             var RemainPrice = $('#txtRemainPrice').val();
@@ -547,11 +623,12 @@
             $("#txtAmountError").text("");
 
             if (/[^0-9]/.test(amountPrice)) {
-                $("#txtAmountError").text("Please enter only numeric values.");
+                $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
                 hasError = true;
             } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
-                $("#txtAmountError").text("Please Enter again The Amount is Over Priced.");
+                $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
                 hasError = true;
+                $("#txtAmount").val("");
             } else if (amountPrice != "") {
                 // แปลงเลขเป็นข้อความภาษาไทย
                 var thaiWords = numberToThaiWords(amountPrice);

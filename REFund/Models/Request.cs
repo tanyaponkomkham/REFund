@@ -18,28 +18,34 @@ namespace REFund.Models
 		}
 		[Key]
 		public Guid Id { get; set; }
-		//public int ID_Request { get; set; }
+
 
 		[Display(Name = "Employee ID")]
 
 		public string EmployeeId { get; set; }
 		[Required(ErrorMessage = " ID Category1111 is Required")]
-		//public int IDCategory { get; set; }
 		public string Detail { get; set; }
+		public int? Quota { get; set; }
+		public int? Used { get; set; }
+		public int? Remain { get; set; }
 		public int Amount { get; set; }
-		//public int IDWorkflow { get; set; }
 		public string CreateBy { get; set; }
 		public DateTime CreateAt { get; set; }
 		public string UpdateBy { get; set; }
 		public DateTime UpdateAt { get; set; }
 		public DateTime ConfirmDate { get; set; }
+
 		public int CategoryID { get; set; }
 		public int WorkflowID { get; set; }
+		public int WhomID { get; set; }
+
 		public virtual Category Category { get; set; }
 		public virtual Workflow Workflow { get; set; }
+		//public virtual Whom Whom { get; set; }
 		public virtual ICollection<Communication> Communications { get; set; }
 		public virtual ICollection<Attachment> Attachments { get; set; }
 		public virtual ICollection<RequestDocumentDetail> RequestDocumentDetails { get; set; }
 		public virtual ICollection<History> Historys { get; set; }
+
 	}
 }

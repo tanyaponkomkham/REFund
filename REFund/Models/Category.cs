@@ -10,10 +10,13 @@ namespace REFund.Models
 	{
 		public Category()
 		{
-			Requests = new HashSet<Request>();
+			
 			Historys = new HashSet<History>();
 			DocumentDetails = new HashSet<DocumentDetail>();
 			SubCategorys = new HashSet<SubCategory>();
+			CategoryDetails = new HashSet<CategoryDetail>();
+			//Whoms = new HashSet<Whom>();
+			Requests = new HashSet<Request>();
 		}
 		[Key]
 		public int ID { get; set; }
@@ -24,7 +27,9 @@ namespace REFund.Models
 
 		public virtual ICollection<DocumentDetail> DocumentDetails { get; set; }
 		public virtual ICollection<SubCategory> SubCategorys { get; set; }
-		public virtual ICollection<Request>  Requests { get; set; }
+		public virtual ICollection<Request> Requests { get; set; }
 		public virtual ICollection<History> Historys { get; set; }
+		//public virtual ICollection<Whom> Whoms { get; set; }
+		public virtual ICollection<CategoryDetail> CategoryDetails { get; set; }
 	}
 }
