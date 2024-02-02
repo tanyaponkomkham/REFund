@@ -16,6 +16,7 @@ namespace REFund.Models.Views
 
 		//}
 		public Guid Id { get; set; }
+		public string RequestNumber { get; set; }
 		public string EmployeeId { get; set; }
 		public string Detail { get; set; }
 		public int? Quota { get; set; }

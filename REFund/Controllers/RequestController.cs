@@ -34,6 +34,7 @@ namespace REFund.Controllers
             return View(request);
         }
 
+
         public async Task<IActionResult> MyRequest()
         {
 
@@ -46,35 +47,22 @@ namespace REFund.Controllers
 
             return View(request);
         }
-        //public async Task<IActionResult> TableMyRequest(string empId)
-        //{
-        //    try
-        //    {
-        //        var getTblMyRequest = await (
-        //            from req in _context.Request
-        //            join c in _context.Category on req.CategoryID equals c.ID
-        //            where req.EmployeeId == empId
-        //            select new
-        //            {
-        //                Id = req.Id.ToString("N").Substring(0, 10),
-        //                empID = req.EmployeeId,
-        //                IdRequest = req.Id,
-        //                c.CategoryName,
-        //                req.CreateBy,
-        //                CreateAt = req.CreateAt.Date, // Use Date property to get only the date part
-        //                req.WorkflowID
-        //            }
-        //        )
-        //        .ToListAsync();
 
-        //        return Ok(getTblMyRequest);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //}
+        public async Task<IActionResult> MyApprove()
+        {
+            var context = new PrincipalContext(ContextType.Domain);
+            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
+            var getEmpId = await _context.EmpInfo.Where(s => s.domain_name == principal.SamAccountName).Select(s => s.empID).FirstOrDefaultAsync();
+
+            var request = await _context.Request
+                .Include(s => s.Category)
+                .Include(s => s.Workflow.Status)
+                .Where(s => s.Workflow.ActionDomain == principal.SamAccountName )
+                .ToListAsync();
+
+            return View(request);
+        }
 
 
         public async Task<IActionResult> Details(Guid? id)
@@ -167,6 +155,7 @@ namespace REFund.Controllers
             requestsView.Used = request.Used;
             requestsView.Remain = request.Remain;
             requestsView.Amount = request.Amount;
+            requestsView.RequestNumber = request.RequestNumber;
             requestsView.Detail = request.Detail;
             requestsView.HRDomainReview = await _context.Workflow.Where(s => s.Step == 2).Select(s => s.ActionDomain).FirstOrDefaultAsync();
             requestsView.ManagerDomainApprove = await _context.EmpInfo.Where(s => s.empID == request.EmployeeId).Select(s => s.ManagerDomainId).FirstOrDefaultAsync();
@@ -207,7 +196,7 @@ namespace REFund.Controllers
             {
                 report.Historys.Add(new History
                 {
-
+                    RequestNumber = reqHistory[0].RequestNumber,
                     EmployeeId = reqHistory[0].EmployeeId,
                     Detail = reqHistory[0].Detail,
                     Quota = reqHistory[0].Quota,
@@ -499,6 +488,56 @@ namespace REFund.Controllers
                 return StatusCode(500, e.Message);
             }
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> CheckdataRequest()
+        {
+            try
+            {
+                var getDataRequest = _context.Request.ToList();
+                bool hasDocuments = getDataRequest != null && getDataRequest.Count > 0;
+
+                // ดึงข้อมูลเอกสารล่าสุด
+                var lastDocument = hasDocuments ?
+                    _context.Request.OrderByDescending(r => r.RequestNumber).FirstOrDefault() :
+                    null;
+
+                int runningNumber = 1;
+
+                if (lastDocument != null)
+                {
+                    // มีข้อมูลแล้ว ตรวจสอบว่าเป็นปีเดียวกันหรือไม่
+                    var lastDocumentCreatedAt = lastDocument.CreateAt;
+                    var currentYear = DateTime.Now.Year;
+
+                    if (lastDocumentCreatedAt.Year == currentYear)
+                    {
+                        // ถ้าเป็นปีเดียวกัน ก็เพิ่มเลขต่อ
+                        runningNumber = int.Parse(lastDocument.RequestNumber.Split('/')[1]) + 1;
+                    }
+                    // ถ้าไม่เป็นปีเดียวกันให้เริ่มที่ 1
+                    else
+                    {
+                        runningNumber = 1;
+                    }
+                }
+
+                // สร้างเอกสารใหม่
+                var newDocument = new Request
+                {
+                    RequestNumber = $"{DateTime.Now.Year:D4}/{runningNumber:D4}",
+                    // กำหนดค่าอื่น ๆ ตามที่ต้องการ
+                };
+
+                // ส่งข้อมูลเอกสารที่สร้างขึ้นให้กับ Ajax
+                return Ok(new { RequestNumber = newDocument.RequestNumber });
+
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
 

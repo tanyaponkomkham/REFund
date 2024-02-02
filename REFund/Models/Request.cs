@@ -18,8 +18,8 @@ namespace REFund.Models
 		}
 		[Key]
 		public Guid Id { get; set; }
-
-
+		public string RequestNumber { get; set; }
+		
 		[Display(Name = "Employee ID")]
 
 		public string EmployeeId { get; set; }

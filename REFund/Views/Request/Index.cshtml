@@ -7,7 +7,7 @@
 <div class="row">
     @*<input id="requestID" name="requestID" type="hidden" asp-for="Id" />*@
     <input id="empID" name="empID" type="hidden" " />
-    <label style="font-size: 24px; margin-top: 50px; margin-left: 10px; font-weight: 700; line-height: 0.5; color: #3383AF; ">My Request</label>
+    <label style="font-size: 24px; margin-top: 50px; margin-left: 10px; font-weight: 700; line-height: 0.5; color: #3383AF; ">All Request</label>
     <div class="col" style=" margin-top: 10px;">
         <table class="table table-bordered" id="tblMyRequest" style="font-size: 12px; margin-top: 40px; font-weight: 400; line-height: 0.5; border-color: #3383AF;">
             <thead>
@@ -23,8 +23,8 @@
                 @{foreach (var item in Model)
                     {
                                 <tr>
-                                     <td>
-                                     <a href="/Request/Edit?id=@item.Id" target="_blank">@item.Id</a> 
+                                     <td style="text-align: center; vertical-align: middle; ">
+                                     <a href="/Request/Edit?id=@item.Id" target="_blank">@item.RequestNumber</a> 
                                      </td>
                                     <td style="vertical-align: middle; ">@item.Category.CategoryName</td>
                                     <td style="text-align: center; vertical-align: middle; ">@item.EmployeeId</td>

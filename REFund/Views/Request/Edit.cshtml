@@ -28,8 +28,8 @@
                     <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
                 </div>
                 <div class="col-3 " style="left:5px;">
-                    <p style="margin-top: 50px; font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ xxxxx/xxxx<span id="thaiNum" style="font-size: 12px;  font-weight: 500;"></span></p>
-                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No. xxxxx/xxxx<span id="EngNum" style="font-size: 12px;  font-weight: 500;"></span></p>
+                    <p style="margin-top: 50px; font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ @Model.RequestNumber</p>
+                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No.@Model.RequestNumber</p>
                 </div>
             </div>
             <div class="row " style="left:5px;">
@@ -927,6 +927,7 @@
 
 
                 let today = new Date().toISOString().slice(0, 10);
+                data.append(`Historys[0].RequestNumber`, $("#RequestNumberEN").val());
                 dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
                 dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
                 dataEdit.append(`Historys[0].Quota`, quota);

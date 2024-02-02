@@ -21,8 +21,8 @@
                 <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
             </div>
             <div class="col-3" style="left:5px;">
-                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ xxxxx/xxxx</p>
-                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No. xxxxx/xxxx</p>
+                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ <span id="RequestNumberTH" style="font-size: 14px; font-weight: 400; font-family: Inter;"> </span></p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No.<span id="RequestNumberEN" style="font-size: 14px; font-weight: 400; font-family: Inter;"></span></p>
             </div>
         </div>
         <div class="row " style="left:5px;">
@@ -270,7 +270,7 @@
             /* console.log(todaytime);*/
 
 
-
+         
             // ดึงปีออกมาจาก StartWork และ today
             let today2 = new Date();
 
@@ -293,18 +293,29 @@
             } else {
                 /* console.log("น้อยกว่า 1 ปี");*/
                 yearDifference = 0;
-                console.log(yearDifference);
+               /* console.log(yearDifference);*/
                 document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
                 document.getElementById("experienceEN").innerHTML = "less than 1 year";
             }
 
-            //console.log(yearDifference);
-            //document.getElementById("experienceTH").innerHTML ="1 ปี";
-            //document.getElementById("experienceEN").innerHTML ="1 year";
-            //$("experienceTH").text(yearDifference );
-            //$("experienceEN").text(yearDifference );
+           $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("CheckdataRequest", "Request")',
+               success: function (data) {
+
+                   document.getElementById("RequestNumberTH").innerHTML = data.requestNumber;
+                   document.getElementById("RequestNumberEN").innerHTML = data.requestNumber;
+                   
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+            });
 
         });
+
         /* sidebar */
         const body = document.querySelector('body');
         const sidebar = document.getElementById("navtag");
@@ -368,7 +379,7 @@
                 $("#btnSubmit").prop("disabled", true);
 
                 var categoryName = $('#txtTitle').val();
-                console.log('--------------');
+              /*  console.log('--------------');*/
 
 
                 var workflowId = 1;
@@ -379,6 +390,8 @@
                 var Whom = $('#txtWhom').val();
                /* console.log(Whom);*/
                 var data = new FormData();
+               
+                data.append("RequestNumber", $("#RequestNumberEN").text());
                 data.append("EmployeeId", $("#txtEmpID").val());
                 data.append("Amount", $("#txtAmount").val());
                 data.append("Detail", $("#txtDetail").val());
@@ -397,6 +410,7 @@
 
 
                 let today = new Date().toISOString().slice(0, 10);
+                data.append(`Historys[0].RequestNumber`, $("#RequestNumberEN").val());
                 data.append(`Historys[0].EmployeeId`, '@requester.empID');
                 data.append(`Historys[0].Detail`, $("#txtDetail").val());
                 data.append(`Historys[0].Quota`, quota);
@@ -424,7 +438,7 @@
 
                     if (checkbox.checked) {
                         // เพิ่มค่า checkbox ที่ถูกติ๊กลงในอาร์เรย์
-                        console.log(checkbox);
+                        /*console.log(checkbox);*/
                         checkedValues = checkbox.value ;
                         checkedNameValues = $(`#getID_${count}`).data('documentname');
                         data.append(`RequestDocumentDetails[${index}].DocumentID`, checkedValues);
@@ -449,8 +463,8 @@
                     url: '@Url.Action("Create", "Request")',
                     data: data,
                     success: function (data) {
-                        console.log("---------------");
-                        console.log(data);
+                        //console.log("---------------");
+                        //console.log(data);
                             setTimeout(function() {
                                 window.location.href = `@Url.Action("Index", "Request")`;
                             }, 1000);
@@ -458,7 +472,7 @@
                     error: function (err) {
                         $("#SubmitFormSpinn").addClass("d-none");
                         $("button[name=btnSubmit]").prop("disabled", false);
-                        console.log(err)
+                       /* console.log(err)*/
                     }
                 });
 
@@ -518,7 +532,7 @@
                     success: function (data) {
                         // Clear existing content in the table body
                         $("#txtWhom").empty();
-                        console.log(data);
+                       /* console.log(data);*/
                         // Loop through the array
                         var lastId = 0;
                         var str2 = `
@@ -526,8 +540,8 @@
                             `;
                         $("#txtWhom").append(str2);
                         for (const item of data) {
-                            console.log(item.whomID);
-                            console.log(item.whomName);
+                            //console.log(item.whomID);
+                            //console.log(item.whomName);
                             var elementId = lastId + 1;
                             var str = `
                                 <option value="${item.whomID}">${item.whomName}</option>
@@ -564,7 +578,7 @@
                         $("#txtQuota").val(data.quotaPrice);
                         $("#txtUsedPrice").val(data.usedPrice);
                         $("#txtRemainPrice").val(data.remainPrice);
-                        console.log(data);
+                       /* console.log(data);*/
                     },
                     error: function (err) {
                         console.log(err)
@@ -587,14 +601,14 @@
                     success: function (data) {
                         // Clear existing content in the table body
                         $("#actionTaskBody").empty();
-                        console.log(data);
+                       /* console.log(data);*/
                         // Loop through the array
                         var lastId = 0;
 
 
                         for (const item of data) {
-                            console.log(item.documentID);
-                            console.log(item.documentName);
+                            //console.log(item.documentID);
+                            //console.log(item.documentName);
                             var elementId = lastId + 1;
                             var str = `
                                 <tr>

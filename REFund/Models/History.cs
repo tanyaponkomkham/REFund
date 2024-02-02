@@ -11,6 +11,7 @@ namespace REFund.Models
 
 		[Key]
 		public int ID { get; set; }
+		public string RequestNumber { get; set; }
 		public string EmployeeId { get; set; }
 		public string Detail { get; set; }
 		public int? Quota { get; set; }
