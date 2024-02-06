@@ -50,18 +50,33 @@ namespace REFund.Controllers
 
         public async Task<IActionResult> MyApprove()
         {
+            Request request = new Request();
             var context = new PrincipalContext(ContextType.Domain);
             var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == principal.SamAccountName).Select(s => s.Step).FirstOrDefaultAsync();
+            if (getStep != null)
+            {
+                //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
+                request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).Select(s => s).FirstOrDefaultAsync();
+            }
 
-            var getEmpId = await _context.EmpInfo.Where(s => s.domain_name == principal.SamAccountName).Select(s => s.empID).FirstOrDefaultAsync();
 
-            var request = await _context.Request
-                .Include(s => s.Category)
-                .Include(s => s.Workflow.Status)
-                .Where(s => s.Workflow.ActionDomain == principal.SamAccountName )
-                .ToListAsync();
+            //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+            var ManagerDomain = await _context.EmpInfo
+            .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
+            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == principal.SamAccountName)
+            .Select(joined => joined.Request).ToListAsync();
 
-            return View(request);
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == principal.SamAccountName);
+            ViewBag.Step = getStep;
+            //Union ระหว่าง getWorkflowกับManagerDomain
+            var requests =  (request != null
+            ? ManagerDomain.Union(new List<Request> { request })
+            : ManagerDomain).ToList();
+
+            return View(requests);
+
         }
 
 
@@ -425,6 +440,8 @@ namespace REFund.Controllers
 
 
         }
+
+
         [HttpPost]
         public async Task<IActionResult> WhomDropDownList(int categoryID)
         {
@@ -540,7 +557,26 @@ namespace REFund.Controllers
             }
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> getHistory()
+        //{
+        //    try
+        //    {
+        //        //var getCategory = await _context.DocumentDetail.Where(s => s.CategoryID == categoryID).ToListAsync();
 
+        //        //var getWhom = (from l in _context.History
+                             
+        //        //               select l.CategoryName
+        //        //               ).ToList();
+
+        //        //return StatusCode(200, getWhom);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+
+        //}
         private bool RequestExists(Guid id)
         {
             return _context.Request.Any(e => e.Id == id);

@@ -85,6 +85,7 @@
                 <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline; ">Please select the title</p>
             </div>
             <div class="col-5">
+               
                 <select class="form-select" id="txtTitle" name="txtTitle" style="margin-top: 35px; margin-left: 13px; width: 400px; height:50px;" required asp-items="@ViewBag.Category">
                     <option selected="selected" disabled value="0">กรุณาเลือก</option>
                 </select>
@@ -246,7 +247,7 @@
                     <i class="fa fa-thin fa-paper-plane"></i> Submit
                     <span class="spinner-border spinner-border-sm d-none" id="SubmitFormSpinn" role="status" aria-hidden="true"></span>
                     <span class="sr-only">Loading...</span>
-                </button>
+                </button>-
                 @*<button type="submit" id="btnSubmit" class="btn mb-2" style="background-color: #3383AF; margin-top: 30px; margin-left: 50px; color: white; width: 150px; height: 50px; font-size: 16px; font-weight: 600; ">Submit</button>*@
             </div>
         </div>
@@ -267,10 +268,12 @@
             $("#thaiDate").text(formattedDate);
             $("#AmountTH").text(AmountinLetter);
             $("#AmountEN").text(AmountinLetter);
-            /* console.log(todaytime);*/
+            console.log("6666666666");
+            var n = $("#txta").text();
+            console.log(n);
 
 
-         
+
             // ดึงปีออกมาจาก StartWork และ today
             let today2 = new Date();
 
@@ -307,7 +310,7 @@
 
                    document.getElementById("RequestNumberTH").innerHTML = data.requestNumber;
                    document.getElementById("RequestNumberEN").innerHTML = data.requestNumber;
-                   
+
                     },
                     error: function (err) {
                         console.log(err)
@@ -390,7 +393,7 @@
                 var Whom = $('#txtWhom').val();
                /* console.log(Whom);*/
                 var data = new FormData();
-               
+
                 data.append("RequestNumber", $("#RequestNumberEN").text());
                 data.append("EmployeeId", $("#txtEmpID").val());
                 data.append("Amount", $("#txtAmount").val());

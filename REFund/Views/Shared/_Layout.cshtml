@@ -1,7 +1,9 @@
-﻿@{
-    
+﻿
+@{
+
     // ดึงข้อมูลจาก ViewBag.combinedResults
-    var combinedResults = ViewBag.combinedResults as List<Request>;
+    var requests = ViewBag.Requester as EmpInfo;
+
 
 }
 
@@ -18,7 +20,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script src="https://cdn.jsdelivr.net/npm/number-to-words"></script>
- 
+    @*@RenderSection("Scripts", required: false)*@
 </head>
 <body>
     <nav class="container-fluid" style="background: white; height: 60px; border: 0.50px #3383AF solid ">
@@ -27,11 +29,11 @@
             <div class="col-10 " style=" margin-top: 8px; text-align:right;">
                 <label style="font-size: 24px; font-weight: 800; color: #003F82; ">Wellcome</label>
             </div>
-            <div class="col-1" style=" margin-top: 8px; margin-left: -18px;">
+            <div style=" margin-top: 8px; margin-left: -18px; width:50px;">
                 <img style="width: 30px; height: 30px; top: 7px; border-radius: 20px; position: absolute" src="~/img/user (2).png" />
             </div>
-            <div class="col-1" style=" margin-top: 15px; margin-left: -65px; text-align: left;">
-                TanyapornK.std
+            <div class="col-2" style=" margin-top: 15px; margin-left: -65px; text-align: left;">
+                <Label style="font-size: 12px; margin-left: 47px; font-weight: 500; ">Tanyaporn komkham</Label>
             </div>
         </div>
     </nav>
@@ -63,8 +65,8 @@
                             <a asp-action="Index" asp-controller="Request" class="nav-link">
                                 <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">All Request</span>
-                                <div style="width:1%;">
-                                    <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 32px; color: white; font-size: 10px;">1</label>
+                                <div style="width:1%;">                                        
+                                    <p style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 32px; color: white; font-size: 10px;">1</p>
                                 </div>
                             </a>
                         </li>
@@ -73,7 +75,8 @@
                                 <img class="Image3 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/user (1).png" />
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">My Request</span>
                                 <div style="width:1%;">
-                                    <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 30px; color: white; font-size: 10px;">1</label>
+                                        <p name="a" id="a"style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 29px; color: white; font-size: 10px;">1</p>
+                                   
                                 </div>
                             </a>
                         </li>
@@ -82,104 +85,12 @@
                                 <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">My Approve</span>
                                 <div style="width:1%;">
-                                    <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 27px; color: white; font-size: 10px;">1</label>
+                                    <p name="b" id="b" style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 27px; color: white; font-size: 10px;">1</p>
+                                  
                                 </div>
                             </a>
                         </li>
                     </ul>
-                    @*<header id="menu" style="background-color: #3383AF; margin-left: -1px; top: -20px; width: 260px; ">
-                            <div class="image-text">
-                                <div class="text logo-text" style="background-color: #3383AF; ">
-                                    <span class="name" style="font-size: 22px; color: white; margin-left: -47px; font-weight: 500;">Status</span>
-                                </div>
-                            </div>
-                        </header>*@
-                    @*<ul class="menu-links" style="margin-top: -23px;">
-                            <li id="request2" class="nav-link" style="text-align: center; ">
-                                <a href="">
-                                    <img class="Image4 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0;" src="~/img/quote-request (1).png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">Request</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 63px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="HR_Review" class="nav-link" style="text-align: center; margin-top: -7px; ">
-                                <a href="">
-                                    <img class="Image7 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0; " src="~/img/document.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">HR Review</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 49px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="Manager_Review" class="nav-link" style="text-align: center; margin-top: -7px;">
-                                <a href="">
-                                    <img class="Image8 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0; " src="~/img/document.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">Manager Review</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 4px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="HR_manager_Review" class="nav-link" style="text-align: center; margin-top: -7px; height: 70px;">
-                                <a href="">
-                                    <img class="Image9 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0; " src="~/img/document.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">HR Manager <br /> <span class="text nav-text" style="margin-left: -38px; font-size: 14px; ">Review</span></span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 35px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="CFO_Review" class="nav-link" style="text-align: center; margin-top: -7px;">
-                                <a href="">
-                                    <img class="Image10 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0;" src="~/img/document.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">CFO Review</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 39px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="completed" class="nav-link" style="text-align: center; margin-top: -7px;">
-                                <a href="">
-                                    <img class="Image11 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0; " src="~/img/checked.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">Completed</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 41px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                            <li id="disapprove" class="nav-link" style="text-align: center; margin-top: -7px;">
-                                <a href="">
-                                    <img class="Image6 icon" style="width: 21px; height: 28px; margin-left: 20px; border-radius: 0; " src="~/img/contract.png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">Disapprove</span>
-                                    <div style="width:1%;">
-                                        <label style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 40px; color: white; font-size: 10px;">1</label>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>*@
-                    @*<header id="menu" style="background-color: #3383AF; margin-left: -1px; top: -20px; width: 260px; ">
-                            <div class="image-text">
-                                <div class="text logo-text" style="background-color: #3383AF; ">
-                                    <span class="name" style="font-size: 22px; color: white; margin-left: -47px; font-weight: 500;">Setting</span>
-                                </div>
-                            </div>
-                        </header>
-                        <ul class="menu-links" style="margin-top: -23px;">
-                            <li id="document" class="nav-link" style="text-align: center; ">
-                                <a href="">
-                                    <img class="Image12 icon" style="width: 21px; height: 26px; margin-left: 20px;" src="~/img/file (2).png" />
-                                    <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">Document</span>
-                                </a>
-                            </li>
-                            <li id="category" class="nav-link" style="text-align: center; margin-top: -7px;">
-                                <a href="">
-                                    <img class="Image13 icon" style="width: 21px; height: 26px; margin-left: 20px; " src="~/img/menu (1).png" />
-                                    <span class="text nav-text" style=" margin-left: -1px; font-size: 14px;">Category</span>
-                                </a>
-                            </li>
-                        </ul>*@
                 </div>
             </div>
         </nav>
@@ -218,144 +129,136 @@
                             toggle.classList.toggle('rotate');
                             sidebar.classList.toggle("close");
                         });
-                    
-                         var hasCombinedResults = @Json.Serialize(combinedResults) !== 'null';
 
-                            // แสดงข้อมูลใน Console ถ้ามี
-                            if (hasCombinedResults) {
-                                console.log('Combined Results:', @Json.Serialize(combinedResults));
-                            } else {
-                                console.log('No Combined Results.');
-                       }
-                        /* Load _RequestsContent on page load*/
-                                                                                                        //$("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
-                                                                                                        //    if (status == "error") {
-                                                                                                        //        alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //    }
-                                                                                                        //});
-                                                                                                        ////$(document).on('click', '#request1', function (event) {
-                                                                                                        ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        ////    // Load AllRequest when #request2 is clicked
-                                                                                                        ////    $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
-                                                                                                        ////        if (status == "error") {
-                                                                                                        ////            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        ////        }
-                                                                                                        ////    });
-                                                                                                        ////});
-                                                                                                        ////// Handle click event on #request2 using 'on' method
-                                                                                                        ////$(document).on('click', '#All_Request', function (event) {
-                                                                                                        ////    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //$("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+                                                                                                                                                //    if (status == "error") {
+                                                                                                                                                //        alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //    }
+                                                                                                                                                //});
+                                                                                                                                                ////$(document).on('click', '#request1', function (event) {
+                                                                                                                                                ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        ////    // Load AllRequest when #request2 is clicked
-                                                                                                        ////    $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
-                                                                                                        ////        if (status == "error") {
-                                                                                                        ////            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        ////        }
-                                                                                                        ////    });
-                                                                                                        ////});
+                                                                                                                                                ////    // Load AllRequest when #request2 is clicked
+                                                                                                                                                ////    $("#bindRequest").load(`/Home/_RequestsContent`, function (response, status, xhr) {
+                                                                                                                                                ////        if (status == "error") {
+                                                                                                                                                ////            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                ////        }
+                                                                                                                                                ////    });
+                                                                                                                                                ////});
+                                                                                                                                                ////// Handle click event on #request2 using 'on' method
+                                                                                                                                                ////$(document).on('click', '#All_Request', function (event) {
+                                                                                                                                                ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        ////$(document).on('click', '#My_Request', function (event) {
-                                                                                                        ////    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                ////    // Load AllRequest when #request2 is clicked
+                                                                                                                                                ////    $("#bindRequest").load(`/Home/AllRequest`, function (response, status, xhr) {
+                                                                                                                                                ////        if (status == "error") {
+                                                                                                                                                ////            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                ////        }
+                                                                                                                                                ////    });
+                                                                                                                                                ////});
 
-                                                                                                        ////    // Load AllRequest when #request2 is clicked
-                                                                                                        ////    $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
-                                                                                                        ////        if (status == "error") {
-                                                                                                        ////            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        ////        }
-                                                                                                        ////    });
-                                                                                                        ////});
-                                                                                                        ////$(document).on('click', '#request2', function (event) {
-                                                                                                        ////    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                ////$(document).on('click', '#My_Request', function (event) {
+                                                                                                                                                ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        ////    // Load AllRequest when #request2 is clicked
-                                                                                                        ////    $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
-                                                                                                        ////        if (status == "error") {
-                                                                                                        ////            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        ////        }
-                                                                                                        ////    });
-                                                                                                        ////});
-                                                                                                        ////$(document).on('click', '#document', function (event) {
-                                                                                                        ////    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                ////    // Load AllRequest when #request2 is clicked
+                                                                                                                                                ////    $("#bindRequest").load(`/Home/MyRequest`, function (response, status, xhr) {
+                                                                                                                                                ////        if (status == "error") {
+                                                                                                                                                ////            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                ////        }
+                                                                                                                                                ////    });
+                                                                                                                                                ////});
+                                                                                                                                                ////$(document).on('click', '#request2', function (event) {
+                                                                                                                                                ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        ////    // Load AllRequest when #request2 is clicked
-                                                                                                        ////    $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
-                                                                                                        ////        if (status == "error") {
-                                                                                                        ////            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        ////        }
-                                                                                                        ////    });
-                                                                                                        ////});
+                                                                                                                                                ////    // Load AllRequest when #request2 is clicked
+                                                                                                                                                ////    $("#bindRequest").load(`/Home/Requests`, function (response, status, xhr) {
+                                                                                                                                                ////        if (status == "error") {
+                                                                                                                                                ////            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                ////        }
+                                                                                                                                                ////    });
+                                                                                                                                                ////});
+                                                                                                                                                ////$(document).on('click', '#document', function (event) {
+                                                                                                                                                ////    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //$(document).on('click', '#HR_Review', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                ////    // Load AllRequest when #request2 is clicked
+                                                                                                                                                ////    $("#bindRequest").load(`/Home/Document`, function (response, status, xhr) {
+                                                                                                                                                ////        if (status == "error") {
+                                                                                                                                                ////            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                ////        }
+                                                                                                                                                ////    });
+                                                                                                                                                ////});
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#disapprove', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //$(document).on('click', '#HR_Review', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#Manager_Review', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/HR_Review`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#disapprove', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#CFO_Review', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/Disapprove`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#Manager_Review', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#HR_manager_Review', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/Manager_Review`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#CFO_Review', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#completed', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/CFO_Review`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#HR_manager_Review', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
-                                                                                                        //$(document).on('click', '#category', function (event) {
-                                                                                                        //    event.preventDefault(); // Prevent the default behavior of the link
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/HR_Manager_Review`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#completed', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
 
-                                                                                                        //    // Load AllRequest when #request2 is clicked
-                                                                                                        //    $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
-                                                                                                        //        if (status == "error") {
-                                                                                                        //            alert("Error occurred during the process. Please contact the administrator");
-                                                                                                        //        }
-                                                                                                        //    });
-                                                                                                        //});
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/Completed`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
+                                                                                                                                                //$(document).on('click', '#category', function (event) {
+                                                                                                                                                //    event.preventDefault(); // Prevent the default behavior of the link
+
+                                                                                                                                                //    // Load AllRequest when #request2 is clicked
+                                                                                                                                                //    $("#bindRequest").load(`/Home/Category`, function (response, status, xhr) {
+                                                                                                                                                //        if (status == "error") {
+                                                                                                                                                //            alert("Error occurred during the process. Please contact the administrator");
+                                                                                                                                                //        }
+                                                                                                                                                //    });
+                                                                                                                                                //});
                     </script>
                 }
                 @RenderBody()

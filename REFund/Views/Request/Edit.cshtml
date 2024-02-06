@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-3 " style="left:5px;">
                     <p style="margin-top: 50px; font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ @Model.RequestNumber</p>
-                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No.@Model.RequestNumber</p>
+                    <p style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No. <span style="font-size: 12px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;" id="RequestNumber" name="RequestNumber">@Model.RequestNumber</span> </p>
                 </div>
             </div>
             <div class="row " style="left:5px;">
@@ -52,7 +52,6 @@
                 </div>
                 <div class="col-1 " style="left:5px;">
                     <input type="text" id="txtEmpID" name="txtEmpID" readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@requester.empID" />
-
                 </div>
                 <div style="left: 5px; width: 150px;">
                     <p style="margin-top: 25px; margin-left: 70px; font-size: 12px; font-weight: 400; line-height: 0.5;">ชื่อ :</p>
@@ -927,7 +926,7 @@
 
 
                 let today = new Date().toISOString().slice(0, 10);
-                data.append(`Historys[0].RequestNumber`, $("#RequestNumberEN").val());
+                dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
                 dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
                 dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
                 dataEdit.append(`Historys[0].Quota`, quota);
