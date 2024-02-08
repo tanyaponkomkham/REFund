@@ -20,6 +20,7 @@ namespace REFund.Models
 		public string ActionEmail { get; set; }
 		public int Approve { get; set; }
 		public int Disapprove { get; set; }
+		//public int StatusID { get; set; }
 
 		public virtual Status Status { get; set; }
 		public virtual ICollection<Request> Requests { get; set; }

@@ -139,7 +139,7 @@ li a:hover::before {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
     margin: 10px 0 0 15px;
-    height: 120px; 
+    height: 130px; 
 }
 .linecolor {
     display: inline-block;
@@ -151,7 +151,7 @@ li a:hover::before {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
     margin: 10px 0 0 15px;
-    height: 65px; 
+    height: 60px; 
 }
 .lineCut2 {
     display: inline-block;
@@ -169,13 +169,13 @@ li a:hover::before {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
     margin: 10px 0 0 15px; 
-    height: 15px; 
+    height: 18px; 
 }
 .lineCutafter {
     display: inline-block;
     border-left: 5px solid #DDDDDD; 
     margin: 10px 0 0 15px; 
-    height: 10px; 
+    height: 12px; 
 }
 .circle {
     min-width: 30px; 
@@ -305,7 +305,7 @@ img {
         }
 
     .chat-box .chat-room {
-        min-height: 230px;
+        min-height: 200px;
         background-color: #fff;
         padding: 15px;
         border: 1px solid var(--violet);

@@ -180,6 +180,24 @@ namespace REFund.Controllers
             ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == request.EmployeeId);
             ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value", request.CategoryID);
             ViewBag.Whom = new SelectList(WhomDropDownListForEdit(request.CategoryID), "Key", "Value", request.WhomID);
+            ViewBag.History = (await _context.History.Include(s => s.Workflow.Status).Where(s => s.RequestID == id).OrderBy(s => s.WorkflowID).ToListAsync()).ToArray();
+            ViewBag.CountHistory =  _context.History.Where(s => s.RequestID == id).Count();
+            ViewBag.CountStatus = _context.Status.Count();
+
+
+            var statusInHistory = ((IEnumerable<History>)ViewBag.History)
+                        .Select(h => h.Workflow.Status)
+                        .ToList();
+
+            ViewBag.StatusDistinct = _context.Status
+                .AsEnumerable()
+                .Where(status =>
+                    (!statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && !statusInHistory.Any(sh => sh.ID == status.ID)) ||
+                    (statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && status.ID < IDStatus.Disapprove && !statusInHistory.Any(sh => sh.ID == status.ID)))
+                .OrderBy(s => s.ID)
+                .ToArray();
+
+
             //var whomName = await _context.Request
             // .Where(r => r.WhomID == request.WhomID && r.Id == request.Id)
             // .Join(
