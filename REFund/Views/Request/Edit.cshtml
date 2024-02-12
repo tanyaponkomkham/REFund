@@ -20,7 +20,7 @@
 
 <div class="row ">
 
-    <div class="col-9 custom-border" style="height:1353px; margin-left:-12px;">
+    <div class="col-9 custom-border" style="height:1400px; ">
         @*Head Body*@
         <input type="text" id="txtRequestID" name="txtRequestID" hidden readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@Model.Id" />
         <form method="post" id="reportForm">
@@ -232,7 +232,7 @@
     </div>
 
     @*History timeline*@
-    <div class="col-3 custom-border" style="height: 1353px; ">
+    <div class="col-3 custom-border" style="height: 1400px; ">
         <h3 style="font-size: 20px; margin-top: 10px; font-weight: 700; color: #3383AF; ">History line</h3>
         <div class="row" style="margin-top: -30px; height:560px;">
             <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -243,7 +243,7 @@
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                        <div class="accordion-body" style="height: 950px; background-color: #EDEFF1;">
+                        <div class="accordion-body" style="height: 970px; background-color: #EDEFF1;">
                             @*History timeline Line*@
 
                             <div class="timeline">
@@ -336,7 +336,7 @@
                                                     var backgroundColor = statusID?.BackgroundColor;
                                                     var count = countStatus - counthistory;
 
-                                                    <div class="col-12" style="text-align: center; height: 140px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                    <div class="col-12" style="text-align: center; height: 145px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
 
                                                         <div class="row" style="text-align: right; margin-right: -3px;">
                                                             <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
@@ -345,7 +345,7 @@
                                                         @if (statusName == "HR Review")
                                                         {
                                                             <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -353,7 +353,7 @@
                                                         else if (statusName == "Manager Review")
                                                         {
                                                             <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -361,7 +361,7 @@
                                                         else if (statusName == "CFO Review")
                                                         {
                                                             <div class="row" style="text-align: left; width: 115px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -370,7 +370,7 @@
                                                         else if (statusName == "HRManager Review")
                                                         {
                                                             <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -378,7 +378,7 @@
                                                         else if (statusName == "Completed")
                                                         {
                                                             <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -386,7 +386,7 @@
                                                         else if (statusName == "Disapprove")
                                                         {
                                                             <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
@@ -394,18 +394,18 @@
                                                         else
                                                         {
                                                             <div class="row" style="text-align: left; width: 80px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 16px; font-weight: 800; ">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
                                                                     @statusName
                                                                 </label>
                                                             </div>
                                                         }
 
                                                         <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                            <label style="font-size: 14px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+                                                            <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
 
                                                         </div>
                                                         <div class="row" style="text-align: left; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
-                                                            <label style="font-size: 14px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">@comment</label>
+                                                            <label style="font-size: 13px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">@comment</label>
                                                         </div>
                                                     </div>
 
@@ -439,10 +439,8 @@
                         </div>
                     </div>
                 </div>
-
-
                 @*Chat box*@
-                <div class="row" style="margin-left: 1px;">
+                @*<div class="row" style="margin-left: -10px;">
                     <div class="chat-box" style="margin-top: 20px;">
                         <div class="header">
                             <span class="name">Chat</span>
@@ -461,7 +459,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>

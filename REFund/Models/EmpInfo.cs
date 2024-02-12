@@ -18,5 +18,6 @@ namespace REFund.Models
         public string ManagerDomainId { get; set; }
         public string ManagerFullnameEng { get; set; }
         public DateTime? start_work { get; set; }
-    }
+		public string password { get; set; }
+	}
 }

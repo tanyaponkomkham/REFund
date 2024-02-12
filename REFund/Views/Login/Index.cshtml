@@ -47,7 +47,7 @@
 
                                     <div class="Rectangle7" style="width: 35px; height: 37px; left: 75px; top: 139px; position: absolute; background: #F3F3F3 "></div>
                                     <div style="width: 202px; height: 37px; left: 30px;  position: absolute; line-height: 1; text-align: left; ">
-                                        <input class=" form-control" type="text" id="passwordInput" onfocus="togglePlaceholder2(true)" onblur="togglePlaceholder2(false)" style="width: 180px; height: 37px; left: 80px; top: 139px; position: absolute; background: #D9D9D9; border-radius: 0; ">
+                                        <input class=" form-control" type="password" id="passwordInput" onfocus="togglePlaceholder2(true)" onblur="togglePlaceholder2(false)" style="width: 180px; height: 37px; left: 80px; top: 139px; position: absolute; background: #D9D9D9; border-radius: 0; ">
                                         <div class="Password" id="placeholderpassword" style="width: 100px; height: 37px; left: 90px; top: 150px; position: absolute; line-height: 1; text-align: left; ">
                                             <span id="txtInputPassword" name="txtInputPassword" style="color: black; font-size: 15px; font-family: Rationale; left: 37px; font-weight: 400;  text-align: left;"><br /></span>
 
@@ -57,8 +57,9 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <button type="submit" class="btn " id="btnLogin" name="btnLogin" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLogin" name="txtbtnLogin" style=" font-family: Inter;"></span></button>
-                                    @*<div class="Rectangle8" style="width: 150px; height: 37px; left: 106px; top: 206px; position: absolute; background: #3383AF"></div>
+                                    <button type="submit" class="btn " id="btnLoginID" name="btnLoginID" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLoginID" name="txtbtnLoginID" style=" font-family: Inter;">เข้าสู่ระบบ</span></button>
+                                    <button type="submit" class="btn " id="btnLoginDomain" name="btnLoginDomain" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLoginDomain" name="txtbtnLoginDomain" style=" font-family: Inter;">Login</span></button>                                
+    @*<div class="Rectangle8" style="width: 150px; height: 37px; left: 106px; top: 206px; position: absolute; background: #3383AF"></div>
                                         <div style="left: 140px; top: 212px; position: absolute; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">เข้าสู่ระบบ</div>*@
                                 </div>
                             </div>
@@ -92,15 +93,36 @@
     <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>*@
 @*<link href="~/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
     <script src="~/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>*@
+<style>
+
+    .placeholderID {
+        width: 202px;
+        height: 37px;
+        left: 10px;
+        top: 0px;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        cursor: pointer; /* เพิ่ม cursor: pointer เพื่อให้เห็นว่าเป็นตัวคลิกได้ */
+    }
+
+        .placeholderID span {
+            color: black;
+            font-size: 13px;
+            font-family: Rationale;
+            font-weight: 400;
+            word-wrap: break-word;
+            text-align: left;
+        }
+</style>
 
 
-
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
+            $("#btnLoginDomain").hide();
             document.getElementById("txtbtnChange").innerHTML = "Login With Domain Name";
             document.getElementById("txtID").innerHTML = "กรุณาระบุรหัสพนักงานเพื่อเข้าสู่ระบบ";
             document.getElementById("txtPassword").innerHTML = "กรูณาระบุรหัสผ่านที่กำหนด";
-            document.getElementById("btnLogin").innerHTML = "เข้าสู่ระบบ";
             document.getElementById("txtInputEmp").innerHTML = "รหัสพนักงาน";
             document.getElementById("txtInputPassword").innerHTML = "รหัสผ่าน";
         });
@@ -109,17 +131,19 @@
             var txtDomain = document.getElementById("txtbtnChange");
             var valuetxtDomain = txtDomain.textContent;
             if (valuetxtDomain == "Login With Domain Name") {
+                $("#btnLoginID").hide();
+                $("#btnLoginDomain").show();
                 /* console.log("dddd");*/
                 document.getElementById("txtbtnChange").innerHTML = "Login With Employee ID";
-                document.getElementById("btnLogin").innerHTML = "Login";
                 document.getElementById("txtID").innerHTML = "";
                 document.getElementById("txtPassword").innerHTML = "";
                 document.getElementById("txtInputEmp").innerHTML = "Domain Name";
                 document.getElementById("txtInputPassword").innerHTML = "Password";
             } else {
                 /* console.log("ccc");*/
+                $("#btnLoginDomain").hide();
+                $("#btnLoginID").show();
                 document.getElementById("txtbtnChange").innerHTML = "Login With Domain Name";
-                document.getElementById("btnLogin").innerHTML = "เข้าสู่ระบบ";
                 document.getElementById("txtID").innerHTML = "กรุณาระบุรหัสพนักงานเพื่อเข้าสู่ระบบ";
                 document.getElementById("txtPassword").innerHTML = "กรูณาระบุรหัสผ่านที่กำหนด";
                 document.getElementById("txtInputEmp").innerHTML = "รหัสพนักงาน";
@@ -183,39 +207,66 @@
             }
         });
 
-                                                    //document.getElementById("placeholderId").addEventListener("click", function () {
-                                                    //    var inputElement = document.getElementById("employeeInput");
-                                                    //    inputElement.focus();
-                                                    //    togglePlaceholder(true);
-                                                    //});
-                                                    //document.getElementById("placeholderpassword").addEventListener("click", function () {
-                                                    //    var inputpasswordElement = document.getElementById("passwordInput");
-                                                    //    inputpasswordElement.focus();
-                                                    //    togglePlaceholder2(true);
-                                                    //});
-    </script>
+        document.getElementById("placeholderId").addEventListener("click", function () {
+            var inputElement = document.getElementById("employeeInput");
+            inputElement.focus();
+            togglePlaceholder(true);
+        });
+        document.getElementById("placeholderpassword").addEventListener("click", function () {
+            var inputpasswordElement = document.getElementById("passwordInput");
+            inputpasswordElement.focus();
+            togglePlaceholder2(true);
+        });
+        $("#btnLoginID").on("click", function (e) {
+         
+            var data = new FormData();
+            data.append("username", $("#employeeInput").val());
+            data.append("password", $("#passwordInput").val());
 
-    <style>
+             $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("Login", "Login")',
+                    data: data,
+                 success: function (data) {
+                     console.log(data);
+                        setTimeout(function() {
+                            // ในกรณีนี้คุณอาจต้องใช้ escape เครื่องหมาย " เพื่อให้ได้ URL ที่ถูกต้อง
+                            window.location.href = '@Url.Action("Create", "Request")' + '?empID=' + encodeURIComponent(data);
+                        }, 1000);
+                    },
+                    error: function (err) {
+                        $("#SubmitFormSpinn").addClass("d-none");
+                        $("button[name=btnSubmit]").prop("disabled", false);
+                    }
+               });
+        });
+        $("#btnLoginDomain").on("click", function (e) {
+           
+            var dataDomain = new FormData();
+            dataDomain.append("username", $("#employeeInput").val());
+            dataDomain.append("password", $("#passwordInput").val());
+             $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("LoginDomain", "Login")',
+                 data: dataDomain,
+                    success: function (data) {
+                        setTimeout(function() {
+                            // ในกรณีนี้คุณอาจต้องใช้ escape เครื่องหมาย " เพื่อให้ได้ URL ที่ถูกต้อง
+                            window.location.href = '@Url.Action("Create", "Request")' + '?empID=' + encodeURIComponent(data);
+                        }, 1000);
+                    },
+                    error: function (err) {
+                        $("#SubmitFormSpinn").addClass("d-none");
+                        $("button[name=btnSubmit]").prop("disabled", false);
+                    }
+               });
+        });
+</script>
 
-        .placeholderID {
-            width: 202px;
-            height: 37px;
-            left: 10px;
-            top: 0px;
-            position: absolute;
-            line-height: 1;
-            text-align: left;
-            cursor: pointer; /* เพิ่ม cursor: pointer เพื่อให้เห็นว่าเป็นตัวคลิกได้ */
-        }
 
-            .placeholderID span {
-                color: black;
-                font-size: 13px;
-                font-family: Rationale;
-                font-weight: 400;
-                word-wrap: break-word;
-                text-align: left;
-            }
-    </style>
 
-}
+

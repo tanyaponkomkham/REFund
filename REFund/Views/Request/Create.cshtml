@@ -278,28 +278,46 @@
             let today2 = new Date();
 
             // แปลง StartWork เป็น Date object
-            let startWorkDate = new Date("@requester.start_work");
+           let startWorkDate = jsDate;
 
             // คำนวณจำนวนวันที่ผ่านมา
-            let timeDifference = today2 - startWorkDate;
+            let timeDifference = today - startWorkDate;
             let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-            // คำนวณจำนวนปี
-            let yearsDifference = Math.floor(daysDifference / 365);
+            // คำนวณปีและเดือน
+            let years = Math.floor(daysDifference / 365);
+            let months = Math.floor((daysDifference % 365) / 30);
 
-            // แสดงผลลัพธ์
-            if (yearsDifference >= 1) {
-                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
-
-                document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
-                document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
-            } else {
-                /* console.log("น้อยกว่า 1 ปี");*/
-                yearDifference = 0;
-               /* console.log(yearDifference);*/
-                document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
-                document.getElementById("experienceEN").innerHTML = "less than 1 year";
+            // สร้างข้อความที่แสดงผล
+            let resultText = "";
+            if (years > 0) {
+                resultText += years + " ปี ";
             }
+            if (months > 0) {
+                resultText += months + " เดือน";
+            }
+
+            console.log(resultText);
+            //// คำนวณจำนวนวันที่ผ่านมา
+            //let timeDifference = today2 - startWorkDate;
+            //let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            //// คำนวณจำนวนปี
+            //let yearsDifference = Math.floor(daysDifference / 365);
+
+            //// แสดงผลลัพธ์
+            //if (yearsDifference >= 1) {
+            //    /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
+
+            //    document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
+            //    document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
+            //} else {
+            //    /* console.log("น้อยกว่า 1 ปี");*/
+            //    yearDifference = 0;
+            //   /* console.log(yearDifference);*/
+            //    document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
+            //    document.getElementById("experienceEN").innerHTML = "less than 1 year";
+            //}
 
            $.ajax({
                 contentType: false,

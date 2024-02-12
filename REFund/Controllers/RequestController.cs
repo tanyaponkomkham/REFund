@@ -13,16 +13,18 @@ using Microsoft.EntityFrameworkCore;
 using REFund.Data;
 using REFund.Models;
 using REFund.Models.Views;
+using REFund.Services;
 
 namespace REFund.Controllers
 {
     public class RequestController : Controller
     {
         private readonly CoreContext _context;
-
-        public RequestController(CoreContext context)
+        private readonly INotify _notify;
+        public RequestController(CoreContext context, INotify notify)
         {
             _context = context;
+            _notify = notify;
         }
 
         // GET: Requests
@@ -98,12 +100,12 @@ namespace REFund.Controllers
         }
 
         // GET: Requests/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(string empID)
         {
-            var context = new PrincipalContext(ContextType.Domain);
-            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            //var context = new PrincipalContext(ContextType.Domain);
+            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == principal.SamAccountName);
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empID);
             ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value");
 
             return View();
@@ -138,6 +140,8 @@ namespace REFund.Controllers
                         });
                     }
                     await _context.SaveChangesAsync();
+                    _notify.SendEmail(request);
+
                     //return RedirectToAction(nameof(Index));
                     return StatusCode(200, request.Id);
                 }
@@ -184,18 +188,37 @@ namespace REFund.Controllers
             ViewBag.CountHistory =  _context.History.Where(s => s.RequestID == id).Count();
             ViewBag.CountStatus = _context.Status.Count();
 
-
+            //เรียกเฉพาะ Status 
             var statusInHistory = ((IEnumerable<History>)ViewBag.History)
                         .Select(h => h.Workflow.Status)
                         .ToList();
+            //เช็ค จาก statusInHistory หาค่าที่มากที่สุด  ก็คือจะเป็นคนสุดท้ายที่ Approve 
+            //แล้วให้บวก 1 ก็จะเป็นคนที่ให้ Disapprove
+            if (statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove))
+			{
+                var maxStatus = statusInHistory
+               .Where(sh => sh.ID < IDStatus.Disapprove)
+               .Max(sh => (int)sh.ID) + 1;
 
-            ViewBag.StatusDistinct = _context.Status
-                .AsEnumerable()
-                .Where(status =>
-                    (!statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && !statusInHistory.Any(sh => sh.ID == status.ID)) ||
-                    (statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && status.ID < IDStatus.Disapprove && !statusInHistory.Any(sh => sh.ID == status.ID)))
-                .OrderBy(s => s.ID)
-                .ToArray();
+                ViewBag.StatusDistinct = _context.Status
+               .AsEnumerable()
+               .Where(status =>
+                  (!statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && !statusInHistory.Any(sh => (int)sh.ID == (int)status.ID)) ||
+                  (statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && (int)status.ID < (int)IDStatus.Disapprove && !statusInHistory.Any(sh => (int)sh.ID == (int)status.ID) && (int)status.ID > (int)maxStatus))
+               .OrderBy(s => s.ID)
+               .ToArray();
+			}
+			else
+			{
+                ViewBag.StatusDistinct = _context.Status
+               .AsEnumerable()
+               .Where(status =>
+                  (!statusInHistory.Any(sh => sh.ID == IDStatus.Disapprove) && !statusInHistory.Any(sh => (int)sh.ID == (int)status.ID)))
+               .OrderBy(s => s.ID)
+               .ToArray();
+            }
+           
+
 
 
             //var whomName = await _context.Request

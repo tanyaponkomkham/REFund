@@ -378,7 +378,7 @@ img {
                 /* border: 1px solid var(--violet);*/
                 padding-left: 20px;
                 height: 100%;
-                width:310px;
+                width:510px;
                 font-size: 14px;
             }
 
@@ -447,7 +447,7 @@ img {
         .chat-box .type-area .button-send {
             background-color: #fff;
             margin-left: auto;
-            width: 65px;
+            width: 75px;
             color: var(--violet);
             font-weight: bold;
             border-left: 1px solid var(--violet);

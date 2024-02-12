@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using REFund.Data;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using REFund.Services;
 
 namespace REFund
 {
@@ -46,7 +47,7 @@ namespace REFund
 				{
 					builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
 				}));
-
+			services.AddTransient<INotify, Notify>();
 			services.AddMvc();
 
 			//services.AddAuthentication(IISDefaults.AuthenticationScheme);
@@ -92,7 +93,7 @@ namespace REFund
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Request}/{action=Create}");
+					pattern: "{controller=Login}/{action=Index}");
 			});
 		}
 	}
