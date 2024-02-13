@@ -10,14 +10,12 @@ namespace REFund.Class
 {
 	public class clsAuthenticate
 	{
-		public bool Login(string path,string domain,string password)
-		{
-			using (PrincipalContext context = new PrincipalContext(ContextType.Domain, domain))
-			{
-				return context.ValidateCredentials(domain, password);
-			}
+		public string SessionUserId = "_UserId";
+		public string SessionName = "_Name";
+		public string SessionStartWork = "_StartWork";
+		public string SessionPositionName = "_PositionName";
+		public string SessionDeptName = "_DeptName";
+		public string SessionStaffLevel = "_StaffLevel";
 
-			
-		}
 	}
 }

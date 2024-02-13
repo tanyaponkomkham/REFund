@@ -18,12 +18,12 @@ namespace REFund.Controllers
 			_logger = logger;
 		}
 
-		public IActionResult Index()
+		public ViewResult Index()
 		{
-
+			ViewBag.Layout = "AAA";
 			return View();
 		}
-		public IActionResult Index1()
+		public ViewResult Index2()
 		{
 
 			return View();

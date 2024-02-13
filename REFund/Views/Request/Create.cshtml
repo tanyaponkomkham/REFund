@@ -1,12 +1,13 @@
 ﻿@model REFund.Models.Request
 @using System.DirectoryServices.AccountManagement;
-
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var context = new PrincipalContext(ContextType.Domain);
-    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+    //var context = new PrincipalContext(ContextType.Domain);
+    //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
     var requester = ViewBag.Requester as EmpInfo;
 }
@@ -32,8 +33,11 @@
                 <p style="font-size: 14px; font-weight: 500; line-height: 0.5; text-align: center;">Date <span id="englishDate" style="font-size: 16px; font-weight: 500;"></span></p>
             </div>
             <div class="col-3" style="left: 5px;">
-                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">อายุการทำงาน <span id="experienceTH" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
-                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">Experience <span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span></p>
+                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">อายุการทำงาน</p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;"><span id="experienceTH" style="font-size: 14px;  font-family: Inter; font-weight: 300;"></span></p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">Experience</p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;"><span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span> </p>
+                
             </div>
         </div>
         <div class="row ">
@@ -43,15 +47,15 @@
                 <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Employee ID</p>
             </div>
             <div class="col-1 " style="left:5px;">
-                <input type="text" id="txtEmpID" name="txtEmpID" class=" form-control" style="margin-top: 40px; margin-left:-40px;  background: #D9D9D9; border-radius: 0; width:170px; " value="@requester.empID" required />
+                <input type="text" id="txtEmpID" name="txtEmpID" class=" form-control" style="margin-top: 40px; margin-left:-40px;  background: #D9D9D9; border-radius: 0; width:170px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_UserId")" required />
             </div>
             <div style="left: 5px; width: 150px;">
                 <p style="margin-top: 40px; margin-left: 70px; font-size: 14px; font-weight: 400; line-height: 0.5;">ชื่อ :</p>
                 <p style="font-size: 14px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Name</p>
             </div>
             <div class="col-2 " style="left:30px;">
-                <input type="text" id="txtEmpname" name="txtEmpname" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@requester.thai_fullname" />
-                <input type="text" id="txtENname" name="txtENname" hidden class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@requester.eng_fullname" />
+                <input type="text" id="txtEmpname" name="txtEmpname" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_Name")" />
+                <input  type="text" id="txtStaff"  name="txtStaff"  class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 300px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_StaffLevel")" />
             </div>
         </div>
         <div class="row ">
@@ -61,21 +65,21 @@
                 <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; ">Start Date</p>
             </div>
             <div class="col-1 " style="left:5px;">
-                <input type="text" name="startDate" readonly class=" form-control" style="margin-top: 40px; margin-left:-40px; background: #D9D9D9; border-radius: 0; width:150px; " value="@requester.start_work" />
+                <input type="text" id="startDate" name="startDate" readonly class=" form-control" style="margin-top: 40px; margin-left:-40px; background: #D9D9D9; border-radius: 0; width:150px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_StartWork")" />
             </div>
             <div style="left: 5px; width: 160px;">
                 <p style="margin-top: 40px; margin-left: 70px; font-size: 14px; font-weight: 400; line-height: 0.5;">ตำแหน่ง :</p>
                 <p style="font-size: 14px; margin-left: 70px; font-weight: 400; line-height: 0.5; ">Position</p>
             </div>
             <div class="col-2 " style="left:45px;">
-                <input type="text" name="position" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@requester.Position_Name" />
+                <input type="text" name="position" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_PositionName")" />
             </div>
             <div style="left: 5px; width: 150px;">
                 <p style="margin-top: 40px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">แผนก :</p>
                 <p style="font-size: 14px; margin-left: 30px; font-weight: 400; line-height: 0.5; ">Department</p>
             </div>
             <div class="col-2 " style="left:30px;">
-                <input type="text" name="department" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 250px; " value="@requester.Dept_Name" />
+                <input type="text" name="department" readonly class=" form-control" style="margin-top: 40px; margin-left: -50px; background: #D9D9D9; border-radius: 0; width: 250px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_DeptName")" />
             </div>
         </div>
         <div class="row ">
@@ -85,7 +89,7 @@
                 <p style="font-size: 14px; margin-left: 20px; font-weight: 400; line-height: 0.5; color: #1172CD; text-decoration: underline; ">Please select the title</p>
             </div>
             <div class="col-5">
-               
+
                 <select class="form-select" id="txtTitle" name="txtTitle" style="margin-top: 35px; margin-left: 13px; width: 400px; height:50px;" required asp-items="@ViewBag.Category">
                     <option selected="selected" disabled value="0">กรุณาเลือก</option>
                 </select>
@@ -258,6 +262,7 @@
         $(document).ready(function () {
             let today = new Date().toISOString().slice(0, 10);
             //ซ่อน ตาราง/dropdown
+            $("#txtStaff").hide();
             $("#tablePrice").hide();
             $("#ToWhom").hide();
             $("#txtDocument").hide();
@@ -268,56 +273,103 @@
             $("#thaiDate").text(formattedDate);
             $("#AmountTH").text(AmountinLetter);
             $("#AmountEN").text(AmountinLetter);
-            console.log("6666666666");
-            var n = $("#txta").text();
-            console.log(n);
 
 
+            //// ดึงปีออกมาจาก StartWork และ today
+            //let today2 = new Date();
 
-            // ดึงปีออกมาจาก StartWork และ today
+            //// Assuming startWorkDate is in the format "MM/DD/YYYY"
+            //let startWorkDate = $("#startDate").val();
+            ////let startWorkDate = "02/10/2023";
+            //let startDate = new Date(startWorkDate);
+            //let today3 = new Date();
+
+            //// คำนวณผลต่างของวันที่ (วันที่ต้องนับก่อน)
+            //let timeDifferenceBefore = today3 - startDate;
+            //let daysDifferenceBefore = Math.floor(timeDifferenceBefore / (1000 * 60 * 60 * 24));
+
+            //// คำนวณวันที่เหลือหลังจากนับวัน
+            //let remainingDays = daysDifferenceBefore % 365;
+            //let years = Math.floor(daysDifferenceBefore / 365);
+            //let months = Math.floor(remainingDays / 30);
+            //let remainingMonths = remainingDays % 30;
+            //let days = remainingMonths;
+
+            //console.log("Years:", years);
+            //console.log("Months:", months);
+            //console.log("Days:", days);
+
+            function calculateDaysWorked(startWorkDate) {
+                // แปลงวันที่เริ่มทำงานเป็นวัตถุ Date
+                let startDate = new Date($("#startDate").val());
+
+                // รับวันที่ปัจจุบัน
+                let today = new Date();
+
+                // คำนวณผลต่างของวันที่
+                let timeDifference = today - startDate;
+                let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                
+                console.log(today);
+                console.log(timeDifference);
+                console.log(daysDifference);
+                // คำนวณปี, เดือน, และวัน
+                let years = Math.floor(daysDifference / 365);
+                let remainingDays = daysDifference % 365;
+
+                let months = 0;
+                let days = 0;
+
+                // คำนวณเดือนและวันที่เหลือ
+                while (remainingDays > 0) {
+                    let daysInMonth = new Date(startDate.getFullYear(), startDate.getMonth() + months + 1, 0).getDate();
+                    if (remainingDays >= daysInMonth) {
+                        months++;
+                        remainingDays -= daysInMonth;
+                    } else {
+                        days = remainingDays;
+                        break;
+                    }
+                }
+
+                // สร้างข้อความผลลัพธ์
+                let resultText = "";
+                if (years > 0) {
+                    resultText += years + " ปี ";
+                }
+                if (months > 0) {
+                    resultText += months + " เดือน ";
+                }
+                if (days > 0) {
+                    resultText += days + " วัน";
+                }
+
+                return resultText;
+            }
+
+            // ตัวอย่างการใช้งาน
+            //let startWorkDate = "02/10/2023";
+            //let result = calculateDaysWorked(startWorkDate);
+            //console.log(result);
+            let startDate = new Date("02/10/2023");
             let today2 = new Date();
 
-            // แปลง StartWork เป็น Date object
-           let startWorkDate = jsDate;
+            let timeDifference = today - startDate;
 
-            // คำนวณจำนวนวันที่ผ่านมา
-            let timeDifference = today - startWorkDate;
             let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-            // คำนวณปีและเดือน
             let years = Math.floor(daysDifference / 365);
-            let months = Math.floor((daysDifference % 365) / 30);
+            let remainingDays = daysDifference % 365;
+            let months = Math.floor(remainingDays / 30);
+            let days = remainingDays % 30;
 
-            // สร้างข้อความที่แสดงผล
-            let resultText = "";
-            if (years > 0) {
-                resultText += years + " ปี ";
-            }
-            if (months > 0) {
-                resultText += months + " เดือน";
-            }
+            console.log("Years:", years);
+            console.log("Months:", months);
+            console.log("Days:", days);
 
-            console.log(resultText);
-            //// คำนวณจำนวนวันที่ผ่านมา
-            //let timeDifference = today2 - startWorkDate;
-            //let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-            //// คำนวณจำนวนปี
-            //let yearsDifference = Math.floor(daysDifference / 365);
 
-            //// แสดงผลลัพธ์
-            //if (yearsDifference >= 1) {
-            //    /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
 
-            //    document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
-            //    document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
-            //} else {
-            //    /* console.log("น้อยกว่า 1 ปี");*/
-            //    yearDifference = 0;
-            //   /* console.log(yearDifference);*/
-            //    document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
-            //    document.getElementById("experienceEN").innerHTML = "less than 1 year";
-            //}
+
 
            $.ajax({
                 contentType: false,
@@ -337,6 +389,7 @@
 
         });
 
+        
         /* sidebar */
         const body = document.querySelector('body');
         const sidebar = document.getElementById("navtag");
@@ -432,7 +485,7 @@
 
                 let today = new Date().toISOString().slice(0, 10);
                 data.append(`Historys[0].RequestNumber`, $("#RequestNumberEN").val());
-                data.append(`Historys[0].EmployeeId`, '@requester.empID');
+                data.append(`Historys[0].EmployeeId`, $("#txtEmpID").val());
                 data.append(`Historys[0].Detail`, $("#txtDetail").val());
                 data.append(`Historys[0].Quota`, quota);
                 data.append(`Historys[0].Used`, usedPrice);
@@ -521,23 +574,20 @@
         $(document).on('change', "#txtTitle", function (e) {
             let today2 = new Date();
 
-            // แปลง StartWork เป็น Date object
-            let startWorkDate = new Date("@requester.start_work");
+            let startWorkDate = $("#startDate").val();
+            let startDate = new Date(startWorkDate);
 
-            // คำนวณจำนวนวันที่ผ่านมา
-            let timeDifference = today2 - startWorkDate;
+            // Calculate the time difference in milliseconds
+            let timeDifference = today2 - startDate;
+
+            // Calculate days, months, and years
             let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            let years = Math.floor(daysDifference / 365);
+            let months = Math.floor((daysDifference % 365) / 30);
+            let days = daysDifference % 30;
 
-            // คำนวณจำนวนปี
-            let yearsDifference = Math.floor(daysDifference / 365);
 
-            // แสดงผลลัพธ์
-            if (yearsDifference >= 1) {
-                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
-            } else {
-                /* console.log("น้อยกว่า 1 ปี");*/
-                yearDifference = 0;;
-            }
+
 
 
             /*console.log("yoooooooo");*/
@@ -585,6 +635,33 @@
 
         $(document).on('change', "#ToWhom", function (e) {
             /*console.log($("#txtTitle").val());*/
+
+            var Category = $("#txtTitle").val();
+            console.log(Category);
+            if (Category == 3) {
+                var dataStaff = new FormData();
+                dataStaff.append("empID", $("#txtEmpID").val());
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("GetStaffName", "Request")',
+                    data: dataStaff,
+                    success: function (data) {
+                        $("#txtQuota").val(data.quotaPrice);
+                        $("#txtUsedPrice").val(data.usedPrice);
+                        $("#txtRemainPrice").val(data.remainPrice);
+                       
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+                $("#tablePrice").show();
+            } else if (Category == 8) {
+                $("#tablePrice").hide();
+
+            } else {
             var data = new FormData();
             data.append("categoryID", $("#txtTitle").val());
             data.append("empId", $("#txtEmpID").val());
@@ -605,8 +682,11 @@
                         console.log(err)
                     }
             });
+                $("#tablePrice").show();
+            }
 
-            $("#tablePrice").show();
+
+            
 
 
             var data2 = new FormData();
@@ -654,28 +734,46 @@
         $(document).on('input', "#txtAmount", function (e) {
             var amountPrice = $('#txtAmount').val();
             var RemainPrice = $('#txtRemainPrice').val();
-
+            var category = $('#txtTitle').val();
             $("#txtAmountError").text("");
-
-            if (/[^0-9]/.test(amountPrice)) {
-                $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
-                hasError = true;
-            } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
-                $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
-                hasError = true;
-                $("#txtAmount").val("");
-            } else if (amountPrice != "") {
-                // แปลงเลขเป็นข้อความภาษาไทย
-                var thaiWords = numberToThaiWords(amountPrice);
-                /*console.log("Thai Number:", thaiWords);*/
-                document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords +"บาท .....)";
-                // แปลงเลขเป็นข้อความภาษาอังกฤษ
-                var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
-                document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
-               /* console.log("English Number:", englishWords);*/
-                hasError = true;
+            if (category != 8) {
+                if (/[^0-9]/.test(amountPrice)) {
+                    $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
+                    hasError = true;
+                    $("#txtAmount").val("");
+                } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
+                    $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
+                    hasError = true;
+                    $("#txtAmount").val("");
+                } else if (amountPrice != "") {
+                    // แปลงเลขเป็นข้อความภาษาไทย
+                    var thaiWords = numberToThaiWords(amountPrice);
+                    /*console.log("Thai Number:", thaiWords);*/
+                    document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+                    // แปลงเลขเป็นข้อความภาษาอังกฤษ
+                    var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+                    document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+                    /* console.log("English Number:", englishWords);*/
+                    hasError = true;
+                } else {
+                    hasError = false;
+                }
             } else {
-                hasError = false;
+                if (/[^0-9]/.test(amountPrice)) {
+                    $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
+                    hasError = true;
+                    $("#txtAmount").val("");
+                } else if (amountPrice != "") {
+                    // แปลงเลขเป็นข้อความภาษาไทย
+                    var thaiWords = numberToThaiWords(amountPrice);
+                    /*console.log("Thai Number:", thaiWords);*/
+                    document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
+                    // แปลงเลขเป็นข้อความภาษาอังกฤษ
+                    var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
+                    document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
+                    /* console.log("English Number:", englishWords);*/
+                    hasError = true;
+                }
             }
         });
 

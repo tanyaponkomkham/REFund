@@ -26,8 +26,6 @@ namespace REFund
 
 		public IConfiguration Configuration { get; }
 
-
-
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -48,17 +46,40 @@ namespace REFund
 					builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
 				}));
 			services.AddTransient<INotify, Notify>();
+
+			services.AddDistributedMemoryCache();
+
+			services.AddAuthentication(IISDefaults.AuthenticationScheme);
+
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+			{
+				options.AccessDeniedPath = "/Auth/Login";
+			});
+
+			services.ConfigureApplicationCookie(options => options.LoginPath = "/Auth/Login");
+			services.AddHttpContextAccessor();
+
+			
+			services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromMinutes(30);
+				options.IOTimeout = TimeSpan.FromMinutes(30);
+				options.Cookie.Name = ".iBenefit.Session";
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+				options.Cookie.Path = "/";
+				options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+			});
+
+		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddMvc();
 
-			//services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
-			//services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-			//{
-			//	options.AccessDeniedPath = "/Auth/Login";
-			//});
 
-			//services.ConfigureApplicationCookie(options => options.LoginPath = "/Auth/Login");
-			////services.AddHttpContextAccessor();
+
+
+			
+
 
 			//services.AddSession(options =>
 			//{
@@ -75,6 +96,7 @@ namespace REFund
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+
 			}
 			else
 			{
@@ -88,7 +110,7 @@ namespace REFund
 			app.UseRouting();
 
 			app.UseAuthorization();
-
+			app.UseSession();
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(

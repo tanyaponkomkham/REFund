@@ -27,6 +27,7 @@ namespace REFund.Data
 		public  DbSet<Workflow> Workflow { get; set; }
 		public  DbSet<Request> Request { get; set; }
 		public  DbSet<History> History { get; set; }
+		public DbSet<StaffLevel> StaffLevel { get; set; }
 
 		public virtual DbSet<EmpInfo> EmpInfo { get; set; }
 

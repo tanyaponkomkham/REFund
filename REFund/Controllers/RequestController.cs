@@ -14,6 +14,7 @@ using REFund.Data;
 using REFund.Models;
 using REFund.Models.Views;
 using REFund.Services;
+using REFund.Class;
 
 namespace REFund.Controllers
 {
@@ -21,6 +22,9 @@ namespace REFund.Controllers
     {
         private readonly CoreContext _context;
         private readonly INotify _notify;
+
+       
+
         public RequestController(CoreContext context, INotify notify)
         {
             _context = context;
@@ -31,12 +35,66 @@ namespace REFund.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).ToListAsync();
+            var request =  await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).ToListAsync();
             
             return View(request);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetCountAllRequest()
+        {
 
+                var getCountAllRequest = _context.Request.Count();
+
+
+            return View(getCountAllRequest);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetCountMyRequest(string empID)
+        {
+
+            var getCountMyRequest = _context.Request.Where(s => s.EmployeeId == empID) .Count();
+
+
+            return View(getCountMyRequest);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetCountMyApprove(string empID)
+        {
+
+            Request request = new Request();
+            var context = new PrincipalContext(ContextType.Domain);
+            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == principal.SamAccountName).Select(s => s.Step).FirstOrDefaultAsync();
+            if (getStep != null)
+            {
+                //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
+                request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).Select(s => s).FirstOrDefaultAsync();
+            }
+
+
+            //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+            var ManagerDomain = await _context.EmpInfo
+            .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
+            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == principal.SamAccountName)
+            .Select(joined => joined.Request).ToListAsync();
+
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == principal.SamAccountName);
+            ViewBag.Step = getStep;
+            //Union ระหว่าง getWorkflowกับManagerDomain
+            var requests = (request != null
+            ? ManagerDomain.Union(new List<Request> { request })
+            : ManagerDomain).Count();
+
+            return View(requests);
+
+
+        }
         public async Task<IActionResult> MyRequest()
         {
 
@@ -100,21 +158,59 @@ namespace REFund.Controllers
         }
 
         // GET: Requests/Create
-        public async Task<IActionResult> Create(string empID)
+        public async Task<IActionResult> Create()
         {
             //var context = new PrincipalContext(ContextType.Domain);
             //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empID);
+            //ViewBag.Requester =
+            clsAuthenticate clsAuth = new clsAuthenticate();
+            var empId = HttpContext.Session.GetString(clsAuth.SessionUserId);
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId);
             ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value");
-
             return View();
         }
-
-        // POST: Requests/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetStaffName(string empID)
+        {
+			try
+			{
+                var getQuotaPrice = await _context.EmpInfo    // your starting point - table in the "from" statement
+             .Join(_context.StaffLevel, // the source table of the inner join
+             post => EF.Functions.Collate(post.stafflevelID, "Thai_CS_AI") ,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+             meta => EF.Functions.Collate(meta.StaffLevel_Code, "Thai_CS_AI") ,   // Select the foreign key (the second part of the "on" clause)
+             (post, meta) => new { Post = post, Meta = meta }) // selection
+             .Where(s => s.Post.empID == empID).Select(s => s.Meta.Price).FirstOrDefaultAsync();
+
+                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+
+                int usedPrice = 0;
+
+                foreach (var item in getUsePrice)
+                {
+                    usedPrice = usedPrice + item;
+                }
+
+                var remainPrice = getQuotaPrice - usedPrice;
+
+                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice });
+            }
+			catch (Exception ex)
+			{
+
+				ex.ToString();
+			}
+            return View();
+            //var getUsePrice = _context.Request.Where(s => )
+            //return View(getQuotaPrice);
+            
+            
+        }
+            // POST: Requests/Create
+            // To protect from overposting attacks, enable the specific properties you want to bind to.
+            // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Request request, List<IFormFile> attachments)
         {

@@ -233,7 +233,7 @@
                      console.log(data);
                         setTimeout(function() {
                             // ในกรณีนี้คุณอาจต้องใช้ escape เครื่องหมาย " เพื่อให้ได้ URL ที่ถูกต้อง
-                            window.location.href = '@Url.Action("Create", "Request")' + '?empID=' + encodeURIComponent(data);
+                            window.location.href = '@Url.Action("Create", "Request")';
                         }, 1000);
                     },
                     error: function (err) {
@@ -245,7 +245,7 @@
         $("#btnLoginDomain").on("click", function (e) {
            
             var dataDomain = new FormData();
-            dataDomain.append("username", $("#employeeInput").val());
+            dataDomain.append("domain", $("#employeeInput").val());
             dataDomain.append("password", $("#passwordInput").val());
              $.ajax({
                     contentType: false,
@@ -256,7 +256,7 @@
                     success: function (data) {
                         setTimeout(function() {
                             // ในกรณีนี้คุณอาจต้องใช้ escape เครื่องหมาย " เพื่อให้ได้ URL ที่ถูกต้อง
-                            window.location.href = '@Url.Action("Create", "Request")' + '?empID=' + encodeURIComponent(data);
+                            window.location.href = '@Url.Action("Create", "Request")';
                         }, 1000);
                     },
                     error: function (err) {
