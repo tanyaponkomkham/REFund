@@ -1139,9 +1139,9 @@
                     url: '@Url.Action("Edit", "Request", new { id = @Model.Id })',
                     data: dataEdit,
                     success: function (data) {
-                        @*setTimeout(function() {
+                        setTimeout(function() {
                             window.location.href = '@Url.Action("Index", "Request")';
-                        }, 1000);*@
+                        }, 1000);
                     },
                     error: function (err) {
                         $("#SubmitFormSpinn").addClass("d-none");
