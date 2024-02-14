@@ -163,7 +163,7 @@ namespace REFund.Controllers
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetStaffName(string empID)
+        public async Task<IActionResult> GetStaffName(int categoryID, int whomID, string empID)
         {
             try
             {
@@ -174,7 +174,13 @@ namespace REFund.Controllers
              (post, meta) => new { Post = post, Meta = meta }) // selection
              .Where(s => s.Post.empID == empID).Select(s => s.Meta.Price).FirstOrDefaultAsync();
 
-                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+                var getStatusRequest = await _context.Request.Where(s => s.EmployeeId == empID && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID != (int)IDStatus.Completed && s.Workflow.ID != (int)IDStatus.Disapprove).Select(s => s.Amount).ToListAsync();
+                int waittingPrice = 0;
+                foreach (var item in getStatusRequest)
+                {
+                    waittingPrice = waittingPrice + item;
+                }
 
                 int usedPrice = 0;
 
@@ -183,9 +189,9 @@ namespace REFund.Controllers
                     usedPrice = usedPrice + item;
                 }
 
-                var remainPrice = getQuotaPrice - usedPrice;
+                var remainPrice = getQuotaPrice - usedPrice- waittingPrice;
 
-                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice });
+                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice, WaittingPrice = waittingPrice });
             }
             catch (Exception ex)
             {
@@ -198,9 +204,18 @@ namespace REFund.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> WhoMarriage(int categoryID, string empId, int whomID)
+        {                
+            var getMarriage = await _context.Request.Where(s => s.CategoryID == categoryID && s.WhomID == whomID && s.EmployeeId == empId).Select(s => s.ConfirmDate).FirstOrDefaultAsync();
+
+            return StatusCode(200, getMarriage);
+        }
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetPriceMedical(string empID)
+        public async Task<IActionResult> GetPriceMedical(int categoryID, int whomID,string empID)
         {
             try
             {
@@ -242,8 +257,13 @@ namespace REFund.Controllers
                     getQuotaPrice = 4000;
                 }
 
-                    var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
-
+                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+                var getStatusRequest = await _context.Request.Where(s => s.EmployeeId == empID && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID != (int)IDStatus.Completed && s.Workflow.ID != (int)IDStatus.Disapprove).Select(s => s.Amount).ToListAsync();
+                int waittingPrice = 0;
+                foreach (var item in getStatusRequest)
+                {
+                    waittingPrice = waittingPrice + item;
+                }
                 int usedPrice = 0;
 
                 foreach (var item in getUsePrice)
@@ -251,9 +271,9 @@ namespace REFund.Controllers
                     usedPrice = usedPrice + item;
                 }
 
-                var remainPrice = getQuotaPrice - usedPrice;
+                var remainPrice = getQuotaPrice - usedPrice - waittingPrice; 
 
-                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice });
+                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice, WaittingPrice = waittingPrice });
             }
             catch (Exception ex)
             {
@@ -348,9 +368,30 @@ namespace REFund.Controllers
         // GET: Requests/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            var context = new PrincipalContext(ContextType.Domain);
-            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            //var context = new PrincipalContext(ContextType.Domain);
+            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            var empId = await _context.Request.FirstOrDefaultAsync(s => s.Id == id);
 
+            var getEmp = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId.EmployeeId);
+
+            DateTime today = DateTime.Today;
+            int months = today.Month - getEmp.start_work.Value.Month;
+            int years = today.Year - getEmp.start_work.Value.Year;
+
+            if (today.Day < getEmp.start_work.Value.Day)
+            {
+                months--;
+            }
+
+            if (months < 0)
+            {
+                years--;
+                months += 12;
+            }
+            int days = (today - getEmp.start_work.Value.AddMonths((years * 12) + months)).Days;
+            ViewBag.Days = days;
+            ViewBag.Months = months;
+            ViewBag.Years = years;
 
             if (id == null)
             {
@@ -438,7 +479,6 @@ namespace REFund.Controllers
                     Used = reqHistory[0].Used,
                     Remain = reqHistory[0].Remain,
                     Amount = reqHistory[0].Amount,
-                    Comment = reqHistory[0].Comment,
                     CreateBy = reqHistory[0].CreateBy,
                     CreateAt = reqHistory[0].CreateAt,
                     UpdateBy = reqHistory[0].UpdateBy,
@@ -448,7 +488,8 @@ namespace REFund.Controllers
                     CategoryID = reqHistory[0].CategoryID,
                     WhomID = reqHistory[0].WhomID
                 });
-
+                report.EmployeeId = request.EmployeeId;
+                report.RequestNumber = request.RequestNumber;
                 report.Detail = request.Detail;
                 report.Quota = request.Quota;
                 report.Used = request.Used;
@@ -463,7 +504,9 @@ namespace REFund.Controllers
             }
             else
             {
+                report.EmployeeId = request.EmployeeId;
                 report.Detail = request.Detail;
+                report.RequestNumber = request.RequestNumber;
                 report.Quota = request.Quota;
                 report.Used = request.Used;
                 report.Remain = request.Remain;
@@ -479,8 +522,8 @@ namespace REFund.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                //_notify.SendEmail(request);
-                return Ok(); // หรือในที่นี้คุณสามารถคืน Ok หรือตามที่เหมาะสม
+				_notify.SendEmail(request);
+				return Ok(); // หรือในที่นี้คุณสามารถคืน Ok หรือตามที่เหมาะสม
             }
             catch (Exception e)
             {
@@ -519,13 +562,19 @@ namespace REFund.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetQuotaTitle(int categoryID, string empId, int whomID)
+        public async Task<IActionResult> GetQuotaTitle(int categoryID, string empId, int whomID )
         {
             try
             {
                 var getQuotaPrice = await _context.CategoryDetail.Where(s => s.CategoryID == categoryID && s.WhomID == whomID).Select(s => s.QuotaPrice).FirstOrDefaultAsync();
 
-                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empId && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+                var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empId && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+                var getStatusRequest = await _context.Request.Where(s => s.EmployeeId == empId && s.CategoryID == categoryID && s.WhomID == whomID && s.Workflow.ID != (int)IDStatus.Completed && s.Workflow.ID != (int)IDStatus.Disapprove).Select(s => s.Amount).ToListAsync();
+                int waittingPrice = 0;
+                foreach (var item in getStatusRequest)
+				{
+                    waittingPrice = waittingPrice + item;
+                }
 
                 int usedPrice = 0;
 
@@ -534,10 +583,10 @@ namespace REFund.Controllers
                     usedPrice = usedPrice + item;
                 }
 
-                var remainPrice = getQuotaPrice.Value - usedPrice;
+                var remainPrice = getQuotaPrice.Value - usedPrice - waittingPrice;
                 //var getUsePrice = _context.Request.Where(s => )
 
-                return new ObjectResult(new { QuotaPrice = getQuotaPrice.Value, UsedPrice = usedPrice, RemainPrice = remainPrice });
+                return new ObjectResult(new { QuotaPrice = getQuotaPrice.Value, UsedPrice = usedPrice, RemainPrice = remainPrice, WaittingPrice = waittingPrice });
 
 
             }

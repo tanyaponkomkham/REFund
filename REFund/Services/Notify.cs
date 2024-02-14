@@ -26,6 +26,7 @@ namespace REFund.Services
         //private List<string> MailCc = new List<string>();
         private string MailSubject { get; set; }
         private string MailMessage { get; set; }
+        private string MailCC { get; set; }
         public void InvokeEmail()
         {
             var setConfig = _conf.GetSection("EmailConfig");
@@ -49,6 +50,11 @@ namespace REFund.Services
                 mail.To.Add(MailAddress);
 
                 mail.Bcc.Add("tanyaporn.std@senior-thailand.com");
+                if(MailCC != null)
+				{
+                    mail.CC.Add(MailCC);
+                }
+                
                 mail.IsBodyHtml = true;
                 mail.Subject = MailSubject;
                 mail.Body = MailMessage;
@@ -91,7 +97,7 @@ namespace REFund.Services
                     MailMessage += "<br />";
                     MailMessage += "<br />";
                     // MailMessage += "<div>for more information click <a href='" + setConfig["HttpRootPath"] + "Auth/Index?returnUrl=/Home/Edit/" + request.Id + "'>[Link]</a></div>";
-                    var MailManager = _db.Workflow.Where(s => s.Step == 3).Select(s => s.ActionEmail).FirstOrDefault();
+                    var MailManager = _db.EmpInfo.Where(s => s.domain_name == ManagerDomainApprove).Select(s => s.email).FirstOrDefault();
                     MailAddress = MailManager;
 
                     InvokeEmail();
@@ -148,8 +154,9 @@ namespace REFund.Services
                     MailMessage += "<br />";
                     MailMessage += "<br />";
                     // MailMessage += "<div>for more information click <a href='" + setConfig["HttpRootPath"] + "Auth/Index?returnUrl=/Home/Edit/" + request.Id + "'>[Link]</a></div>";
-
+                    var MailAccount2 = _db.Workflow.Where(s => s.Step == 6).Select(s => s.ActionEmail).FirstOrDefault();
                     MailAddress = emp.email;
+                    MailCC = MailAccount2;
 
                     InvokeEmail();
                     break;

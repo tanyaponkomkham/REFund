@@ -232,38 +232,28 @@
                     }
                 </div>
             </div>
-            @*<div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="pay-day d-none">Pay Day</label>
-                            <input type="date" class="form-control form-control-sm is-pink b-r-02 request-disable pay-day d-none" id="PayDay" name="PayDay" value="@(Model.PaidDate == null? "":Convert.ToDateTime(Model.PaidDate).ToString("yyyy-MM-dd"))" required />
-
-                        </div>
-                    </div>
-
-                </div>*@
             <div class="row">
-                <div class="col-1"></div>
+                @*<div class="col-1"></div>
                 <div style="left: 1px; width: 120px;">
                     <p id="txtComment2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">comment :</p>
                 </div>
                 <div style="left: 1px; width: 300px;">
                     <textarea class="form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtComment" name="txtComment" rows="1" style="margin-top: 15px; background: #FFF7B2; margin-left: -5px;"></textarea>
-                </div>
+                </div>*@
             </div>
             <div class="row">
                 <div class="col-1"></div>
                 <div style="left: 1px; width: 120px;">
-                    <p class="" id="txtPayDay2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">PayDay :</p>
+                    <p class="" id="txtPayDay2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 600; line-height: 0.5; color: #12D01B;">PayDay :</p>
                 </div>
                 <div style="left: 1px; width: 300px; margin-top: 15px;">
                     <input type="date" class="form-control " style="width: 250px; top:15px;" name="payDay" id="payDay">
-                    <p class="" id="txtPayDay" style="margin-top: 1px; margin-left: -5px; font-size: 12px; font-weight: 400; "> @Model.ConfirmDate.ToString("dd/MM/yyyy")</p>
+                    <p class="" id="txtPayDay" style="margin-top: 5px; margin-left: -5px; font-size: 12px; font-weight: 600; color: #12D01B;"> @Model.ConfirmDate.ToString("dd/MM/yyyy")</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-1"></div>
-                <div class="col-12 " style=" text-align: right;">
+                <div class="col-12 " style=" text-align: right; margin-top: -25px;">
                     <button type="button" id="btnApprove" name="btnApprove" class="btn " style="background-color: #3CE84D; color: white; width: 80px;  margin-top: 100px; font-size: 12px;">Approve</button>
                     <button type="button" id="btnDisapprove" name="btnDisapprove" class="btn btn-danger" style="color: white; width: 90px; margin-left: 40px; margin-top: 100px;  font-size: 12px;">Disapprove</button>
 
@@ -288,7 +278,7 @@
                             @*History timeline Line*@
 
                             <div class="timeline">
-                                <div class="row " style="margin-top: -10px; height: 410px; ">
+                                <div class="row " style="margin-top: -10px; height: 110px; ">
                                     <div class="col-1" style="margin-left: 15px; ">
                                         <div class="row " style="margin-top: 25px;">
 
@@ -302,8 +292,16 @@
                                                 var fontColor = statusID?.FontColor;
                                                 var backgroundColor = statusID?.BackgroundColor;
                                                 var count = countStatus - counthistory;
+                                                
 
-                                                if (statusName == "Completed")
+                                                if (statusName == "Request")
+                                                {
+                                                    <div class="circleapprove" style=" margin-left: 3px;">
+                                                        <img src="~/img/employee.png" style="width: 16px; height: 16px; ">
+                                                    </div>
+                                                      <div class="col-1 line"></div>
+                                                }
+                                                else if (statusName == "Final Cut Off")
                                                 {
                                                     <div class="circleapprove" style=" margin-left: 3px;">
                                                         <img src="~/img/check-mark.png" style="width: 16px; height: 16px; ">
@@ -337,7 +335,7 @@
                                                 var statusName = status.StatusName;
                                                 if (statusName != "Disapprove")
                                                 {
-                                                    if (statusName == "Completed")
+                                                    if (statusName == "Final Cut Off")
                                                     {
                                                         <div class="circle" style="margin-left: 3px;">
                                                             <img src="~/img/user.png" style="width: 14px; height: 16px; ">
@@ -348,10 +346,8 @@
                                                         <div class="circle" style="margin-left: 3px;">
                                                             <img src="~/img/user.png" style="width: 14px; height: 16px; ">
                                                         </div>
-                                                        <div class="col-1 line"></div>
+                                                        <div class="col-1 lineCut"></div>
                                                     }
-
-
 
                                                 }
                                                 else
@@ -369,6 +365,7 @@
                                                 @foreach (var history in ViewBag.History)
                                                 {
                                                     var createAt = history.CreateAt;
+                                                    var payday = history.ConfirmDate;
                                                     var createBy = history.UpdateBy;
                                                     var comment = history.Comment;
                                                     var statusID = history.Workflow.Status;
@@ -377,103 +374,164 @@
                                                     var backgroundColor = statusID?.BackgroundColor;
                                                     var count = countStatus - counthistory;
 
-                                                    <div class="col-12" style="text-align: center; height: 145px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
 
-                                                        <div class="row" style="text-align: right; margin-right: -3px;">
-                                                            <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                        </div>
 
-                                                        @if (statusName == "HR Review")
-                                                        {
-                                                            <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
-                                                        }
-                                                        else if (statusName == "Manager Review")
-                                                        {
-                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
-                                                        }
-                                                        else if (statusName == "CFO Review")
-                                                        {
-                                                            <div class="row" style="text-align: left; width: 115px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
+                                                @if (statusName == "HR Review")
+                                                    {
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
+                                                    }
+                                                    else if (statusName == "Manager Review")
+                                                    {
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
+                                                    }
+                                                   else if (statusName == "CFO Review")
+                                                     {
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 115px; margin-left: 4px; margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
 
                                                         }
                                                         else if (statusName == "HRManager Review")
                                                         {
-                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
                                                         }
-                                                        else if (statusName == "Completed")
+                                                        else if (statusName == "Final Cut Off")
                                                         {
-                                                            <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
+                                                <div class="col-12" style="text-align: center; height: 125px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 110px; margin-left: 4px;  margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 200px; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
+                                                        <label style="font-size: 11px; font-weight: 500; width: 250px; ">PayDate: @Convert.ToDateTime(payday).ToString("dd-MMM-yyyy")</label>
+                                                    </div>
+                                                </div>
                                                         }
                                                         else if (statusName == "Disapprove")
                                                         {
-                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
                                                         }
                                                         else
                                                         {
-                                                            <div class="row" style="text-align: left; width: 80px; margin-left: 4px;  margin-top: -7px;">
-                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                                    @statusName
-                                                                </label>
-                                                            </div>
+                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                    <div class="row" style="text-align: right; margin-right: -3px;">
+                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left; width: 80px; margin-left: 4px; margin-top: -7px;">
+                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                            @statusName
+                                                        </label>
+                                                    </div>
+                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                    </div>
+                                                </div>
                                                         }
 
-                                                        <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                            <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
 
-                                                        </div>
-                                                        <div class="row" style="text-align: left; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
-                                                            <label style="font-size: 13px; font-weight: 500;  word-wrap: break-word; overflow-wrap: break-word;">@comment</label>
-                                                        </div>
-                                                    </div>
-
-                                                }
+                                                    }
                                                 @foreach (var status in ViewBag.StatusDistinct)
-                                                {
-                                                    var statusName = status.StatusName;
-                                                    if (statusName != "Disapprove")
+                                                        {
+                                                            var statusName = status.StatusName;
+                                                            if (statusName != "Disapprove")
 
-                                                    {
-                                                        <div class="col-12" style="text-align: center; height: 140px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-                                                            <div class="row" style="text-align: center; margin-top: 50px;">
-                                                                <label style="font-size: 14px; font-weight: 600;">@statusName</label>
-                                                            </div>
-                                                        </div>
+                                                            {
+                                                <div class="col-12" style="text-align: center; height: 50px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                    <div class="row" style="text-align: center; margin-top: 9px;">
+                                                        <label style="font-size: 14px; font-weight: 600;">@statusName</label>
+                                                    </div>
+                                                </div>
 
-                                                    }
-                                                    else
-                                                    {
+                                                                }
+                                                                else
+                                                                {
 
-                                                    }
+                                                                }
 
-                                                }
+                                                        }
+
+
                                             </div>
-
                                         </div>
-                                    </div>
                                 </div>
 
                             </div>
@@ -516,10 +574,10 @@
         //$("#tablePrice").hide();
         //$("#ToWhom").hide();
         //$("#txtDocument").hide();
-         let workYears = '@ViewBag.Years';
-            let workMonths = '@ViewBag.Months';
-            let workDays = '@ViewBag.Days';
-            console.log(workYears, workMonths, workDays);
+           let workYears = '@ViewBag.Years';
+           let workMonths = '@ViewBag.Months';
+           let workDays = '@ViewBag.Days';
+           console.log(workYears, workMonths, workDays);
 
             var workDate = "";
             var workDateEN = "";
@@ -678,8 +736,6 @@
                             $('#payDay').addClass('d-none');
                             $('#txtPayDay').addClass('d-none');
                             $('#txtPayDay2').addClass('d-none');
-                            $('#txtComment2').removeClass('d-none');
-                            $('#txtComment').removeClass('d-none');
 
                             } else {
                                 $('#btnApprove').addClass('d-none');
@@ -687,8 +743,6 @@
                             $('#payDay').addClass('d-none');
                             $('#txtPayDay').addClass('d-none');
                             $('#txtPayDay2').addClass('d-none');
-                            $('#txtComment2').addClass('d-none');
-                            $('#txtComment').addClass('d-none');
 
                             }
 
@@ -701,8 +755,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').removeClass('d-none');
-                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                              console.log("BBB");
@@ -712,8 +764,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').addClass('d-none');
-                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -725,8 +775,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').removeClass('d-none');
-                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
@@ -735,8 +783,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').addClass('d-none');
-                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -748,8 +794,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').removeClass('d-none');
-                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
@@ -758,8 +802,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').addClass('d-none');
-                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -767,12 +809,10 @@
                      case '@((int)IDStatus.CFOReview)':
                          if ('@Model.AccountDomainApprove' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                             $('#btnDisapprove').removeClass('d-none');
+                             $('#btnDisapprove').addClass('d-none');
                              $('#payDay').removeClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').removeClass('d-none');
-                             $('#txtComment2').removeClass('d-none');
-                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
@@ -781,8 +821,6 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
-                             $('#txtComment2').addClass('d-none');
-                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -793,8 +831,6 @@
                         $('#payDay').addClass('d-none');
                         $('#txtPayDay').removeClass('d-none');
                         $('#txtPayDay2').removeClass('d-none');
-                        $('#txtComment2').addClass('d-none');
-                        $('#txtComment').addClass('d-none');
                         break;
                      case '@((int)IDStatus.Disapprove)':
                         $('#btnApprove').addClass('d-none');
@@ -802,8 +838,6 @@
                         $('#txtPayDay').addClass('d-none');
                         $('#payDay').addClass('d-none');
                         $('#txtPayDay2').addClass('d-none');
-                        $('#txtComment2').addClass('d-none');
-                        $('#txtComment').addClass('d-none');
                         break;
                 }
 
@@ -1012,7 +1046,7 @@
         $(document).on('change', "#payDay", function (e) {
             var payDay =new Date($('#payDay').val());
             console.log(payDay.toISOString());
-        
+
     });
 
     $(document).on('input', "#txtAmount", function (e) {
@@ -1050,7 +1084,7 @@
                 $("#btnDisapprove").prop("disabled", true);
 
                 var categoryName = $('#txtTitle').val();
-               
+
 
 
                 var workflowId = @Model.WorkflowID + 1;
@@ -1061,10 +1095,12 @@
                 var Whom = $('#txtWhom').val();
                 /* console.log(Whom);*/
 
-                var payDay = new Date($('#payDay').val());
+
                 var Fullname = $('#txtFullname').val();
                 var dataEdit = new FormData();
-                console.log(payDay);
+                console.log($('#payDay').val());
+                dataEdit.append("RequestNumber", $("#RequestNumber").text());
+                dataEdit.append("EmployeeId", '@requester.empID');
                 dataEdit.append("Amount", $("#txtAmount").val());
                 dataEdit.append("Detail", $("#txtDetail").val());
                 dataEdit.append("Quota", quota);
@@ -1076,37 +1112,53 @@
                 dataEdit.append("CategoryID", categoryName);
                 dataEdit.append("WorkflowID", workflowId);
                 dataEdit.append("WhomID", Whom);
-                if (payDay != null) {
-                    dataEdit.append("ConfirmDate", payDay.toISOString());
-                } else {
-                   /* console.log("");*/
-                }
-
-
-
-                let today = new Date().toISOString().slice(0, 10);
-                dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
-                dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
-                dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
-                dataEdit.append(`Historys[0].Quota`, quota);
-                dataEdit.append(`Historys[0].Used`, usedPrice);
-                dataEdit.append(`Historys[0].Remain`, remainPrice);
-                dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
-                dataEdit.append(`Historys[0].Comment`, $("#txtComment").val());
-                dataEdit.append(`Historys[0].CreateBy`, Fullname);
-                dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
-                dataEdit.append(`Historys[0].UpdateBy`, Fullname);
-                dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
-
-                if (payDay != null)
+                if ($('#payDay').val() != null && $('#payDay').val() != "0001 - 01 - 01" && $('#payDay').val() != "")
                 {
-                    dataEdit.append(`Historys[0].ConfirmDate`, payDay.toISOString());
-                } else {
-                    dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                    var payDay = new Date($('#payDay').val());
+                    if (!isNaN(payDay)) {
+                        // ตรวจสอบว่า payDay เป็นวันที่ที่ถูกต้องหรือไม่
+                        console.log(payDay);
+                        dataEdit.append("ConfirmDate", payDay.toISOString());
+                        dataEdit.append(`Historys[0].ConfirmDate`, payDay.toISOString());
+                         dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
+                    dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
+                    dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
+                    dataEdit.append(`Historys[0].Quota`, quota);
+                    dataEdit.append(`Historys[0].Used`, usedPrice);
+                    dataEdit.append(`Historys[0].Remain`, remainPrice);
+                    dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
+                    dataEdit.append(`Historys[0].CreateBy`, Fullname);
+                    dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].UpdateBy`, Fullname);
+                    dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].WorkflowID`, workflowId);
+                    dataEdit.append(`Historys[0].CategoryID`, categoryName);
+                    dataEdit.append(`Historys[0].WhomID`, Whom);
+                    } else {
+                        console.error("Invalid date for ConfirmDate");
+                    }
                 }
-                dataEdit.append(`Historys[0].WorkflowID`, workflowId);
-                dataEdit.append(`Historys[0].CategoryID`, categoryName);
-                dataEdit.append(`Historys[0].WhomID`, Whom);
+                else
+                {
+                    let today = new Date().toISOString().slice(0, 10);
+                    dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
+                    dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
+                    dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
+                    dataEdit.append(`Historys[0].Quota`, quota);
+                    dataEdit.append(`Historys[0].Used`, usedPrice);
+                    dataEdit.append(`Historys[0].Remain`, remainPrice);
+                    dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
+                    dataEdit.append(`Historys[0].CreateBy`, Fullname);
+                    dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].UpdateBy`, Fullname);
+                    dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].WorkflowID`, workflowId);
+                    dataEdit.append(`Historys[0].CategoryID`, categoryName);
+                    dataEdit.append(`Historys[0].WhomID`, Whom);
+                }
+
+
 
 
                 var checkedValues = [];
@@ -1159,7 +1211,7 @@
                 $("#btnApprove").prop("disabled", true);
                 $("#btnDisapprove").prop("disabled", true);
                 var categoryName = $('#txtTitle').val();
-                console.log('--------------');
+                console.log('DisApprove');
 
 
                 var workflowId = 7;
@@ -1170,7 +1222,7 @@
                 var Whom = $('#txtWhom').val();
                /* console.log(Whom);*/
                 var dataEdit = new FormData();
-
+                dataEdit.append("EmployeeId", '@requester.empID');
                 dataEdit.append("Amount", $("#txtAmount").val());
                 dataEdit.append("Detail", $("#txtDetail").val());
                 dataEdit.append("Quota", quota);
@@ -1192,7 +1244,6 @@
                 dataEdit.append(`Historys[0].Used`, usedPrice);
                 dataEdit.append(`Historys[0].Remain`, remainPrice);
                 dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
-                dataEdit.append(`Historys[0].Comment`, $("#txtComment").val());
                 dataEdit.append(`Historys[0].CreateBy`, '@User.Identity.Name.Split('\\').Last()');
                 dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
                 dataEdit.append(`Historys[0].UpdateBy`, '@User.Identity.Name.Split('\\').Last()');

@@ -22,7 +22,7 @@
                 <p style="font-size: 16px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: center;">Medical and Dental Claim</p>
             </div>
             <div class="col-3" style="left:5px;">
-                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">เลขที่ <span id="RequestNumberTH" style="font-size: 14px; font-weight: 400; font-family: Inter;"> </span></p>
+                <p style="margin-top: 50px; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: right;">เลขที่ <span id="RequestNumberTH" style="font-size: 14px; font-weight: 400; font-family: Inter;"> </span></p>
                 <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">No.<span id="RequestNumberEN" style="font-size: 14px; font-weight: 400; font-family: Inter;"></span></p>
             </div>
         </div>
@@ -34,9 +34,9 @@
                
             </div>
             <div class="col-3" style="left: 5px;">
-                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">อายุการทำงาน</p>
+                <p style="margin-top: 30px; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: right;">อายุการทำงาน</p>
                 <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;"><span id="experienceTH" style="font-size: 14px;  font-family: Inter; font-weight: 300;"></span></p>
-                <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;">Experience</p>
+                <p style="font-size: 14px; font-family: Inter; font-weight: 400; line-height: 0.5; text-align: right;">Experience</p>
                 <p style="font-size: 14px; font-family: Inter; font-weight: 300; line-height: 0.5; text-align: right;"><span id="experienceEN" style="font-size: 14px; font-family: Inter; font-weight: 300;"></span> </p>
                 
             </div>
@@ -136,27 +136,36 @@
             <div class="col-1"></div>
         </div>
         <div class="row ">
+            
             <div class="col-1"></div>
-            <div style="left: 20px; width: 440px; margin-top: 10px; margin-left: 17px; ">
-                <div id="txtQuotaError"  style="left: 6px; width: 440px; margin-top: 10px; margin-left: 6px; width: 250px; color: red; font-size: 15px; "></div>
+            <div style="left: 20px; width: 600px; margin-top: 10px; margin-left: 17px; ">
+                <div id="txtErrorWhoMarriage" style="left: 6px; width: 640px; margin-top: 10px; margin-left: 6px;  color: red; font-size: 15px; "></div>
+                <div id="txtQuotaError" style="left: 6px; width: 440px; margin-top: 10px; margin-left: 6px;  color: red; font-size: 15px; "></div>
                 <table class="table table-bordered" id="tablePrice" name="tablePrice">
                     <tr>
-                        <th style="font-size: 14px; font-weight: 400;">
+                        <th style="font-size: 14px; width: 130px; font-weight: 400;">
                             สิทธิ์ที่ได้ (บาท)<br>
                             Quota (BATH)
                         </th>
-                        <th style="font-size: 14px; font-weight: 400;">
+                        <th style="font-size: 14px; width: 130px; font-weight: 400;">
+                            รออนุมัติ (บาท)<br>
+                            Waitting Approve (BATH)
+                        </th>
+                        <th style="font-size: 14px; width: 130px; font-weight: 400;">
                             ใช้ไป (บาท)<br>
                             Used (BATH)
                         </th>
-                        <th style="font-size: 14px; font-weight: 400;">
+                        <th style="font-size: 14px; width: 130px; font-weight: 400;">
                             ยอดคงเหลือ (บาท)<br>
                             Remain (BATH)
                         </th>
                     </tr>
                     <tr>
                         <td style="font-size: 14px; font-weight: 400;">
-                            <input  id="txtQuota" name="txtQuota" readonly type="text" class=" form-control" />
+                            <input id="txtQuota" name="txtQuota" readonly type="text" class=" form-control" />
+                        </td>
+                        <td style="font-size: 14px; font-weight: 400;">
+                            <input id="txtWaittingPrice" name="txtWaittingPrice" readonly type="text" class=" form-control" />
                         </td>
                         <td style="font-size: 14px; font-weight: 400;">
                             <input id="txtUsedPrice" name="txtUsedPrice" readonly type="text" class=" form-control" />
@@ -240,7 +249,7 @@
             <div class="form-group col-4" style="left: 25px; margin-top: 5px;">
                 <label>Attachments  <small style="color:gray;">Allow file maximum size: 20 MB.</small></label>
                 <br />
-                <input type="file" name="Attachments" id="Attachments" multiple required />
+                <input type="file" name="Attachments" id="Attachments" multiple  />
             </div>
         </div>
         <div class="row">
@@ -515,6 +524,9 @@
         });
 
         $(document).on('change', "#txtTitle", function (e) {
+            $("#txtErrorWhoMarriage").hide();
+            $("#txtQuotaError").hide();
+            $("#tablePrice").hide();
             let today2 = new Date();
 
             let startWorkDate = $("#startDate").val();
@@ -578,32 +590,66 @@
 
         $(document).on('change', "#ToWhom", function (e) {
             /*console.log($("#txtTitle").val());*/
-
+            $("#tablePrice").hide();
             var Category = $("#txtTitle").val();
             console.log(Category);
             if (Category == 3) {
-                var dataStaff = new FormData();
-                dataStaff.append("empID", $("#txtEmpID").val());
+                 var data = new FormData();
+                data.append("empID", $("#txtEmpID").val());
+                data.append("categoryID", $("#txtTitle").val());
+                data.append("whomID", $("#txtWhom").val());
                 $.ajax({
                     contentType: false,
                     processData: false,
                     type: "POST",
-                    url: '@Url.Action("GetStaffName", "Request")',
-                    data: dataStaff,
+                    url: '@Url.Action("WhoMarriage", "Request")',
+                    data: data,
                     success: function (data) {
-                        $("#txtQuota").val(data.quotaPrice);
-                        $("#txtUsedPrice").val(data.usedPrice);
-                        $("#txtRemainPrice").val(data.remainPrice);
-
+                        var dateValue = new Date(data);
+                        var formattedDate = dateValue.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                        $("#txtErrorWhoMarriage").html("คุณเคยขอเบิกไปแล้วเมื่อวันที่ / You have already requested at " + formattedDate);
+                        hasError = true;
+                        $("#txtErrorWhoMarriage").show();
+                        $("#tablePrice").hide();
+                        if (data == null || data == "" || data == "0001-01-01 00:00") {
+                             var dataStaff = new FormData();
+                                dataStaff.append("empID", $("#txtEmpID").val());
+                                dataStaff.append("categoryID", $("#txtTitle").val());
+                                dataStaff.append("whomID", $("#txtWhom").val());
+                                $.ajax({
+                                    contentType: false,
+                                    processData: false,
+                                    type: "POST",
+                                    url: '@Url.Action("GetStaffName", "Request")',
+                                    data: dataStaff,
+                                    success: function (data) {
+                                        $("#txtQuota").val(data.quotaPrice);
+                                        $("#txtUsedPrice").val(data.usedPrice);
+                                        $("#txtRemainPrice").val(data.remainPrice);
+                                        $("#txtWaittingPrice").val(data.waittingPrice);
+                                    },
+                                    error: function (err) {
+                                        console.log(err)
+                                    }
+                                });
+                            $("#tablePrice").show();
+                        }
                     },
                     error: function (err) {
                         console.log(err)
                     }
                 });
-                $("#tablePrice").show();
+
+
+              
+                $('#txtAmount').prop('readonly', false);
+                $('#txtDetail').prop('readonly', false);
+               
             } else if (Category == 1) {
                 var data = new FormData();
                 data.append("empID", $("#txtEmpID").val());
+                data.append("categoryID", $("#txtTitle").val());
+                data.append("whomID", $("#txtWhom").val());
                 $.ajax({
                     contentType: false,
                     processData: false,
@@ -615,30 +661,35 @@
                             $("#txtQuota").val(data.quotaPrice);
                             $("#txtUsedPrice").val(data.usedPrice);
                             $("#txtRemainPrice").val(data.remainPrice);
+                            $("#txtWaittingPrice").val(data.waittingPrice);
                         } else {
                             $("#tablePrice").hide();
                             $("#txtQuotaError").html("The Experience are not reached. อายุการทำงานไม่ถึงสิทธิ์");
                             hasError = true;
+                            $("#txtQuotaError").show();
+
                             $('#txtAmount').prop('readonly', true);
                             $('#txtDetail').prop('readonly', true);
                         }
-                       
 
                     },
                     error: function (err) {
                         console.log(err)
                     }
                 });
-               
+
                 $("#tablePrice").show();
             }else if (Category == 8) {
                 $("#tablePrice").hide();
-
+                $("#txtQuotaError").html("");
             } else {
+                $("#txtQuotaError").html("");
+                $('#txtAmount').prop('readonly', false);
+                $('#txtDetail').prop('readonly', false);
             var data = new FormData();
             data.append("categoryID", $("#txtTitle").val());
-            data.append("empId", $("#txtEmpID").val());
             data.append("whomID", $("#txtWhom").val());
+            data.append("empId", $("#txtEmpID").val());
             $.ajax({
                 contentType: false,
                 processData: false,
@@ -649,6 +700,7 @@
                         $("#txtQuota").val(data.quotaPrice);
                         $("#txtUsedPrice").val(data.usedPrice);
                         $("#txtRemainPrice").val(data.remainPrice);
+                        $("#txtWaittingPrice").val(data.waittingPrice);
                        /* console.log(data);*/
                     },
                     error: function (err) {
@@ -656,7 +708,7 @@
                     }
             });
                 $("#tablePrice").show();
-            }
+        }
 
 
 
