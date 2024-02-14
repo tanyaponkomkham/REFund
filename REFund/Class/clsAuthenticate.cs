@@ -16,6 +16,7 @@ namespace REFund.Class
 		public string SessionPositionName = "_PositionName";
 		public string SessionDeptName = "_DeptName";
 		public string SessionStaffLevel = "_StaffLevel";
+		public string SessionDomain = "_Domain";
 
 	}
 }

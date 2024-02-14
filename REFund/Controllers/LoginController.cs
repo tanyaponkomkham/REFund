@@ -30,7 +30,7 @@ namespace REFund.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login(string username, string password)
 		{
-			var sql = await _context.EmpInfo.Where(s => s.empID == username && s.password == password).Select(s => new { s.empID, s.eng_fullname, s.start_work, s.Position_Name, s.Dept_Name, s.StaffLevel_Name }).FirstOrDefaultAsync();
+			var sql = await _context.EmpInfo.Where(s => s.empID == username && s.password == password).Select(s => new { s.empID, s.eng_fullname, s.start_work, s.Position_Name, s.Dept_Name, s.StaffLevel_Name ,s.domain_name}).FirstOrDefaultAsync();
 			string date = sql.start_work.HasValue ? sql.start_work.Value.ToString("dd/MM/yyyy") : string.Empty;
 			try
 			{
@@ -43,6 +43,7 @@ namespace REFund.Controllers
 					HttpContext.Session.SetString(clsAuth.SessionPositionName, sql.Position_Name);
 					HttpContext.Session.SetString(clsAuth.SessionDeptName, sql.Dept_Name);
 					HttpContext.Session.SetString(clsAuth.SessionStaffLevel, sql.StaffLevel_Name);
+					HttpContext.Session.SetString(clsAuth.SessionDomain, sql.domain_name);
 					return StatusCode(200, username);
 				}
 				else
@@ -68,7 +69,7 @@ namespace REFund.Controllers
 				{
 					clsAuthenticate clsAuth  = new clsAuthenticate();
 
-					var getEmpId = _context.EmpInfo.Where(s => s.domain_name == domain.Trim()).Select(s => new { s.empID,s.eng_fullname,s.start_work,s.Position_Name,s.Dept_Name, s.StaffLevel_Name }).FirstOrDefault();
+					var getEmpId = _context.EmpInfo.Where(s => s.domain_name == domain.Trim()).Select(s => new { s.empID,s.eng_fullname,s.start_work,s.Position_Name,s.Dept_Name, s.StaffLevel_Name, s.domain_name }).FirstOrDefault();
 					string date = getEmpId.start_work.HasValue ? getEmpId.start_work.Value.ToString("dd/MM/yyyy") : string.Empty;
 
 
@@ -78,6 +79,7 @@ namespace REFund.Controllers
 					HttpContext.Session.SetString(clsAuth.SessionPositionName, getEmpId.Position_Name);
 					HttpContext.Session.SetString(clsAuth.SessionDeptName, getEmpId.Dept_Name);
 					HttpContext.Session.SetString(clsAuth.SessionStaffLevel, getEmpId.StaffLevel_Name);
+					HttpContext.Session.SetString(clsAuth.SessionDomain, getEmpId.domain_name);
 					return StatusCode(200, getEmpId);
 				}
 				else

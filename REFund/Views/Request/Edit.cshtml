@@ -1,11 +1,13 @@
 ﻿@model REFund.Models.Views.RequestsView
 @using System.DirectoryServices.AccountManagement;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var context = new PrincipalContext(ContextType.Domain);
-    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+    //var context = new PrincipalContext(ContextType.Domain);
+    //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
     var requester = ViewBag.Requester as EmpInfo;
 
@@ -55,6 +57,8 @@
                 </div>
                 <div class="col-1 " style="left:5px;">
                     <input type="text" id="txtEmpID" name="txtEmpID" readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@requester.empID" />
+                    <input type="text" hidden id="txtDomain" name="txtDomain" readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_Domain")" />
+                    <input type="text" hidden id="txtFullname" name="txtFullname" readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@HttpContextAccessor?.HttpContext?.Session.GetString("_Name")" />
                 </div>
                 <div style="left: 5px; width: 150px;">
                     <p style="margin-top: 25px; margin-left: 70px; font-size: 12px; font-weight: 400; line-height: 0.5;">ชื่อ :</p>
@@ -196,36 +200,73 @@
                     </table>
                 </div>
             </div>
+            <!--<div class="row">
+            <div class="col-1"></div>
+            <div style="left: 1px; width: 700px;">
+                <table class="table" style="font-size: 12px; margin-left: 30px; margin-top: 15px; font-weight: 400; line-height: 0.5; ">
+                    <tbody id="actionTaskfile">
+                    </tbody>-->
+            @*<tr>
+                    <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">1)ชื่อไฟล์ </label></td>
+
+                    <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">2)ชื่อไฟล์ </label></td>
+
+                    <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">3)ชื่อไฟล์ </label></td>
+                </tr>*@
+            <!--</table>
+                </div>
+            </div>-->
+            <div class="row">
+                <div class="form-group" style="font-size: 12px; margin-left: 140px; margin-top: 15px; font-weight: 400; ">
+                    <label>Attachments</label>
+                    <input type="file" name="Attachments" id="Attachments" multiple class="request-disable" />
+                    <br />
+                    @{var f = 1;
+                        //var fileRecurring = itemD2.Where(w => w.ReportHeaderId == Model.Id).FirstOrDefault();
+                        foreach (var file in Model.Attachments)
+                        {
+                            <div>
+                                <a asp-controller="Request" asp-action="Viewfile" asp-route-reportId='@Model.Id' asp-route-fileid='@file.ID'>@(f++). @file.ContentName</a>
+                                <a asp-controller="Request" class="request-hidden" asp-action="DeleteFile" asp-route-reportId='@Model.Id' asp-route-fileid='@file.ID' style="padding-left:10px;color:red;"><i class="fa fa-trash-alt"></i>Delete</a>
+                            </div>}
+                    }
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="pay-day d-none">Pay Day</label>
+                            <input type="date" class="form-control form-control-sm is-pink b-r-02 request-disable pay-day d-none" id="PayDay" name="PayDay" value="@(Model.PaidDate == null? "":Convert.ToDateTime(Model.PaidDate).ToString("yyyy-MM-dd"))" required />
+
+                        </div>
+                    </div>
+
+                </div>*@
             <div class="row">
                 <div class="col-1"></div>
-                <div style="left: 1px; width: 700px;">
-                    <table class="table" style="font-size: 12px; margin-left: 30px; margin-top: 15px; font-weight: 400; line-height: 0.5; ">
-                        <tbody id="actionTaskfile">
-                        </tbody>
-                        @*<tr>
-                                <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">1)ชื่อไฟล์ </label></td>
-
-                                <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">2)ชื่อไฟล์ </label></td>
-
-                                <td><label class="form-check-label" style="color: #3383AF; text-decoration: underline; ">3)ชื่อไฟล์ </label></td>
-                            </tr>*@
-                    </table>
+                <div style="left: 1px; width: 120px;">
+                    <p id="txtComment2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">comment :</p>
+                </div>
+                <div style="left: 1px; width: 300px;">
+                    <textarea class="form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtComment" name="txtComment" rows="1" style="margin-top: 15px; background: #FFF7B2; margin-left: -5px;"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-1"></div>
                 <div style="left: 1px; width: 120px;">
-                    <p style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">comment :</p>
+                    <p class="" id="txtPayDay2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">PayDay :</p>
                 </div>
-                <div style="left: 1px; width: 300px;">
-                    <textarea class="form-control @(Model.WorkflowID == (int)IDStatus.Request && Model.HRDomainReview == User.Identity.Name.Split('\\').Last() ? "" : "disabled")" id="txtComment" name="txtComment" rows="2" style="margin-top: 15px; background: #FFF7B2; margin-left: -5px;"></textarea>
+                <div style="left: 1px; width: 300px; margin-top: 15px;">
+                    <input type="date" class="form-control " style="width: 250px; top:15px;" name="payDay" id="payDay">
+                    <p class="" id="txtPayDay" style="margin-top: 1px; margin-left: -5px; font-size: 12px; font-weight: 400; "> @Model.ConfirmDate.ToString("dd/MM/yyyy")</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-12 " style=" text-align: right;">
-                    <button type="button" id="btnDisapprove" name="btnDisapprove" class="btn btn-danger" style="color: white; width: 90px; margin-top: 100px; font-size: 12px;">Disapprove</button>
-                    <button type="button" id="btnApprove" name="btnApprove" class="btn " style="background-color: #3CE84D; color: white; width: 80px; margin-left: 40px; margin-top: 100px; font-size: 12px;">Approve</button>
+                    <button type="button" id="btnApprove" name="btnApprove" class="btn " style="background-color: #3CE84D; color: white; width: 80px;  margin-top: 100px; font-size: 12px;">Approve</button>
+                    <button type="button" id="btnDisapprove" name="btnDisapprove" class="btn btn-danger" style="color: white; width: 90px; margin-left: 40px; margin-top: 100px;  font-size: 12px;">Disapprove</button>
+
                 </div>
             </div>
         </form>
@@ -238,7 +279,7 @@
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"  style="background-color: #3383AF; color: white; font-size: 18px; font-weight: 600;" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" style="background-color: #3383AF; color: white; font-size: 18px; font-weight: 600;" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                             History line
                         </button>
                     </h2>
@@ -267,7 +308,7 @@
                                                     <div class="circleapprove" style=" margin-left: 3px;">
                                                         <img src="~/img/check-mark.png" style="width: 16px; height: 16px; ">
                                                     </div>
-                                                    
+
                                                 }
                                                 else if (statusName == "Disapprove")
                                                 {
@@ -275,7 +316,7 @@
                                                         <img src="~/img/forbidden.png" style="width: 16px; height: 16px; ">
                                                     </div>
                                                     <div class="col-1 line"></div>
-                                                 
+
                                                 }
                                                 else
                                                 {
@@ -320,7 +361,7 @@
 
                                             }
                                         </div>
-                                      
+
                                     </div>
                                     <div class="col-9" style=" margin-left: 10px;">
                                         <div class="row ">
@@ -430,7 +471,7 @@
 
                                                 }
                                             </div>
-                                                
+
                                         </div>
                                     </div>
                                 </div>
@@ -441,32 +482,32 @@
                 </div>
                 @*Chat box*@
                 @*<div class="row" style="margin-left: -10px;">
-                    <div class="chat-box" style="margin-top: 20px;">
-                        <div class="header">
-                            <span class="name">Chat</span>
-                        </div>
-                        <div class="chat-room">
-                            <div class="message message-left">
+                        <div class="chat-box" style="margin-top: 20px;">
+                            <div class="header">
+                                <span class="name">Chat</span>
                             </div>
-                            <div class="message message-right">
+                            <div class="chat-room">
+                                <div class="message message-left">
+                                </div>
+                                <div class="message message-right">
+                                </div>
                             </div>
-                        </div>
-                        <div class="type-area">
-                            <div class="input-wrapper">
-                                <input type="text" id="inputText" placeholder="Type messages here..." />
+                            <div class="type-area">
+                                <div class="input-wrapper">
+                                    <input type="text" id="inputText" placeholder="Type messages here..." />
+                                </div>
+                                <button class="button-send" onclick="sendMessage()">Send</button>
                             </div>
-                            <button class="button-send" onclick="sendMessage()">Send</button>
-                        </div>
 
-                    </div>
-                </div>*@
+                        </div>
+                    </div>*@
             </div>
         </div>
     </div>
 </div>
 
-
-<script type="text/javascript">
+@section Scripts{
+    <script type="text/javascript">
     $(document).ready(function () {
         let today = new Date().toISOString().slice(0, 10);
         let [year, month, day] = today.split('-');
@@ -475,7 +516,42 @@
         //$("#tablePrice").hide();
         //$("#ToWhom").hide();
         //$("#txtDocument").hide();
+         let workYears = '@ViewBag.Years';
+            let workMonths = '@ViewBag.Months';
+            let workDays = '@ViewBag.Days';
+            console.log(workYears, workMonths, workDays);
 
+            var workDate = "";
+            var workDateEN = "";
+            if (workYears == null || workYears <= 0) {
+
+                workDate = + workMonths
+                    + "เดือน "
+                    + workDays
+                    + "วัน";
+
+                workDateEN = + workMonths
+                    + "Month's "
+                    + workDays
+                    + "Day's";
+            } else{
+                workDate = + workYears
+                    + "ปี "
+                    + workMonths
+                    + "เดือน"
+                    + workDays
+                    + "วัน";
+
+                workDateEN = + workYears
+                    + "Year's "
+                    + workMonths
+                    + "Month's "
+                    + workDays
+                    + "Day's";
+            }
+
+            document.getElementById("experienceTH").innerHTML = workDate;
+            document.getElementById("experienceEN").innerHTML = workDateEN;
 
         $("#englishDate").text(formattedDate);
         $("#thaiDate").text(formattedDate);
@@ -520,32 +596,7 @@
         } else {
             console.log("#txtTitle not found");
         }
-            // ดึงปีออกมาจาก StartWork และ today
-            let today2 = new Date();
 
-            // แปลง StartWork เป็น Date object
-            let startWorkDate = new Date("@requester.start_work");
-
-            // คำนวณจำนวนวันที่ผ่านมา
-            let timeDifference = today2 - startWorkDate;
-            let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-            // คำนวณจำนวนปี
-            let yearsDifference = Math.floor(daysDifference / 365);
-
-            // แสดงผลลัพธ์
-            if (yearsDifference >= 1) {
-                /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
-
-                document.getElementById("experienceTH").innerHTML = yearDifference + " ปี";
-                document.getElementById("experienceEN").innerHTML = yearDifference + " Year's";
-            } else {
-                /* console.log("น้อยกว่า 1 ปี");*/
-                yearDifference = 0;
-               /* console.log(yearDifference);*/
-                document.getElementById("experienceTH").innerHTML = "น้อยกว่า 1 ปี";
-                document.getElementById("experienceEN").innerHTML = "less than 1 year";
-            }
 
         var amountPrice = $('#txtAmount').val();
         /*var RemainPrice = $('#txtRemainPrice').val();*/
@@ -614,72 +665,124 @@
 
     });
     $(document).ready(function () {
+
+        var MyDomain = $("#txtDomain").val();
+        console.log(MyDomain);
         console.log(@Model.WorkflowID);
                 switch ('@Model.WorkflowID') {
                     case '@((int)IDStatus.Request)':
                         //Status = 1
-                        if ('@Model.HRDomainReview' == '@User.Identity.Name.Split('\\').Last()') {
+                        if ('@Model.HRDomainReview' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                                $('#btnDisapprove').removeClass('d-none');
+                            $('#btnDisapprove').removeClass('d-none');
+                            $('#payDay').addClass('d-none');
+                            $('#txtPayDay').addClass('d-none');
+                            $('#txtPayDay2').addClass('d-none');
+                            $('#txtComment2').removeClass('d-none');
+                            $('#txtComment').removeClass('d-none');
 
                             } else {
                                 $('#btnApprove').addClass('d-none');
-                                $('#btnDisapprove').addClass('d-none');
+                            $('#btnDisapprove').addClass('d-none');
+                            $('#payDay').addClass('d-none');
+                            $('#txtPayDay').addClass('d-none');
+                            $('#txtPayDay2').addClass('d-none');
+                            $('#txtComment2').addClass('d-none');
+                            $('#txtComment').addClass('d-none');
 
                             }
 
                         break;
                     case '@((int)IDStatus.HRReview)':
                         //Status = 2
-                         if ('@Model.ManagerDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                         if ('@Model.ManagerDomainApprove' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                                $('#btnDisapprove').removeClass('d-none');
+                             $('#btnDisapprove').removeClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').removeClass('d-none');
+                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                              console.log("BBB");
                             } else {
                                 $('#btnApprove').addClass('d-none');
                              $('#btnDisapprove').addClass('d-none');
-                             console.log("AAA");
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').addClass('d-none');
+                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
                         break;
                     case '@((int)IDStatus.ManagerReview)':
-                         if ('@Model.HRManagerDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                         if ('@Model.HRManagerDomainApprove' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                                $('#btnDisapprove').removeClass('d-none');
+                             $('#btnDisapprove').removeClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').removeClass('d-none');
+                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
                                 $('#btnApprove').addClass('d-none');
-                                $('#btnDisapprove').addClass('d-none');
+                             $('#btnDisapprove').addClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').addClass('d-none');
+                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
                         break;
                     case '@((int)IDStatus.HRManagerReview)':
-                         if ('@Model.CFODomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                         if ('@Model.CFODomainApprove' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                                $('#btnDisapprove').removeClass('d-none');
+                             $('#btnDisapprove').removeClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').removeClass('d-none');
+                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
                                 $('#btnApprove').addClass('d-none');
-                                $('#btnDisapprove').addClass('d-none');
+                             $('#btnDisapprove').addClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').addClass('d-none');
+                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
                         break;
                      case '@((int)IDStatus.CFOReview)':
-                         if ('@Model.AccountDomainApprove' == '@User.Identity.Name.Split('\\').Last()') {
+                         if ('@Model.AccountDomainApprove' == MyDomain) {
                                 $('#btnApprove').removeClass('d-none');
-                                $('#btnDisapprove').removeClass('d-none');
+                             $('#btnDisapprove').removeClass('d-none');
+                             $('#payDay').removeClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').removeClass('d-none');
+                             $('#txtComment2').removeClass('d-none');
+                             $('#txtComment').removeClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
-                                $('#btnApprove').addClass('d-none');
-                                $('#btnDisapprove').addClass('d-none');
+                             $('#btnApprove').addClass('d-none');
+                             $('#btnDisapprove').addClass('d-none');
+                             $('#payDay').addClass('d-none');
+                             $('#txtPayDay').addClass('d-none');
+                             $('#txtPayDay2').addClass('d-none');
+                             $('#txtComment2').addClass('d-none');
+                             $('#txtComment').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -687,10 +790,20 @@
                     case '@((int)IDStatus.Completed)':
                         $('#btnApprove').addClass('d-none');
                         $('#btnDisapprove').addClass('d-none');
+                        $('#payDay').addClass('d-none');
+                        $('#txtPayDay').removeClass('d-none');
+                        $('#txtPayDay2').removeClass('d-none');
+                        $('#txtComment2').addClass('d-none');
+                        $('#txtComment').addClass('d-none');
                         break;
                      case '@((int)IDStatus.Disapprove)':
                         $('#btnApprove').addClass('d-none');
                         $('#btnDisapprove').addClass('d-none');
+                        $('#txtPayDay').addClass('d-none');
+                        $('#payDay').addClass('d-none');
+                        $('#txtPayDay2').addClass('d-none');
+                        $('#txtComment2').addClass('d-none');
+                        $('#txtComment').addClass('d-none');
                         break;
                 }
 
@@ -707,28 +820,7 @@
         sidebar.classList.toggle("close");
     });
 
-    /* Chat box */
 
-    var header = document.querySelector(".header");
-    var chatRoom = document.querySelector(".chat-room");
-    var typeArea = document.querySelector(".type-area");
-    var btnAdd = document.querySelector(".button-add");
-    var others = document.querySelector(".others");
-    var emojiBox = document.querySelector(".emoji-button .emoji-box");
-    var emojiButton = document.querySelector(".others .emoji-button");
-    var emojis = document.querySelectorAll(".emoji-box span");
-    var inputText = document.querySelector("#inputText");
-    var btnSend = document.querySelector(".button-send");
-    var messageArea = document.querySelector(".message.message-right");
-
-    function sendMessage() {
-        var mess = inputText.value;
-        var bubble = document.createElement('div');
-        bubble.className += " bubble bubble-dark";
-        bubble.textContent = mess;
-        messageArea.appendChild(bubble);
-        inputText.value = "";
-    }
 
     function numberToThaiWords(number) {
         const words = [
@@ -767,39 +859,6 @@
         return result || 'ศูนย์';
     }
 
-    // Header onclick event
-    header.addEventListener("click", (e) => {
-        if (typeArea.classList.contains("d-none")) {
-            header.style.borderRadius = "20px 20px 0 0";
-        } else {
-            header.style.borderRadius = "20px";
-        }
-        typeArea.classList.toggle("d-none");
-        chatRoom.classList.toggle("d-none");
-    });
-
-    /* Button Add onclick event*/
-    //btnAdd.addEventListener("click", (e) => {
-    //    others.classList.add("others-show");
-    //});
-
-    // Emoji onclick event
-    //emojiButton.addEventListener("click", (e) => {
-    //    emojiBox.classList.add("emoji-show");
-    //});
-
-    btnSend.addEventListener("click", sendMessage);
-
-    for (var emoji of emojis) {
-        emoji.addEventListener("click", (e) => {
-            e.stopPropagation();
-            emojiBox.classList.remove("emoji-show");
-            others.classList.remove("others-show");
-            inputText.value += e.target.textContent;
-        });
-    }
-
-
     var previousRadio = null;
 
     function handleRadioClick(radio) {
@@ -816,26 +875,6 @@
 
     $(document).on('change', ".CategoryTitle", function (e) {
         console.log("this txtTitle Change2");
-      /*  $("#txtWhom").trigger('change');*/
-        let today2 = new Date();
-
-        // แปลง StartWork เป็น Date object
-        let startWorkDate = new Date("@requester.start_work");
-
-        // คำนวณจำนวนวันที่ผ่านมา
-        let timeDifference = today2 - startWorkDate;
-        let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-        // คำนวณจำนวนปี
-        let yearsDifference = Math.floor(daysDifference / 365);
-
-        // แสดงผลลัพธ์
-        if (yearsDifference >= 1) {
-            /*console.log("ผ่านมา " + yearsDifference + " ปี");*/
-        } else {
-            /* console.log("น้อยกว่า 1 ปี");*/
-            yearDifference = 0;;
-        }
 
 
         /*console.log("yoooooooo");*/
@@ -970,6 +1009,12 @@
 
     });
 
+        $(document).on('change', "#payDay", function (e) {
+            var payDay =new Date($('#payDay').val());
+            console.log(payDay.toISOString());
+        
+    });
+
     $(document).on('input', "#txtAmount", function (e) {
         var amountPrice = $('#txtAmount').val();
         var RemainPrice = $('#txtRemainPrice').val();
@@ -1005,18 +1050,21 @@
                 $("#btnDisapprove").prop("disabled", true);
 
                 var categoryName = $('#txtTitle').val();
-                console.log('--------------');
+               
 
 
-                var workflowId = 2;
+                var workflowId = @Model.WorkflowID + 1;
 
                 var quota = $('#txtQuota').val();
                 var usedPrice = $('#txtUsedPrice').val();
                 var remainPrice = $('#txtRemainPrice').val();
                 var Whom = $('#txtWhom').val();
-               /* console.log(Whom);*/
-                var dataEdit = new FormData();
+                /* console.log(Whom);*/
 
+                var payDay = new Date($('#payDay').val());
+                var Fullname = $('#txtFullname').val();
+                var dataEdit = new FormData();
+                console.log(payDay);
                 dataEdit.append("Amount", $("#txtAmount").val());
                 dataEdit.append("Detail", $("#txtDetail").val());
                 dataEdit.append("Quota", quota);
@@ -1024,10 +1072,16 @@
                 dataEdit.append("Remain", remainPrice);
                 var createdAt = new Date();
                 dataEdit.append("UpdateAt", createdAt.toISOString());
-                dataEdit.append("UpdateBy", '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append("UpdateBy", Fullname);
                 dataEdit.append("CategoryID", categoryName);
                 dataEdit.append("WorkflowID", workflowId);
                 dataEdit.append("WhomID", Whom);
+                if (payDay != null) {
+                    dataEdit.append("ConfirmDate", payDay.toISOString());
+                } else {
+                   /* console.log("");*/
+                }
+
 
 
                 let today = new Date().toISOString().slice(0, 10);
@@ -1039,11 +1093,17 @@
                 dataEdit.append(`Historys[0].Remain`, remainPrice);
                 dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
                 dataEdit.append(`Historys[0].Comment`, $("#txtComment").val());
-                dataEdit.append(`Historys[0].CreateBy`, '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append(`Historys[0].CreateBy`, Fullname);
                 dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
-                dataEdit.append(`Historys[0].UpdateBy`, '@User.Identity.Name.Split('\\').Last()');
+                dataEdit.append(`Historys[0].UpdateBy`, Fullname);
                 dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
-                dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+
+                if (payDay != null)
+                {
+                    dataEdit.append(`Historys[0].ConfirmDate`, payDay.toISOString());
+                } else {
+                    dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                }
                 dataEdit.append(`Historys[0].WorkflowID`, workflowId);
                 dataEdit.append(`Historys[0].CategoryID`, categoryName);
                 dataEdit.append(`Historys[0].WhomID`, Whom);
@@ -1079,9 +1139,9 @@
                     url: '@Url.Action("Edit", "Request", new { id = @Model.Id })',
                     data: dataEdit,
                     success: function (data) {
-                        setTimeout(function() {
+                        @*setTimeout(function() {
                             window.location.href = '@Url.Action("Index", "Request")';
-                        }, 1000);
+                        }, 1000);*@
                     },
                     error: function (err) {
                         $("#SubmitFormSpinn").addClass("d-none");
@@ -1187,4 +1247,5 @@
 
             }
         });
-</script>
+    </script>
+}

@@ -21,5 +21,10 @@ namespace REFund.Models
         public string stafflevelID{ get; set; }
         public string StaffLevel_Name { get; set; }
         public string password { get; set; }
-	}
+        public decimal Years { get; set; }
+        public decimal Months { get; set; }
+        public int Days { get; set; }
+
+
+    }
 }

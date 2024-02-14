@@ -95,48 +95,53 @@ namespace REFund.Controllers
 
 
         }
-        public async Task<IActionResult> MyRequest()
+        public async Task<IActionResult> MyRequest(string empID)
         {
 
-            var context = new PrincipalContext(ContextType.Domain);
-            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            //var context = new PrincipalContext(ContextType.Domain);
+            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
 
-            var getEmpId = await _context.EmpInfo.Where(s => s.domain_name == principal.SamAccountName).Select(s => s.empID).FirstOrDefaultAsync();
+            //var getEmpId = await _context.EmpInfo.Where(s => s.domain_name == principal.SamAccountName).Select(s => s.empID).FirstOrDefaultAsync();
 
-            var request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.EmployeeId == getEmpId).ToListAsync();
+            var request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.EmployeeId == empID).ToListAsync();
 
             return View(request);
         }
 
-        public async Task<IActionResult> MyApprove()
+        public async Task<IActionResult> MyApprove(string domain)
         {
-            Request request = new Request();
-            var context = new PrincipalContext(ContextType.Domain);
-            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+            List<Request> requester = null;
+            //Request request = new Request();
+            //var context = new PrincipalContext(ContextType.Domain);
+            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
             //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
-            var getStep = await _context.Workflow.Where(s => s.ActionDomain == principal.SamAccountName).Select(s => s.Step).FirstOrDefaultAsync();
-            if (getStep != null)
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == domain).Select(s => s.Step).FirstOrDefaultAsync();
+            if (getStep != null && getStep != 0)
             {
                 //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
-                request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).Select(s => s).FirstOrDefaultAsync();
-            }
+             requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
+			}
+			else { 
 
 
             //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
             var ManagerDomain = await _context.EmpInfo
             .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
-            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == principal.SamAccountName)
+            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == domain)
             .Select(joined => joined.Request).ToListAsync();
 
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == principal.SamAccountName);
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
             ViewBag.Step = getStep;
             //Union ระหว่าง getWorkflowกับManagerDomain
-            var requests =  (request != null
-            ? ManagerDomain.Union(new List<Request> { request })
+        
+            var requests =  (requester != null
+            ? ManagerDomain.Union(requester)
             : ManagerDomain).ToList();
+           
 
             return View(requests);
-
+            }
+            return View(requester);
         }
 
 
@@ -156,30 +161,16 @@ namespace REFund.Controllers
 
             return View(request);
         }
-
-        // GET: Requests/Create
-        public async Task<IActionResult> Create()
-        {
-            //var context = new PrincipalContext(ContextType.Domain);
-            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-
-            //ViewBag.Requester =
-            clsAuthenticate clsAuth = new clsAuthenticate();
-            var empId = HttpContext.Session.GetString(clsAuth.SessionUserId);
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId);
-            ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value");
-            return View();
-        }
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> GetStaffName(string empID)
         {
-			try
-			{
+            try
+            {
                 var getQuotaPrice = await _context.EmpInfo    // your starting point - table in the "from" statement
              .Join(_context.StaffLevel, // the source table of the inner join
-             post => EF.Functions.Collate(post.stafflevelID, "Thai_CS_AI") ,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
-             meta => EF.Functions.Collate(meta.StaffLevel_Code, "Thai_CS_AI") ,   // Select the foreign key (the second part of the "on" clause)
+             post => EF.Functions.Collate(post.stafflevelID, "Thai_CS_AI"),        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
+             meta => EF.Functions.Collate(meta.StaffLevel_Code, "Thai_CS_AI"),   // Select the foreign key (the second part of the "on" clause)
              (post, meta) => new { Post = post, Meta = meta }) // selection
              .Where(s => s.Post.empID == empID).Select(s => s.Meta.Price).FirstOrDefaultAsync();
 
@@ -196,17 +187,122 @@ namespace REFund.Controllers
 
                 return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice });
             }
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
 
-				ex.ToString();
-			}
+                ex.ToString();
+            }
             return View();
             //var getUsePrice = _context.Request.Where(s => )
             //return View(getQuotaPrice);
-            
-            
+
+
         }
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetPriceMedical(string empID)
+        {
+            try
+            {
+                var getEmp = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empID);
+
+                DateTime today = DateTime.Today;
+                int months = today.Month - getEmp.start_work.Value.Month;
+                int years = today.Year - getEmp.start_work.Value.Year;
+
+                if (today.Day < getEmp.start_work.Value.Day)
+                {
+                    months--;
+                }
+
+                if (months < 0)
+                {
+                    years--;
+                    months += 12;
+                }
+                int days = (today - getEmp.start_work.Value.AddMonths((years * 12) + months)).Days;
+
+                var getQuotaPrice = 0;
+
+                if (years < 1)
+				{
+                    getQuotaPrice = 0;
+
+                }
+                else if(years <= 2)
+				{
+                    getQuotaPrice = 2000;
+
+                } else if (years <= 3)
+                {
+                    getQuotaPrice = 3000;
+
+                } else if (years > 3)
+				{
+                    getQuotaPrice = 4000;
+                }
+
+                    var getUsePrice = await _context.Request.Where(s => s.EmployeeId == empID && s.Workflow.ID == (int)IDStatus.Completed).Select(s => s.Amount).ToListAsync();
+
+                int usedPrice = 0;
+
+                foreach (var item in getUsePrice)
+                {
+                    usedPrice = usedPrice + item;
+                }
+
+                var remainPrice = getQuotaPrice - usedPrice;
+
+                return new ObjectResult(new { QuotaPrice = getQuotaPrice, UsedPrice = usedPrice, RemainPrice = remainPrice });
+            }
+            catch (Exception ex)
+            {
+
+                ex.ToString();
+            }
+            return View();
+            //var getUsePrice = _context.Request.Where(s => )
+            //return View(getQuotaPrice);
+
+
+        }
+
+        // GET: Requests/Create
+        public async Task<IActionResult> Create()
+        {
+            //var context = new PrincipalContext(ContextType.Domain);
+            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+
+            //ViewBag.Requester =
+            clsAuthenticate clsAuth = new clsAuthenticate();
+            var empId = HttpContext.Session.GetString(clsAuth.SessionUserId);
+            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId);
+            ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value");
+
+            var getEmp = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId);
+
+            DateTime today = DateTime.Today;
+            int months = today.Month - getEmp.start_work.Value.Month;
+            int years = today.Year - getEmp.start_work.Value.Year;
+
+            if (today.Day < getEmp.start_work.Value.Day)
+            {
+                months--;
+            }
+
+            if (months < 0)
+            {
+                years--;
+                months += 12;
+            }
+            int days = (today - getEmp.start_work.Value.AddMonths((years * 12) + months)).Days;
+            ViewBag.Days = days;
+            ViewBag.Months = months;
+            ViewBag.Years = years;
+
+            return View();
+        }
+        
             // POST: Requests/Create
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -236,10 +332,10 @@ namespace REFund.Controllers
                         });
                     }
                     await _context.SaveChangesAsync();
-                    _notify.SendEmail(request);
+					_notify.SendEmail(request);
 
-                    //return RedirectToAction(nameof(Index));
-                    return StatusCode(200, request.Id);
+					//return RedirectToAction(nameof(Index));
+					return StatusCode(200, request.Id);
                 }
             }
             catch (Exception e)
@@ -262,7 +358,7 @@ namespace REFund.Controllers
             }
             RequestsView requestsView = new RequestsView();
 
-            var request = await _context.Request.FindAsync(id);
+            var request = await _context.Request.Include(s => s.Attachments).Where(s => s.Id == id).FirstOrDefaultAsync();
 
             requestsView.Id = request.Id;
             requestsView.EmployeeId = request.EmployeeId;
@@ -272,17 +368,21 @@ namespace REFund.Controllers
             requestsView.Amount = request.Amount;
             requestsView.RequestNumber = request.RequestNumber;
             requestsView.Detail = request.Detail;
+            requestsView.ConfirmDate = request.ConfirmDate;
             requestsView.HRDomainReview = await _context.Workflow.Where(s => s.Step == 2).Select(s => s.ActionDomain).FirstOrDefaultAsync();
             requestsView.ManagerDomainApprove = await _context.EmpInfo.Where(s => s.empID == request.EmployeeId).Select(s => s.ManagerDomainId).FirstOrDefaultAsync();
             requestsView.HRManagerDomainApprove = await _context.Workflow.Where(s => s.Step == 4).Select(s => s.ActionDomain).FirstOrDefaultAsync();
             requestsView.CFODomainApprove = await _context.Workflow.Where(s => s.Step == 5).Select(s => s.ActionDomain).FirstOrDefaultAsync();
+            requestsView.AccountDomainApprove = await _context.Workflow.Where(s => s.Step == 6).Select(s => s.ActionDomain).FirstOrDefaultAsync();
             requestsView.WorkflowID = request.WorkflowID;
+            requestsView.Attachments = request.Attachments;
             ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == request.EmployeeId);
             ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value", request.CategoryID);
             ViewBag.Whom = new SelectList(WhomDropDownListForEdit(request.CategoryID), "Key", "Value", request.WhomID);
             ViewBag.History = (await _context.History.Include(s => s.Workflow.Status).Where(s => s.RequestID == id).OrderBy(s => s.WorkflowID).ToListAsync()).ToArray();
             ViewBag.CountHistory =  _context.History.Where(s => s.RequestID == id).Count();
             ViewBag.CountStatus = _context.Status.Count();
+            //ViewBag.Attachment = _context.Attachment
 
             //เรียกเฉพาะ Status 
             var statusInHistory = ((IEnumerable<History>)ViewBag.History)
@@ -313,24 +413,7 @@ namespace REFund.Controllers
                .OrderBy(s => s.ID)
                .ToArray();
             }
-           
 
-
-
-            //var whomName = await _context.Request
-            // .Where(r => r.WhomID == request.WhomID && r.Id == request.Id)
-            // .Join(
-            //     _context.Whom,
-            //     r => r.WhomID,
-            //     w => w.ID,
-            //     (r, w) => w.WhomName
-            // )
-            // .ToListAsync();
-
-            //ViewBag.Whom = whomName ;
-
-
-            //ViewBag.Whom = new SelectList(GetWhomName(request.WhomID), "Key", "Value");
             return View(requestsView);
         }
 
@@ -376,6 +459,7 @@ namespace REFund.Controllers
                 report.WorkflowID = request.WorkflowID;
                 report.CategoryID = request.CategoryID;
                 report.WhomID = request.WhomID;
+                report.ConfirmDate = request.ConfirmDate;
             }
             else
             {
@@ -389,11 +473,13 @@ namespace REFund.Controllers
                 report.WorkflowID = request.WorkflowID;
                 report.CategoryID = request.CategoryID;
                 report.WhomID = request.WhomID;
+                report.ConfirmDate = request.ConfirmDate;
             }
 
             try
             {
                 await _context.SaveChangesAsync();
+                //_notify.SendEmail(request);
                 return Ok(); // หรือในที่นี้คุณสามารถคืน Ok หรือตามที่เหมาะสม
             }
             catch (Exception e)
@@ -717,6 +803,42 @@ namespace REFund.Controllers
         private bool RequestExists(Guid id)
         {
             return _context.Request.Any(e => e.Id == id);
+        }
+
+        public async Task<FileResult> Viewfile(Guid reportId, int fileId)
+        {
+            var report = await _context.Request.Include(s => s.Attachments).Where(s => s.Id == reportId).FirstOrDefaultAsync();
+
+            var fileData = report.Attachments.FirstOrDefault(f => f.ID == fileId);
+            return File(fileData.Content, fileData.ContentMimeType, fileData.ContentName);
+
+        }
+        public async Task<IActionResult> DeleteFile(Guid reportId, int fileId)
+        {
+            var report = await _context.Request.Include(s => s.Attachments).Where(s => s.Id == reportId).FirstOrDefaultAsync();
+            var attachments = report.Attachments.Where(x => x.ID == fileId);
+            _context.RemoveRange(attachments);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Edit), new { id = reportId });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+            //try
+            //{
+            //    await _report.DeleteFile(reportId, fileId);
+            //    var ret = await _report.GetReport(reportId);
+            //    return RedirectToAction(nameof(Edit), new { id = reportId });
+            //}
+            //catch (Exception e)
+            //{
+            //    return StatusCode(500, e.Message);
+            //}
+
         }
     }
 }

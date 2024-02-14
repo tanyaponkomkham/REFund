@@ -7,14 +7,14 @@ namespace REFund.Models.Views
 {
 	public class RequestsView
 	{
-		//public RequestsView()
-		//{
+		public RequestsView()
+		{
 		//	Communications = new HashSet<Communication>();
-		//	Attachments = new HashSet<Attachment>();
-		//	Historys = new HashSet<History>();
-		//	RequestDocumentDetails = new HashSet<RequestDocumentDetail>();
+			Attachments = new HashSet<Attachment>();
+			//Historys = new HashSet<History>();
+			//RequestDocumentDetails = new HashSet<RequestDocumentDetail>();
 
-		//}
+		}
 		public Guid Id { get; set; }
 		public string RequestNumber { get; set; }
 		public string EmployeeId { get; set; }
@@ -43,7 +43,7 @@ namespace REFund.Models.Views
 		//public virtual Workflow Workflow { get; set; }
 		////public virtual Whom Whom { get; set; }
 		//public virtual ICollection<Communication> Communications { get; set; }
-		//public virtual ICollection<Attachment> Attachments { get; set; }
+		public virtual ICollection<Attachment> Attachments { get; set; }
 		//public virtual ICollection<RequestDocumentDetail> RequestDocumentDetails { get; set; }
 		//public virtual ICollection<History> Historys { get; set; }
 	}
