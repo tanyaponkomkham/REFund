@@ -206,13 +206,6 @@
                 <textarea class="form-control" id="txtDetail" name="txtDetail" rows="3" style="margin-top: 30px; margin-left: -30px; background: #FFF7B2; " required></textarea>
             </div>
         </div>
-        @*<div class="row">
-                <div class="col-1"></div>
-                <div style="left: 5px; width: 300px;">
-                    <p style="margin-top: 30px; margin-left: 30px; font-size: 14px; font-weight: 400; line-height: 0.5;">เบิกให้ผู้ใด&nbsp; (To whom)</p>
-                </div>
-            </div>*@
-
         <div class="row">
             <div class="col-1"></div>
             <div style="left: 5px; width: 300px;" id="txtDocument" name="txtDocument">
@@ -258,11 +251,11 @@
         <div class="row">
             <div class="col-9"></div>
             <div class="col">
+
                 <button type="button" id="btnSubmit" class="btn btn-primary float-right">
                     <i class="fa fa-thin fa-paper-plane"></i> Submit
-                    <span class="spinner-border spinner-border-sm d-none" id="SubmitFormSpinn" role="status" aria-hidden="true"></span>
-                    <span class="sr-only">Loading...</span>
-                </button>-
+                </button>
+                <img id="gifLoading" src="~/img/Ani_Loading.gif" alt="Loading..." style="height:100px; width:100px; margin-left:280px;">
                 @*<button type="submit" id="btnSubmit" class="btn mb-2" style="background-color: #3383AF; margin-top: 30px; margin-left: 50px; color: white; width: 150px; height: 50px; font-size: 16px; font-weight: 600; ">Submit</button>*@
             </div>
         </div>
@@ -273,6 +266,7 @@
         $(document).ready(function () {
             let today = new Date().toISOString().slice(0, 10);
             //ซ่อน ตาราง/dropdown
+            $("#gifLoading").hide();
             $("#txtStaff").hide();
             $("#tablePrice").hide();
             $("#ToWhom").hide();
@@ -402,8 +396,8 @@
         $(document).on('click', "#btnSubmit", function (e) {
            e.stopImmediatePropagation();
             if ($("#reportForm").valid() && confirm("Send to approve or back to edit?")) {
-                $("#btnSubmit").prop("disabled", true);
-
+                $("#btnSubmit").hide();
+                $("#gifLoading").show();
                 var categoryName = $('#txtTitle').val();
               /*  console.log('--------------');*/
 
@@ -492,7 +486,7 @@
                         //console.log("---------------");
                         //console.log(data);
                             setTimeout(function() {
-                                window.location.href = `@Url.Action("Index", "Request")`;
+                                window.location.href = `@Url.Action("MyRequest", "Request")`;
                             }, 1000);
                     },
                     error: function (err) {

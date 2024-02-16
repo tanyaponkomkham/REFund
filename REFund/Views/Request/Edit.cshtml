@@ -25,7 +25,7 @@
     <div class="col-9 custom-border" style="height:1400px; ">
         @*Head Body*@
         <input type="text" id="txtRequestID" name="txtRequestID" hidden readonly class=" form-control" style="margin-top: 25px; margin-left:-60px; background: #D9D9D9; border-radius: 0; width:170px; " value="@Model.Id" />
-        <form method="post" id="reportForm">
+        <form method="post" id="reportForm" novalidate>
             <div class="row ">
                 <div class="col-1"></div>
                 <div class="col-8" style="left:5px;">
@@ -126,6 +126,8 @@
             <div class="row ">
                 <div class="col-1"></div>
                 <div style="left: 20px; width: 440px; margin-top: 10px; margin-left: 17px; ">
+                    <div id="txtErrorWhoMarriage" style="left: 6px; width: 640px; margin-top: 10px; margin-left: 6px;  color: red; font-size: 15px; "></div>
+                    <div id="txtQuotaError" style="left: 6px; width: 440px; margin-top: 10px; margin-left: 6px;  color: red; font-size: 15px; "></div>
                     <table class="table table-bordered" id="tablePrice" name="tablePrice">
                         <tr>
                             <th style="font-size: 13px; font-weight: 400;">
@@ -227,8 +229,9 @@
                         {
                             <div>
                                 <a asp-controller="Request" asp-action="Viewfile" asp-route-reportId='@Model.Id' asp-route-fileid='@file.ID'>@(f++). @file.ContentName</a>
-                                <a asp-controller="Request" class="request-hidden" asp-action="DeleteFile" asp-route-reportId='@Model.Id' asp-route-fileid='@file.ID' style="padding-left:10px;color:red;"><i class="fa fa-trash-alt"></i>Delete</a>
-                            </div>}
+                                <a id="deleteFile" asp-controller="Request" class="request-hidden" asp-action="DeleteFile" asp-route-reportId='@Model.Id' asp-route-fileid='@file.ID' style="padding-left:10px;color:red;"><i class="fa fa-trash-alt"></i>Delete</a>
+                            </div>
+                        }
                     }
                 </div>
             </div>
@@ -244,19 +247,23 @@
             <div class="row">
                 <div class="col-1"></div>
                 <div style="left: 1px; width: 120px;">
-                    <p class="" id="txtPayDay2" style="margin-top: 25px; margin-left: 30px; font-size: 12px; font-weight: 600; line-height: 0.5; color: #12D01B;">PayDay :</p>
+                    <p class="" id="txtPayDay2" style="margin-top: 20px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">วันที่จ่าย :</p>
+                    <p class="" id="txtPayDay3" style="margin-top: 15px; margin-left: 30px; font-size: 12px; font-weight: 400; line-height: 0.5;">PayDay</p>
                 </div>
                 <div style="left: 1px; width: 300px; margin-top: 15px;">
                     <input type="date" class="form-control " style="width: 250px; top:15px;" name="payDay" id="payDay">
-                    <p class="" id="txtPayDay" style="margin-top: 5px; margin-left: -5px; font-size: 12px; font-weight: 600; color: #12D01B;"> @Model.ConfirmDate.ToString("dd/MM/yyyy")</p>
+                    <input type="text"  id="txtPayDay" readonly class=" form-control" style="margin-top: 1px; margin-left: -30px; background: #D9D9D9; border-radius: 0; width: 170px; " value="@Model.ConfirmDate.ToString("dd/MM/yyyy")" />
+                    @*<input readonly class="form-control " id="txtPayDay" style="margin-top: 1px; margin-left: -30px; width:110px; font-size: 12px; font-weight: 400;" value="@Model.ConfirmDate.ToString("dd/MM/yyyy")">*@
                 </div>
             </div>
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-12 " style=" text-align: right; margin-top: -25px;">
+                    <img id="gifApprove" src="~/img/Ani_Loading_Green.gif" alt="Loading..." style="height: 100px; width: 100px; margin-left: 240px; margin-top: 70px;">
+                    <button type="button" id="btnSubmit" name="btnSubmit" class="btn " style="background-color: #3CE84D; color: white; width: 80px;  margin-top: 100px; font-size: 12px;">Submit</button>
                     <button type="button" id="btnApprove" name="btnApprove" class="btn " style="background-color: #3CE84D; color: white; width: 80px;  margin-top: 100px; font-size: 12px;">Approve</button>
                     <button type="button" id="btnDisapprove" name="btnDisapprove" class="btn btn-danger" style="color: white; width: 90px; margin-left: 40px; margin-top: 100px;  font-size: 12px;">Disapprove</button>
-
+                    <img id="gifDisapprove" src="~/img/Ani_Loading_Red.gif" alt="Loading..." style="height: 100px; width: 100px; margin-left: 240px; margin-top: 70px; ">
                 </div>
             </div>
         </form>
@@ -269,12 +276,12 @@
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" style="background-color: #3383AF; color: white; font-size: 18px; font-weight: 600;" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" style="background-color: #3383AF; color: white; font-size: 18px; font-weight: 600;" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne" onclick="toggleAccordion()">
                             History line
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                        <div class="accordion-body" style="height: 970px; background-color: #EDEFF1;">
+                        <div class="accordion-body" style="height: 780px; background-color: #EDEFF1;">
                             @*History timeline Line*@
 
                             <div class="timeline">
@@ -292,14 +299,14 @@
                                                 var fontColor = statusID?.FontColor;
                                                 var backgroundColor = statusID?.BackgroundColor;
                                                 var count = countStatus - counthistory;
-                                                
+
 
                                                 if (statusName == "Request")
                                                 {
                                                     <div class="circleapprove" style=" margin-left: 3px;">
                                                         <img src="~/img/employee.png" style="width: 16px; height: 16px; ">
                                                     </div>
-                                                      <div class="col-1 line"></div>
+                                                    <div class="col-1 line"></div>
                                                 }
                                                 else if (statusName == "Final Cut Off")
                                                 {
@@ -376,189 +383,189 @@
 
 
 
-                                                @if (statusName == "HR Review")
+                                                    @if (statusName == "HR Review")
                                                     {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
 
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 100px; margin-left: 4px;  margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
 
-                                                    </div>
-                                                </div>
+                                                            </div>
+                                                        </div>
                                                     }
                                                     else if (statusName == "Manager Review")
                                                     {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
 
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor;  color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
 
-                                                    </div>
-                                                </div>
+                                                            </div>
+                                                        </div>
                                                     }
-                                                   else if (statusName == "CFO Review")
-                                                     {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                    else if (statusName == "CFO Review")
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
 
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 115px; margin-left: 4px; margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 115px; margin-left: 4px; margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
 
-                                                    </div>
-                                                </div>
-
-                                                        }
-                                                        else if (statusName == "HRManager Review")
-                                                        {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
-
-                                                    </div>
-                                                </div>
-                                                        }
-                                                        else if (statusName == "Final Cut Off")
-                                                        {
-                                                <div class="col-12" style="text-align: center; height: 125px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 110px; margin-left: 4px;  margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
-
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 200px; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
-                                                        <label style="font-size: 11px; font-weight: 500; width: 250px; ">PayDate: @Convert.ToDateTime(payday).ToString("dd-MMM-yyyy")</label>
-                                                    </div>
-                                                </div>
-                                                        }
-                                                        else if (statusName == "Disapprove")
-                                                        {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
-
-                                                    </div>
-                                                </div>
-                                                        }
-                                                        else
-                                                        {
-                                                <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-
-                                                    <div class="row" style="text-align: right; margin-right: -3px;">
-                                                        <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left; width: 80px; margin-left: 4px; margin-top: -7px;">
-                                                        <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
-                                                            @statusName
-                                                        </label>
-                                                    </div>
-                                                    <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
-                                                        <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
-
-                                                    </div>
-                                                </div>
-                                                        }
-
+                                                            </div>
+                                                        </div>
 
                                                     }
+                                                    else if (statusName == "HRManager Review")
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else if (statusName == "Final Cut Off")
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 125px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 110px; margin-left: 4px;  margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 200px; margin-left: -3px; margin-top: -2px; margin-right: 3px; ">
+                                                                <label style="font-size: 11px; font-weight: 500; width: 250px; ">PayDate: @Convert.ToDateTime(payday).ToString("dd-MMM-yyyy")</label>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else if (statusName == "Disapprove")
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 120px; margin-left: 4px; margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 105px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+
+                                                            <div class="row" style="text-align: right; margin-right: -3px;">
+                                                                <label style="font-size: 12px; font-weight: 400;"><span id="dateRequest">@Convert.ToDateTime(createAt).ToString("dd-MMM-yyyy HH:mm")</span></label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left; width: 80px; margin-left: 4px; margin-top: -7px;">
+                                                                <label style="background-color:@backgroundColor; color: @fontColor; border-radius: 8px; padding: 4px 4px;  align-items: center; font-size: 15px; font-weight: 800; ">
+                                                                    @statusName
+                                                                </label>
+                                                            </div>
+                                                            <div class="row" style="text-align: left;  margin-left: -3px; margin-top: -2px;">
+                                                                <label style="font-size: 12px; font-weight: 700; color: #3383AF;  ">@createBy</label>
+
+                                                            </div>
+                                                        </div>
+                                                    }
+
+
+                                                }
                                                 @foreach (var status in ViewBag.StatusDistinct)
-                                                        {
-                                                            var statusName = status.StatusName;
-                                                            if (statusName != "Disapprove")
+                                                {
+                                                    var statusName = status.StatusName;
+                                                    if (statusName != "Disapprove")
 
-                                                            {
-                                                <div class="col-12" style="text-align: center; height: 50px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
-                                                    <div class="row" style="text-align: center; margin-top: 9px;">
-                                                        <label style="font-size: 14px; font-weight: 600;">@statusName</label>
-                                                    </div>
-                                                </div>
+                                                    {
+                                                        <div class="col-12" style="text-align: center; height: 50px; padding: 5px; margin-bottom: 15px; border-radius: 10px; border: 0.5px solid #3383AF; background-color: white; z-index: 2; position: relative; margin-left: 15px; ">
+                                                            <div class="row" style="text-align: center; margin-top: 9px;">
+                                                                <label style="font-size: 14px; font-weight: 600;">@statusName</label>
+                                                            </div>
+                                                        </div>
 
-                                                                }
-                                                                else
-                                                                {
+                                                    }
+                                                    else
+                                                    {
 
-                                                                }
+                                                    }
 
-                                                        }
+                                                }
 
 
                                             </div>
                                         </div>
-                                </div>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 @*Chat box*@
-                @*<div class="row" style="margin-left: -10px;">
-                        <div class="chat-box" style="margin-top: 20px;">
-                            <div class="header">
-                                <span class="name">Chat</span>
-                            </div>
-                            <div class="chat-room">
-                                <div class="message message-left">
-                                </div>
-                                <div class="message message-right">
-                                </div>
-                            </div>
-                            <div class="type-area">
-                                <div class="input-wrapper">
-                                    <input type="text" id="inputText" placeholder="Type messages here..." />
-                                </div>
-                                <button class="button-send" onclick="sendMessage()">Send</button>
-                            </div>
-
+                <div class="row" style="margin-left: -12px;">
+                    <div class="chat-box" style="margin-top: 20px;">
+                        <div class="header">
+                            <span class="name">Chat</span>
                         </div>
-                    </div>*@
+                        <div class="chat-room">
+                            <div class="message message-left"></div>
+                            <div class="message message-right"></div>
+                        </div>
+                        <div class="type-area">
+                            <div class="input-wrapper">
+                                <input type="text" id="inputText" placeholder="Type messages here..." />
+                            </div>
+                            <button class="button-send" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -566,7 +573,9 @@
 
 @section Scripts{
     <script type="text/javascript">
-    $(document).ready(function () {
+        $(document).ready(function () {
+            $("#gifApprove").hide();
+            $("#gifDisapprove").hide();
         let today = new Date().toISOString().slice(0, 10);
         let [year, month, day] = today.split('-');
         let formattedDate = `${day}/${month}/${year}`;
@@ -577,7 +586,7 @@
            let workYears = '@ViewBag.Years';
            let workMonths = '@ViewBag.Months';
            let workDays = '@ViewBag.Days';
-           console.log(workYears, workMonths, workDays);
+           /*console.log(workYears, workMonths, workDays);*/
 
             var workDate = "";
             var workDateEN = "";
@@ -722,7 +731,7 @@
         });
 
     });
-    $(document).ready(function () {
+        $(document).ready(function () {
 
         var MyDomain = $("#txtDomain").val();
         console.log(MyDomain);
@@ -736,25 +745,33 @@
                             $('#payDay').addClass('d-none');
                             $('#txtPayDay').addClass('d-none');
                             $('#txtPayDay2').addClass('d-none');
-
+                            $('#txtPayDay3').addClass('d-none');
+                            $('#btnSubmit').addClass('d-none');
+                            $('#deleteFile').removeClass('d-none');
+                            
                             } else {
                                 $('#btnApprove').addClass('d-none');
                             $('#btnDisapprove').addClass('d-none');
                             $('#payDay').addClass('d-none');
                             $('#txtPayDay').addClass('d-none');
                             $('#txtPayDay2').addClass('d-none');
-
+                            $('#txtPayDay3').addClass('d-none');
+                            $('#btnSubmit').addClass('d-none');
+                            $('#deleteFile').addClass('d-none');
                             }
 
                         break;
                     case '@((int)IDStatus.HRReview)':
                         //Status = 2
                          if ('@Model.ManagerDomainApprove' == MyDomain) {
-                                $('#btnApprove').removeClass('d-none');
+                             $('#btnApprove').removeClass('d-none');
                              $('#btnDisapprove').removeClass('d-none');
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                              console.log("BBB");
@@ -764,6 +781,9 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -775,6 +795,9 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
@@ -783,6 +806,9 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -794,6 +820,9 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
                             } else {
@@ -802,25 +831,37 @@
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
                         break;
                      case '@((int)IDStatus.CFOReview)':
-                         if ('@Model.AccountDomainApprove' == MyDomain) {
-                                $('#btnApprove').removeClass('d-none');
+                        if ('@Model.AccountDomainApprove' == MyDomain) {
+                            $('#payDay').attr('required', 'required');
+                             $('#btnApprove').addClass('d-none');
                              $('#btnDisapprove').addClass('d-none');
                              $('#payDay').removeClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').removeClass('d-none');
+                             $('#txtPayDay3').removeClass('d-none');
+                             $('#btnSubmit').removeClass('d-none');
+                            $('#deleteFile').addClass('d-none');
+                            
                                 /*$('#Attachments').removeAttr('disabled');*/
                                 //$('.request-hidden').addClass('d-none');
-                            } else {
+                         } else {
+                             
                              $('#btnApprove').addClass('d-none');
                              $('#btnDisapprove').addClass('d-none');
                              $('#payDay').addClass('d-none');
                              $('#txtPayDay').addClass('d-none');
                              $('#txtPayDay2').addClass('d-none');
+                             $('#txtPayDay3').addClass('d-none');
+                             $('#btnSubmit').addClass('d-none');
+                             $('#deleteFile').addClass('d-none');
                                /* $('.request-hidden').addClass('d-none');*/
                             }
 
@@ -831,6 +872,9 @@
                         $('#payDay').addClass('d-none');
                         $('#txtPayDay').removeClass('d-none');
                         $('#txtPayDay2').removeClass('d-none');
+                        $('#txtPayDay2').addClass('d-none');
+                        $('#btnSubmit').addClass('d-none');
+                        $('#deleteFile').addClass('d-none');
                         break;
                      case '@((int)IDStatus.Disapprove)':
                         $('#btnApprove').addClass('d-none');
@@ -838,10 +882,51 @@
                         $('#txtPayDay').addClass('d-none');
                         $('#payDay').addClass('d-none');
                         $('#txtPayDay2').addClass('d-none');
+                        $('#txtPayDay3').addClass('d-none');
+                        $('#btnSubmit').addClass('d-none');
+                        $('#deleteFile').addClass('d-none');
                         break;
                 }
 
         });
+        function toggleAccordion() {
+            var accordionBody = document.querySelector('.accordion-body');
+            accordionBody.classList.toggle('show');
+        }
+        /* Chat box */
+        document.addEventListener('DOMContentLoaded', function () {
+            var header = document.querySelector(".header");
+            var typeArea = document.querySelector(".type-area");
+            var chatRoom = document.querySelector(".chat-room");
+
+            header.addEventListener("click", (e) => {
+                if (typeArea.classList.contains("d-none")) {
+                    header.style.borderRadius = "20px 20px 0 0";
+                } else {
+                    header.style.borderRadius = "20px";
+                }
+                typeArea.classList.toggle("d-none");
+                chatRoom.classList.toggle("d-none");
+            });
+        });
+
+        function sendMessage() {
+            var inputText = document.getElementById("inputText");
+            var mess = inputText.value;
+            var messageArea = document.querySelector(".message.message-right");
+
+            var bubble = document.createElement('div');
+            bubble.className = "bubble bubble-dark";
+            bubble.textContent = mess;
+            messageArea.appendChild(bubble);
+
+            inputText.value = "";
+        }
+
+
+
+
+
 
     /* sidebar */
     const body = document.querySelector('body');
@@ -954,94 +1039,170 @@
     });
 
     $(document).on('change', "#ToWhom", function (e) {
-        console.log("ppppppp");
-        var data = new FormData();
-        data.append("categoryID", $("#txtTitle").val());
-        data.append("empId", $("#txtEmpID").val());
-        data.append("whomID", $("#txtWhom").val());
-        $.ajax({
-            contentType: false,
-            processData: false,
-            type: "POST",
-            url: '@Url.Action("GetQuotaTitle", "Request")',
-            data: data,
-                success: function (data) {
-                    $("#txtQuota").val(data.quotaPrice);
-                    $("#txtUsedPrice").val(data.usedPrice);
-                    $("#txtRemainPrice").val(data.remainPrice);
-                    console.log(data);
+            /*console.log($("#txtTitle").val());*/
+            $("#tablePrice").hide();
+            var Category = $("#txtTitle").val();
+            console.log(Category);
+            if (Category == 3) {
+                 var data = new FormData();
+                data.append("empID", $("#txtEmpID").val());
+                data.append("categoryID", $("#txtTitle").val());
+                data.append("whomID", $("#txtWhom").val());
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("WhoMarriage", "Request")',
+                    data: data,
+                    success: function (data) {
+                        var dateValue = new Date(data);
+                        var formattedDate = dateValue.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                        $("#txtErrorWhoMarriage").html("คุณเคยขอเบิกไปแล้วเมื่อวันที่ / You have already requested at " + formattedDate);
+                        hasError = true;
+                        $("#txtErrorWhoMarriage").show();
+                        $("#tablePrice").hide();
+                        if (data == null || data == "" || data == "0001-01-01 00:00") {
+                             var dataStaff = new FormData();
+                                dataStaff.append("empID", $("#txtEmpID").val());
+                                dataStaff.append("categoryID", $("#txtTitle").val());
+                                dataStaff.append("whomID", $("#txtWhom").val());
+                                $.ajax({
+                                    contentType: false,
+                                    processData: false,
+                                    type: "POST",
+                                    url: '@Url.Action("GetStaffName", "Request")',
+                                    data: dataStaff,
+                                    success: function (data) {
+                                        $("#txtQuota").val(data.quotaPrice);
+                                        $("#txtUsedPrice").val(data.usedPrice);
+                                        $("#txtRemainPrice").val(data.remainPrice);
+                                        $("#txtWaittingPrice").val(data.waittingPrice);
+                                    },
+                                    error: function (err) {
+                                        console.log(err)
+                                    }
+                                });
+                            $("#tablePrice").show();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+
+
+
+                $('#txtAmount').prop('readonly', false);
+                $('#txtDetail').prop('readonly', false);
+
+            } else if (Category == 1) {
+                var data = new FormData();
+                data.append("empID", $("#txtEmpID").val());
+                data.append("categoryID", $("#txtTitle").val());
+                data.append("whomID", $("#txtWhom").val());
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("GetPriceMedical", "Request")',
+                    data: data,
+                    success: function (data) {
+                        if (data.quotaPrice != 0) {
+                            $("#txtQuota").val(data.quotaPrice);
+                            $("#txtUsedPrice").val(data.usedPrice);
+                            $("#txtRemainPrice").val(data.remainPrice);
+                            $("#txtWaittingPrice").val(data.waittingPrice);
+                        } else {
+                            $("#tablePrice").hide();
+                            $("#txtQuotaError").html("The Experience are not reached. อายุการทำงานไม่ถึงสิทธิ์");
+                            hasError = true;
+                            $("#txtQuotaError").show();
+
+                            $('#txtAmount').prop('readonly', true);
+                            $('#txtDetail').prop('readonly', true);
+                        }
+
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+
+                $("#tablePrice").show();
+            }else if (Category == 8) {
+                $("#tablePrice").hide();
+                $("#txtQuotaError").html("");
+            } else {
+                $("#txtQuotaError").html("");
+                $('#txtAmount').prop('readonly', false);
+                $('#txtDetail').prop('readonly', false);
+            var data = new FormData();
+            data.append("categoryID", $("#txtTitle").val());
+            data.append("whomID", $("#txtWhom").val());
+            data.append("empId", $("#txtEmpID").val());
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("GetQuotaTitle", "Request")',
+                data: data,
+                    success: function (data) {
+                        $("#txtQuota").val(data.quotaPrice);
+                        $("#txtUsedPrice").val(data.usedPrice);
+                        $("#txtRemainPrice").val(data.remainPrice);
+                        $("#txtWaittingPrice").val(data.waittingPrice);
+                       /* console.log(data);*/
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+            });
+                $("#tablePrice").show();
+        }
+
+
+
+
+
+            var data2 = new FormData();
+            data2.append("categoryID", $("#txtTitle").val());
+            data2.append("whomID", $("#txtWhom").val());
+
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: "POST",
+                url: '@Url.Action("GetDocumentDetail", "Request")',
+                data: data2,
+                    success: function (data) {
+                        // Clear existing content in the table body
+                        $("#actionTaskBody").empty();
+                       /* console.log(data);*/
+                        // Loop through the array
+                        var lastId = 0;
+
+
+                        for (const item of data) {
+                            //console.log(item.documentID);
+                            //console.log(item.documentName);
+                            var elementId = lastId + 1;
+                            var str = `
+                                <tr>
+                                    <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -6px; margin-top: -7px; width: 20px; height: 20px; " ></td>
+                                    <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
+                                </tr>
+                            `;
+                            $("#actionTaskBody").append(str);
+
+                            lastId = lastId + 1;
+                        }
                 },
                 error: function (err) {
-                    console.log(err)
+                    console.log(err);
                 }
+            });
+            $("#txtDocument").show();
         });
-
-        $("#tablePrice").show();
-
-        var amountPrice = $('#txtAmount').val();
-        var RemainPrice = $('#txtRemainPrice').val();
-
-        $("#txtAmountError").text("");
-
-        if (/[^0-9]/.test(amountPrice)) {
-            $("#txtAmountError").html("Please enter only numeric values. <br>(ไม่อนุญาติให้ใส่ตัวอักษร)");
-            hasError = true;
-        } else if (parseFloat(amountPrice) > parseFloat(RemainPrice)) {
-            $("#txtAmountError").html("Please Enter again The Amount is Over Priced. <br>(จำนวนเงินเกินยอดเงินคงเหลือ)");
-            hasError = true;
-            $("#txtAmount").val("");
-        } else if (amountPrice != "") {
-            // แปลงเลขเป็นข้อความภาษาไทย
-            var thaiWords = numberToThaiWords(amountPrice);
-            /*console.log("Thai Number:", thaiWords);*/
-            document.getElementById("AmountTH").innerHTML = "(..... " + thaiWords + "บาท .....)";
-            // แปลงเลขเป็นข้อความภาษาอังกฤษ
-            var englishWords = numberToWords.toWords(amountPrice, { language: 'en' });
-            document.getElementById("AmountEN").innerHTML = "(..... " + englishWords + " .....)";
-            /* console.log("English Number:", englishWords);*/
-            hasError = true;
-        } else {
-            hasError = false;
-        }
-        @*var data2 = new FormData();
-        data2.append("categoryID", $("#txtTitle").val());
-        data2.append("whomID", $("#txtWhom").val());
-
-        $.ajax({
-            contentType: false,
-            processData: false,
-            type: "POST",
-            url: '@Url.Action("GetDocumentDetail", "Request")',
-            data: data2,
-                success: function (data) {
-                    // Clear existing content in the table body
-                    $("#actionTaskBody").empty();
-                    console.log(data);
-                    // Loop through the array
-                    var lastId = 0;
-
-
-                    for (const item of data) {
-                        console.log(item.documentID);
-                        console.log(item.documentName);
-                        var elementId = lastId + 1;
-                        var str = `
-                            <tr>
-                                <td><input class="form-check-input myCheckbox" type="checkbox" id="getID_${elementId}" value="${item.documentID}" data-documentname="${item.documentName}" style="margin-left: -6px; margin-top: -7px; width: 20px; height: 20px; " ></td>
-                                <td><label class="form-check-label myCheckboxName" id="getName" name="getName" value="${item.documentName}" for="cbDocument">${item.documentName}</label></td>
-                            </tr>
-                        `;
-                        $("#actionTaskBody").append(str);
-
-                        lastId = lastId + 1;
-                    }
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });*@
-
-    });
 
         $(document).on('change', "#payDay", function (e) {
             var payDay =new Date($('#payDay').val());
@@ -1077,11 +1238,15 @@
         }
     });
 
-    $(document).on('click', "#btnApprove", function (e) {
-           e.stopImmediatePropagation();
+        $(document).on('click', "#btnApprove", function (e) {
+            $('#payDay').attr('required', 'required');
+            e.stopImmediatePropagation();
+            
             if ($("#reportForm").valid() && confirm("Send to approve or back to edit?")) {
-                $("#btnApprove").prop("disabled", true);
-                $("#btnDisapprove").prop("disabled", true);
+                $("#btnApprove").hide();
+                $("#btnDisapprove").hide();
+                $("#gifApprove").show();
+                
 
                 var categoryName = $('#txtTitle').val();
 
@@ -1182,7 +1347,13 @@
                     count = count + 1;
                 });
 
-
+                var input = document.getElementById("Attachments");
+                if (typeof input != "undefined" && input != null) {
+                    var files = input.files;
+                    for (var i = 0; i != files.length; i++) {
+                        dataEdit.append("attachments", files[i]);
+                    }
+                }
 
                 $.ajax({
                     contentType: false,
@@ -1192,7 +1363,7 @@
                     data: dataEdit,
                     success: function (data) {
                         setTimeout(function() {
-                            window.location.href = '@Url.Action("Index", "Request")';
+                            window.location.href = '@Url.Action("MyApprove", "Request")';
                         }, 1000);
                     },
                     error: function (err) {
@@ -1205,14 +1376,15 @@
 
             }
     });
-    $(document).on('click', "#btnDisapprove", function (e) {
+        $(document).on('click', "#btnDisapprove", function (e) {
+            $('#payDay').attr('required', 'required');
            e.stopImmediatePropagation();
-            if ($("#reportForm").valid() && confirm("Send to approve or back to edit?")) {
-                $("#btnApprove").prop("disabled", true);
-                $("#btnDisapprove").prop("disabled", true);
+            if ($("#reportForm").valid() && confirm("Send to Disapprove or back to edit?")) {
+                $("#btnApprove").hide();
+                $("#btnDisapprove").hide();
                 var categoryName = $('#txtTitle').val();
                 console.log('DisApprove');
-
+                $("#gifDisapprove").show();
 
                 var workflowId = 7;
 
@@ -1285,7 +1457,7 @@
                     data: dataEdit,
                     success: function (data) {
                         setTimeout(function() {
-                            window.location.href = '@Url.Action("Index", "Request")';
+                            window.location.href = '@Url.Action("MyApprove", "Request")';
                         }, 1000);
                     },
                     error: function (err) {
@@ -1297,6 +1469,143 @@
 
 
             }
-        });
+    });
+        $(document).on('click', "#btnSubmit", function (e) {
+
+           e.stopImmediatePropagation();
+            if ($("#reportForm").valid() && confirm("Send to Submit or back to edit?")) {
+                $("#btnApprove").hide();
+                $("#btnDisapprove").hide();
+                $("#btnSubmit").hide();
+                $("#gifApprove").show();
+
+                var categoryName = $('#txtTitle').val();
+
+
+
+                var workflowId = @Model.WorkflowID + 1;
+
+                var quota = $('#txtQuota').val();
+                var usedPrice = $('#txtUsedPrice').val();
+                var remainPrice = $('#txtRemainPrice').val();
+                var Whom = $('#txtWhom').val();
+                /* console.log(Whom);*/
+
+
+                var Fullname = $('#txtFullname').val();
+                var dataEdit = new FormData();
+                console.log($('#payDay').val());
+                dataEdit.append("RequestNumber", $("#RequestNumber").text());
+                dataEdit.append("EmployeeId", '@requester.empID');
+                dataEdit.append("Amount", $("#txtAmount").val());
+                dataEdit.append("Detail", $("#txtDetail").val());
+                dataEdit.append("Quota", quota);
+                dataEdit.append("Used", usedPrice);
+                dataEdit.append("Remain", remainPrice);
+                var createdAt = new Date();
+                dataEdit.append("UpdateAt", createdAt.toISOString());
+                dataEdit.append("UpdateBy", Fullname);
+                dataEdit.append("CategoryID", categoryName);
+                dataEdit.append("WorkflowID", workflowId);
+                dataEdit.append("WhomID", Whom);
+                if ($('#payDay').val() != null && $('#payDay').val() != "0001 - 01 - 01" && $('#payDay').val() != "")
+                {
+                    var payDay = new Date($('#payDay').val());
+                    if (!isNaN(payDay)) {
+                        // ตรวจสอบว่า payDay เป็นวันที่ที่ถูกต้องหรือไม่
+                        console.log(payDay);
+                        dataEdit.append("ConfirmDate", payDay.toISOString());
+                        dataEdit.append(`Historys[0].ConfirmDate`, payDay.toISOString());
+                         dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
+                    dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
+                    dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
+                    dataEdit.append(`Historys[0].Quota`, quota);
+                    dataEdit.append(`Historys[0].Used`, usedPrice);
+                    dataEdit.append(`Historys[0].Remain`, remainPrice);
+                    dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
+                    dataEdit.append(`Historys[0].CreateBy`, Fullname);
+                    dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].UpdateBy`, Fullname);
+                    dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].WorkflowID`, workflowId);
+                    dataEdit.append(`Historys[0].CategoryID`, categoryName);
+                    dataEdit.append(`Historys[0].WhomID`, Whom);
+                    } else {
+                        console.error("Invalid date for ConfirmDate");
+                    }
+                }
+                else
+                {
+                    let today = new Date().toISOString().slice(0, 10);
+                    dataEdit.append(`Historys[0].RequestNumber`, $("#RequestNumber").text());
+                    dataEdit.append(`Historys[0].EmployeeId`, '@requester.empID');
+                    dataEdit.append(`Historys[0].Detail`, $("#txtDetail").val());
+                    dataEdit.append(`Historys[0].Quota`, quota);
+                    dataEdit.append(`Historys[0].Used`, usedPrice);
+                    dataEdit.append(`Historys[0].Remain`, remainPrice);
+                    dataEdit.append(`Historys[0].Amount`, $("#txtAmount").val());
+                    dataEdit.append(`Historys[0].CreateBy`, Fullname);
+                    dataEdit.append(`Historys[0].CreateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].UpdateBy`, Fullname);
+                    dataEdit.append(`Historys[0].UpdateAt`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].ConfirmDate`, createdAt.toISOString());
+                    dataEdit.append(`Historys[0].WorkflowID`, workflowId);
+                    dataEdit.append(`Historys[0].CategoryID`, categoryName);
+                    dataEdit.append(`Historys[0].WhomID`, Whom);
+                }
+
+
+
+
+                var checkedValues = [];
+                var checkedNameValues = [];
+                var checkboxes = document.querySelectorAll('.myCheckbox');
+                var checkboxeName = document.querySelectorAll('.myCheckboxName');
+                var count = 1;
+                var index = 0;
+
+                checkboxes.forEach(function (checkbox) {
+
+                    if (checkbox.checked) {
+                        // เพิ่มค่า checkbox ที่ถูกติ๊กลงในอาร์เรย์
+                       /* console.log(checkbox);*/
+                        checkedValues = checkbox.value ;
+                        checkedNameValues = $(`#getID_${count}`).data('documentname');
+                        dataEdit.append(`RequestDocumentDetails[${index}].DocumentID`, checkedValues);
+                        dataEdit.append(`RequestDocumentDetails[${index}].DocumentName`, checkedNameValues);
+                        index = index + 1;
+                    }
+                    count = count + 1;
+                });
+
+                var input = document.getElementById("Attachments");
+                if (typeof input != "undefined" && input != null) {
+                    var files = input.files;
+                    for (var i = 0; i != files.length; i++) {
+                        dataEdit.append("attachments", files[i]);
+                    }
+                }
+
+                $.ajax({
+                    contentType: false,
+                    processData: false,
+                    type: "POST",
+                    url: '@Url.Action("Edit", "Request", new { id = @Model.Id })',
+                    data: dataEdit,
+                    success: function (data) {
+                        setTimeout(function() {
+                            window.location.href = '@Url.Action("MyApprove", "Request")';
+                        }, 1000);
+                    },
+                    error: function (err) {
+                        $("#SubmitFormSpinn").addClass("d-none");
+                        $("button[name=btnApprove]").prop("disabled", false);
+                        console.log(err);
+                    }
+                });
+
+
+            }
+    });
     </script>
 }

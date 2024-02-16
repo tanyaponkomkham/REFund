@@ -17,6 +17,9 @@ namespace REFund.Class
 		public string SessionDeptName = "_DeptName";
 		public string SessionStaffLevel = "_StaffLevel";
 		public string SessionDomain = "_Domain";
+		public string SessionAllRequest = "_AllRequest";
+		public string SessionMyRequest = "_MyRequest";
+		public string SessionMyApprove = "_MyApprove";
 
 	}
 }

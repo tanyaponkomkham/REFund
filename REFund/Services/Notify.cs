@@ -148,14 +148,15 @@ namespace REFund.Services
                     break;
                 case (int)IDStatus.Completed:
                     var emp = _db.EmpInfo.Where(w => w.empID == request.EmployeeId).FirstOrDefault();
-                    MailSubject = "[iBenefit] - Your request has been completed.";
+                    MailSubject = "[iBenefit] - The request has been completed.";
                     MailMessage = "<strong>Dear " + emp.domain_name + ",</strong>";
                     MailMessage += GetEmailTemplete(request);
                     MailMessage += "<br />";
                     MailMessage += "<br />";
-                    // MailMessage += "<div>for more information click <a href='" + setConfig["HttpRootPath"] + "Auth/Index?returnUrl=/Home/Edit/" + request.Id + "'>[Link]</a></div>";
-                    var MailAccount2 = _db.Workflow.Where(s => s.Step == 6).Select(s => s.ActionEmail).FirstOrDefault();
-                    MailAddress = emp.email;
+					// MailMessage += "<div>for more information click <a href='" + setConfig["HttpRootPath"] + "Auth/Index?returnUrl=/Home/Edit/" + request.Id + "'>[Link]</a></div>";
+					var MailAccount2 = _db.Workflow.Where(s => s.Step == 6).Select(s => s.ActionEmail).FirstOrDefault();
+                    var EmailHR = _db.Workflow.Where(s => s.Step == 2).Select(s => s.ActionEmail).FirstOrDefault();
+                    MailAddress = EmailHR;
                     MailCC = MailAccount2;
 
                     InvokeEmail();

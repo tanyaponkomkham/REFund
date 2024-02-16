@@ -31,7 +31,7 @@
         <img class="Image3" style="width: 320px; height: 50px; top:7px;  position: absolute" src="~/img/cropped-3-SAT-ICARES-Original.png" />
         <div class="row">
             <div class="col-9 " style=" margin-top: 8px; text-align:right;">
-                <label style="font-size: 24px; font-weight: 800; color: #003F82; ">Wellcome</label>
+                <label style="font-size: 24px; font-weight: 800; color: #003F82; ">Welcome</label>
             </div>
             <div style=" margin-top: 8px; margin-left: -18px; width: 50px; " >
                 <img style="width: 30px; height: 30px; top: 7px; border-radius: 20px; position: absolute" src="~/img/user (2).png" />
@@ -72,45 +72,45 @@
                                 <span class="text nav-text" style=" margin-left: -1px; font-size: 14px;">Request</span>
                             </a>
                         </li>
-                        <li id="All_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
-                            <a asp-action="Index" asp-controller="Request" class="nav-link">
-                                <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
-                                <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">All Request</span>
-                                @*<div style="width:1%;">
-                                    <p style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 32px; color: white; font-size: 10px;">1</p>
-                                </div>*@
-                            </a>
-                        </li>
                         <li id="My_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
                             <a asp-action="MyRequest" asp-controller="Request" asp-route-empID="@HttpContextAccessor?.HttpContext?.Session.GetString("_UserId")" class="nav-link">
                                 <img class="Image3 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/user (1).png" />
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">My Request</span>
-                                @*<div style="width:1%;">
-                                    <p name="a" id="a" style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 29px; color: white; font-size: 10px;">1</p>
-                                </div>*@
+                                <div style="width:1%;">
+                                    <p style="background-color: #E83C3C; border-radius: 20px; padding: 6px 15px; vertical-align: middle; position: relative; top: 7px; margin-left: 24px; color: white; font-size: 10px;"><label style="height:10px; margin-left:-4px;">@HttpContextAccessor?.HttpContext?.Session.GetString("_MyRequest")</label></p>
+                                </div>
                             </a>
                         </li>
                         <li id="My_Approve" class="nav-link" style="text-align: center; margin-top: -7px;">
-                            <a asp-action="MyApprove" asp-controller="Request" asp-route-domain="@HttpContextAccessor?.HttpContext?.Session.GetString("_Domain")" class="nav-link">
+                            <a asp-action="MyApprove" asp-controller="Request" class="nav-link">
                                 <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
                                 <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">My Approve</span>
-                                @*<div style="width:1%;">
-                                    <p name="b" id="b" style="background-color: #E83C3C; border-radius: 20px; padding: 5px 10px; vertical-align: middle; position: relative; top: 3px; margin-left: 27px; color: white; font-size: 10px;">1</p>
+                                <div style="width:1%;">
+                                    <p style="background-color: #E83C3C; border-radius: 20px; padding: 6px 15px; vertical-align: middle; position: relative; top: 7px; margin-left: 22px; color: white; font-size: 10px;"><label style="height:10px; margin-left:-4px;">@HttpContextAccessor?.HttpContext?.Session.GetString("_MyApprove")</label></p>
 
-                                </div>*@
+                                </div>
+                            </a>
+                        </li>
+                        <li id="All_Request" class="nav-link" style="text-align: center; margin-top: -7px;">
+                            <a asp-action="Index" asp-controller="Request" class="nav-link">
+                                <img class="Image2 icon" style="width: 21px; height: 25px; margin-left:20px;" src="~/img/select-all.png" />
+                                <span class="text nav-text" style="margin-left: -1px; font-size: 14px; ">All Request</span>
+                                <div style="width:1%;">
+                                    <p style="background-color: #E83C3C; border-radius: 20px; padding: 6px 15px; vertical-align: middle; position: relative; top: 7px; margin-left: 27px; color: white; font-size: 10px;"><label style="height:10px; margin-left:-4px;">@HttpContextAccessor?.HttpContext?.Session.GetString("_AllRequest")</label></p>
+                                </div>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        @*<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>*@
+        @*<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>*@
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
         @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
         @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>

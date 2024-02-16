@@ -56,12 +56,17 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col" style="margin-left:-1px;">
                                     <button type="submit" class="btn " id="btnLoginID" name="btnLoginID" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLoginID" name="txtbtnLoginID" style=" font-family: Inter;">เข้าสู่ระบบ</span></button>
-                                    <button type="submit" class="btn " id="btnLoginDomain" name="btnLoginDomain" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLoginDomain" name="txtbtnLoginDomain" style=" font-family: Inter;">Login</span></button>                                
-    @*<div class="Rectangle8" style="width: 150px; height: 37px; left: 106px; top: 206px; position: absolute; background: #3383AF"></div>
-                                        <div style="left: 140px; top: 212px; position: absolute; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">เข้าสู่ระบบ</div>*@
+                                    <button type="submit" class="btn " id="btnLoginDomain" name="btnLoginDomain" style="width: 150px; height: 37px; left: 112px; top: 206px; position: absolute; background: #123142; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word "><span id="txtbtnLoginDomain" name="txtbtnLoginDomain" style=" font-family: Inter;">Login</span></button>
+                                    @*<div class="Rectangle8" style="width: 150px; height: 37px; left: 106px; top: 206px; position: absolute; background: #3383AF"></div>
+            <div style="left: 140px; top: 212px; position: absolute; color: white; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">เข้าสู่ระบบ</div>*@
                                 </div>
+                                <div class="row" style="margin-top:185px; margin-left:20px;">
+                                    <span id="txtErrorlogin" name="txtErrorlogin" style="width: 350px; height: 20px; left: 152px; top:100px; color: red; font-size: 14px; font-family: Inter; font-weight: 400;"></span>
+                                    <span id="txtErrorloginDomain" name="txtErrorloginDomain" style="width: 250px; height: 20px; left: 112px; margin-top:200px; color: red; font-size: 14px; font-family: Inter; font-weight: 400;"></span>
+                                </div>
+
                             </div>
                         </div>
                         <div class="Irefund" style="width: 231px; height: 61px; left: 68px; top: 115px; position: absolute;"><img style="width: 145px; height: 60px; " src="~/img/iBenefit3.png" /></div>
@@ -69,19 +74,32 @@
                         <img class="Image1" style="width: 49px; height: 25px; left: 65px; top: 220px; position: absolute" src="~/img/user (2).png" />
                         <img class="Image2" style="width: 47px; height: 23px; left: 65px; top: 297px; position: absolute" src="~/img/lock.png" />
                     </div>
-                    @*<img class="Image3" style="width: 60px; height: 60px; left:258px;  position: absolute" src="https://via.placeholder.com/60x60" />*@
                 </div>
                 <div class="col">
+                    
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class ="col-5"></div>
+            <div class='containerloader' id="loading">
+                <div class='loader'>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--text'></div>
+                </div>
+            </div>
+            <div class="col-5">
+            </div>
             <div class="col-5" align-items-center style="top:250px;">
-                    <button type="submit" class="btn " id="btnChange" name="btnChange" style="width: 280px; height: 37px;  position: center; background: #123142; color: white; font-size: 16px; font-family: Inter; font-weight: 600; word-wrap: break-word "><span id="txtbtnChange" name="txtbtnChange"></span></button>
-             </div>
+                <button type="submit" class="btn " id="btnChange" name="btnChange" style="width: 280px; height: 37px;  position: center; background: #123142; color: white; font-size: 16px; font-family: Inter; font-weight: 600; word-wrap: break-word "><span id="txtbtnChange" name="txtbtnChange"></span></button>
+            </div>
+
         </div>
-        
+
     </div>
 
 
@@ -91,8 +109,10 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 <script src="~/js/site.js" asp-append-version="true"></script>
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 @*<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>*@
 @*<link href="~/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
@@ -122,18 +142,22 @@
 
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#btnLoginDomain").hide();
-            document.getElementById("txtbtnChange").innerHTML = "Login With Domain Name";
-            document.getElementById("txtID").innerHTML = "กรุณาระบุรหัสพนักงานเพื่อเข้าสู่ระบบ";
-            document.getElementById("txtPassword").innerHTML = "กรูณาระบุรหัสผ่านที่กำหนด";
-            document.getElementById("txtInputEmp").innerHTML = "รหัสพนักงาน";
-            document.getElementById("txtInputPassword").innerHTML = "รหัสผ่าน";
+    $(document).ready(function () {
+        
+            $("#loading").hide();
+            $("#btnLoginID").hide();
+            document.getElementById("txtbtnChange").innerHTML = "Login With Employee ID";
+            document.getElementById("txtID").innerHTML = "";
+            document.getElementById("txtPassword").innerHTML = "";
+            document.getElementById("txtInputEmp").innerHTML = "Domain Name";
+            document.getElementById("txtInputPassword").innerHTML = "Password";
         });
 
-        $(document).on('click', "#btnChange", function (e) {
+    $(document).on('click', "#btnChange", function (e) {
+        document.getElementById("txtErrorlogin").innerHTML = "";
             var txtDomain = document.getElementById("txtbtnChange");
             var valuetxtDomain = txtDomain.textContent;
+
             if (valuetxtDomain == "Login With Domain Name") {
                 $("#btnLoginID").hide();
                 $("#btnLoginDomain").show();
@@ -221,8 +245,9 @@
             inputpasswordElement.focus();
             togglePlaceholder2(true);
         });
-        $("#btnLoginID").on("click", function (e) {
-         
+    $("#btnLoginID").on("click", function (e) {
+        document.getElementById("txtErrorlogin").innerHTML = "";
+            $("#loading").show();
             var data = new FormData();
             data.append("username", $("#employeeInput").val());
             data.append("password", $("#passwordInput").val());
@@ -240,14 +265,21 @@
                             window.location.href = '@Url.Action("Create", "Request")';
                         }, 1000);
                     },
-                    error: function (err) {
-                        $("#SubmitFormSpinn").addClass("d-none");
-                        $("button[name=btnSubmit]").prop("disabled", false);
+                 error: function (err) {
+                     document.getElementById("txtErrorlogin").innerHTML = "รหัสพนักงาน หรือ รหัสผ่านไม่ถูกต้อง ";
+                     $("button[name=btnSubmit]").prop("disabled", false);
+                     $("#loading").hide();
                     }
                });
         });
-        $("#btnLoginDomain").on("click", function (e) {
-           
+    $("#btnLoginDomain").on("click", function (e) {
+        $("#loading").show();
+        document.getElementById("txtErrorlogin").innerHTML = "";
+            //document.getElementById("loadingSpinner").style.display = "block";
+            //setTimeout(function () {
+            //    document.getElementById("loadingSpinner").style.display = "none";
+            //    document.getElementById("txtbtnChange").innerText = "Login";
+            //}, 7000);
             var dataDomain = new FormData();
             dataDomain.append("domain", $("#employeeInput").val());
             dataDomain.append("password", $("#passwordInput").val());
@@ -264,8 +296,9 @@
                         }, 1000);
                     },
                     error: function (err) {
-                        $("#SubmitFormSpinn").addClass("d-none");
+                        document.getElementById("txtErrorlogin").innerHTML = "Your Domain Name or Password are wrong ";
                         $("button[name=btnSubmit]").prop("disabled", false);
+                        $("#loading").hide();
                     }
                });
         });

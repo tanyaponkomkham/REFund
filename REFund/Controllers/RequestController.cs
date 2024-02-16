@@ -40,106 +40,142 @@ namespace REFund.Controllers
             return View(request);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetCountAllRequest()
-        {
-
-                var getCountAllRequest = _context.Request.Count();
-
-
-            return View(getCountAllRequest);
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetCountMyRequest(string empID)
-        {
-
-            var getCountMyRequest = _context.Request.Where(s => s.EmployeeId == empID) .Count();
-
-
-            return View(getCountMyRequest);
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetCountMyApprove(string empID)
-        {
-
-            Request request = new Request();
-            var context = new PrincipalContext(ContextType.Domain);
-            var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-            //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
-            var getStep = await _context.Workflow.Where(s => s.ActionDomain == principal.SamAccountName).Select(s => s.Step).FirstOrDefaultAsync();
-            if (getStep != null)
-            {
-                //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
-                request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).Select(s => s).FirstOrDefaultAsync();
-            }
-
-
-            //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
-            var ManagerDomain = await _context.EmpInfo
-            .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
-            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == principal.SamAccountName)
-            .Select(joined => joined.Request).ToListAsync();
-
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == principal.SamAccountName);
-            ViewBag.Step = getStep;
-            //Union ระหว่าง getWorkflowกับManagerDomain
-            var requests = (request != null
-            ? ManagerDomain.Union(new List<Request> { request })
-            : ManagerDomain).Count();
-
-            return View(requests);
-
-
-        }
         public async Task<IActionResult> MyRequest(string empID)
-        {
-
-            //var context = new PrincipalContext(ContextType.Domain);
-            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-
-            //var getEmpId = await _context.EmpInfo.Where(s => s.domain_name == principal.SamAccountName).Select(s => s.empID).FirstOrDefaultAsync();
-
-            var request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.EmployeeId == empID).ToListAsync();
-
-            return View(request);
-        }
-
-        public async Task<IActionResult> MyApprove(string domain)
-        {
+		{
+			var request = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.EmployeeId == empID).ToListAsync();
+            clsAuthenticate clsAuth = new clsAuthenticate();
+            var domain = HttpContext.Session.GetString(clsAuth.SessionDomain);
             List<Request> requester = null;
-            //Request request = new Request();
-            //var context = new PrincipalContext(ContextType.Domain);
-            //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-            //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
-            var getStep = await _context.Workflow.Where(s => s.ActionDomain == domain).Select(s => s.Step).FirstOrDefaultAsync();
+            var allRequest = _context.Request.Count();
+            var myRequest = _context.Request.Where(s => s.EmployeeId == empID).Count();
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == empID).Select(s => s.Step).FirstOrDefaultAsync();
+            int myApprove = 0;
             if (getStep != null && getStep != 0)
             {
                 //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
-             requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
-			}
-			else { 
+                requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
+            }
+            else
+            {
 
 
-            //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
-            var ManagerDomain = await _context.EmpInfo
+                //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+                var ManagerDomain = await _context.EmpInfo
             .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
             .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == domain)
             .Select(joined => joined.Request).ToListAsync();
 
-            ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
-            ViewBag.Step = getStep;
-            //Union ระหว่าง getWorkflowกับManagerDomain
-        
-            var requests =  (requester != null
-            ? ManagerDomain.Union(requester)
-            : ManagerDomain).ToList();
-           
+                ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
+                ViewBag.Step = getStep;
+                //Union ระหว่าง getWorkflowกับManagerDomain
+                myApprove = (requester != null
+                ? ManagerDomain.Union(requester)
+                : ManagerDomain).Count();
 
-            return View(requests);
+
+
+            }
+			if (requester != null)
+			{
+                myApprove = requester.Count();
+            }
+            
+            if (allRequest != null && myRequest != null && myApprove != null)
+            {
+                clsAuthenticate clsAuthc = new clsAuthenticate();
+                HttpContext.Session.SetString(clsAuthc.SessionAllRequest, allRequest.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyApprove, myApprove.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyRequest, myRequest.ToString());
+
+            }
+            else
+            {
+                return StatusCode(500, "");
+            }
+
+
+
+            return View(request);
+        }
+
+        public async Task<IActionResult> MyApprove()
+        {
+            List<Request> requester = null;
+            clsAuthenticate clsAuth = new clsAuthenticate();
+            var empID = HttpContext.Session.GetString(clsAuth.SessionUserId);
+            var domain = HttpContext.Session.GetString(clsAuth.SessionDomain);
+            //เช็คถ้าโดเมนตรงกับที่มีอยู่ใน workflow ให้ get Step มา
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == domain).Select(s => s.Step).FirstOrDefaultAsync();
+			if (getStep != null && getStep != 0)
+			{
+				//เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
+				requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
+			}
+			else
+			{
+				//เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+				var ManagerDomain = await _context.EmpInfo
+				.Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
+				.Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == domain)
+				.Select(joined => joined.Request).ToListAsync();
+
+				ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
+				ViewBag.Step = getStep;
+				//Union ระหว่าง getWorkflowกับManagerDomain
+
+				var requests = (requester != null
+				? ManagerDomain.Union(requester)
+				: ManagerDomain).ToList();
+
+
+				return View(requests);
+
+            }
+
+            
+            var allRequest = _context.Request.Count();
+            var myRequest = _context.Request.Where(s => s.EmployeeId == empID).Count();
+            int myApprove = 0;
+            if (getStep != null && getStep != 0)
+            {
+                //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
+                requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
+            }
+            else
+            {
+
+
+                //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+                var ManagerDomain2 = await _context.EmpInfo
+            .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
+            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == domain)
+            .Select(joined => joined.Request).ToListAsync();
+
+                ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
+                ViewBag.Step = getStep;
+                //Union ระหว่าง getWorkflowกับManagerDomain
+                myApprove = (requester != null
+                ? ManagerDomain2.Union(requester)
+                : ManagerDomain2).Count();
+
+
+
+            }
+            if (requester != null)
+            {
+                myApprove = requester.Count();
+            }
+            if (allRequest != null && myRequest != null && myApprove != null)
+            {
+                clsAuthenticate clsAuthc = new clsAuthenticate();
+                HttpContext.Session.SetString(clsAuthc.SessionAllRequest, allRequest.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyApprove, myApprove.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyRequest, myRequest.ToString());
+
+            }
+            else
+            {
+                return StatusCode(500, "");
             }
             return View(requester);
         }
@@ -292,10 +328,11 @@ namespace REFund.Controllers
         {
             //var context = new PrincipalContext(ContextType.Domain);
             //var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-
+            
             //ViewBag.Requester =
             clsAuthenticate clsAuth = new clsAuthenticate();
             var empId = HttpContext.Session.GetString(clsAuth.SessionUserId);
+            var domain = HttpContext.Session.GetString(clsAuth.SessionDomain);
             ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.empID == empId);
             ViewBag.Category = new SelectList(CategoryDropDownList(), "Key", "Value");
 
@@ -319,10 +356,51 @@ namespace REFund.Controllers
             ViewBag.Days = days;
             ViewBag.Months = months;
             ViewBag.Years = years;
+            List<Request> requester = null;
+            var allRequest = _context.Request.Count();
+            var myRequest = _context.Request.Where(s => s.EmployeeId == empId).Count();
+            var getStep = await _context.Workflow.Where(s => s.ActionDomain == domain).Select(s => s.Step).FirstOrDefaultAsync();
+            int myApprove= 0;
+            if (getStep != null && getStep != 0)
+            {
+                //เช็คถ้าโดเมนตรง  เอาStep มาลบ1เพื่อเรียก Request ที่มีStatus นั้นมาๆ
+                requester = await _context.Request.Include(s => s.Category).Include(s => s.Workflow.Status).Where(s => s.WorkflowID == getStep - 1).ToListAsync();
+            }
+            else
+            {
+                //เพื่อเรียกข้อมูลสำหรับคนมีตำแหน่งเป็นManager ให้คนนั้นมีสิทธิ์
+                var ManagerDomain = await _context.EmpInfo
+            .Join(_context.Request.Include(s => s.Category).Include(s => s.Workflow.Status), e => EF.Functions.Collate(e.empID, "Thai_CS_AI"), r => EF.Functions.Collate(r.EmployeeId, "Thai_CS_AI"), (e, r) => new { EmpInfo = e, Request = r })
+            .Where(joined => joined.Request.WorkflowID == 2 && EF.Functions.Collate(joined.EmpInfo.ManagerDomainId, "Thai_CS_AI") == domain)
+            .Select(joined => joined.Request).ToListAsync();
 
+                ViewBag.Requester = await _context.EmpInfo.FirstOrDefaultAsync(s => s.domain_name == domain);
+                ViewBag.Step = getStep;
+                //Union ระหว่าง getWorkflowกับManagerDomain
+                myApprove = (requester != null
+                ? ManagerDomain.Union(requester)
+                : ManagerDomain).Count();
+            }
+            if(requester != null)
+			{
+                myApprove = requester.Count();
+            }
+            
+
+            if (allRequest != null && myRequest != null && myApprove != null)
+            {
+                clsAuthenticate clsAuthc = new clsAuthenticate();
+                HttpContext.Session.SetString(clsAuthc.SessionAllRequest, allRequest.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyApprove, myApprove.ToString());
+                HttpContext.Session.SetString(clsAuthc.SessionMyRequest, myRequest.ToString());
+          
+            }
+            else
+            {
+                return StatusCode(500, "");
+            }
             return View();
         }
-        
             // POST: Requests/Create
             // To protect from overposting attacks, enable the specific properties you want to bind to.
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -463,7 +541,7 @@ namespace REFund.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Edit(Request request)
+        public async Task<IActionResult> Edit(Request request, List<IFormFile> attachments)
         {
 
             var report = await _context.Request.FindAsync(request.Id);
@@ -518,17 +596,42 @@ namespace REFund.Controllers
                 report.WhomID = request.WhomID;
                 report.ConfirmDate = request.ConfirmDate;
             }
-
-            try
+            if (ModelState.IsValid)
             {
+                //request.Id = Guid.NewGuid();
+                //_context.Add(request);
                 await _context.SaveChangesAsync();
-				_notify.SendEmail(request);
-				return Ok(); // หรือในที่นี้คุณสามารถคืน Ok หรือตามที่เหมาะสม
+
+                foreach (var file in attachments)
+                {
+                    using var ms = new MemoryStream();
+                    file.CopyTo(ms);
+                    request.Attachments.Add(new Attachment
+                    {
+                        RequestId = request.Id,
+                        Content = ms.ToArray(),
+                        ContentName = file.FileName,
+                        ContentMimeType = file.ContentType,
+
+                    });
+                }
+                await _context.SaveChangesAsync();
+                _notify.SendEmail(request);
+
+                //return RedirectToAction(nameof(Index));
+                return StatusCode(200, request.Id);
             }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            return StatusCode(500, request.Id);
+            //        try
+            //        {
+            //            await _context.SaveChangesAsync();
+            //_notify.SendEmail(request);
+            //return Ok(); // หรือในที่นี้คุณสามารถคืน Ok หรือตามที่เหมาะสม
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            throw new Exception(e.Message);
+            //        }
         }
 
 
